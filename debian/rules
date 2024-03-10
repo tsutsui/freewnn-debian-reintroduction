@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+config_option= --prefix=/usr --mandir=/usr/share/man --enable-client=yes \
+               --enable-debug --disable-traditional-layout
+install_dir= DESTDIR=$(CURDIR)/debian/tmp
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure --verbose -- $(config_option)
+
+override_dh_auto_install:
+	dh_auto_install --verbose
+	$(MAKE) $(install_dir) install.man
+
+override_dh_installman:
+# install manpages
+	for man in freewnn-jserver freewnn-common libwnn-dev ;\
+        do dh_installman -p$$man --language ja; done
+	dh_installman -pfreewnn-cserver
+
+override_dh_installchangelogs:
+	dh_installchangelogs $(CURDIR)/ChangeLog.en

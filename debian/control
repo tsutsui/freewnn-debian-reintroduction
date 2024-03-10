@@ -1,0 +1,196 @@
+Source: freewnn
+Section: utils
+Priority: optional
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Build-Depends:
+ debhelper-compat (= 13),
+ dpkg-dev (>= 1.22.5),
+ libncurses-dev,
+Standards-Version: 3.9.4
+Homepage: https://osdn.net/projects/freewnn/
+
+Package: freewnn-common
+Architecture: all
+Depends:
+ ${misc:Depends},
+Description: Files shared among the FreeWnn packages
+ FreeWnn is a network-extensible Japanese/Chinese/Korean input
+ system.  It was jointly developed and released by the Software
+ Research Group of Kyoto University Research Institute for
+ Mathematical Science, OMRON Corporation and Astec, Inc. and now
+ maintained by the FreeWnn Project.
+ .
+ This package contains files that are shared among the FreeWnn
+ packages.
+
+Package: freewnn-jserver
+Architecture: any
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ adduser (>= 3.34),
+ freewnn-common,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Japanese input system
+ FreeWnn jserver (Wnn) is a network-extensible Kana-to-Kanji
+ conversion system.  It was jointly developed and released by the
+ Software Research Group of Kyoto University Research Institute for
+ Mathematical Science, OMRON Corporation and Astec, Inc. and now
+ maintained by the FreeWnn Project.
+
+Package: freewnn-cserver
+Architecture: any
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ adduser (>= 3.34),
+ freewnn-common,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Chinese input system
+ FreeWnn cserver (cWnn) is an integrated Chinese input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Chinese users from all over the world,
+ including P.R.China and Taiwan. FreeWnn cserver is capable of
+ carrying out Hanzi conversion from an arbitrary Pinyin or Zhuyin
+ sequence, hence improving the speed of Pinyin/Zhuyin input.
+
+Package: freewnn-kserver
+Architecture: any
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ adduser (>= 3.34),
+ freewnn-common,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Korean input system
+ FreeWnn kserver (kWnn) is an integrated Korean input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Korean users from all over the world.
+
+Package: libwnn0t64
+Provides:
+ ${t64:Provides},
+Replaces:
+ libwnn0,
+Breaks:
+ libwnn0 (<< ${source:Version}),
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: FreeWnn library for Wnn (FreeWnn jserver)
+ FreeWnn jserver (Wnn) is a network-extensible Kana-to-Kanji
+ conversion system.  It was jointly developed and released by the
+ Software Research Group of Kyoto University Research Institute for
+ Mathematical Science, OMRON Corporation and Astec, Inc. and now
+ maintained by the FreeWnn Project.
+ .
+ This package contains the dynamic libraries for Wnn.
+
+Package: libcwnn0t64
+Provides:
+ ${t64:Provides},
+Replaces:
+ libcwnn0,
+Breaks:
+ libcwnn0 (<< ${source:Version}),
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: FreeWnn library for cWnn (FreeWnn cserver)
+ FreeWnn cserver (cWnn) is an integrated Chinese input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Chinese users from all over the world,
+ including P.R.China and Taiwan. FreeWnn cserver is capable of
+ carrying out Hanzi conversion from an arbitrary Pinyin or Zhuyin
+ sequence, hence improving the speed of Pinyin/Zhuyin input.
+ .
+ This package contains the dynamic libraries for cWnn.
+
+Package: libkwnn0t64
+Provides:
+ ${t64:Provides},
+Replaces:
+ libkwnn0,
+Breaks:
+ libkwnn0 (<< ${source:Version}),
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Rules-Requires-Root: no
+Description: FreeWnn library for kWnn (FreeWnn kserver)
+ FreeWnn kserver (kWnn) is an integrated Korean input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Korean users from all over the world.
+ .
+ This package contains the dynamic libraries for kWnn.
+
+Package: libwnn-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libwnn0t64 (= ${binary:Version}),
+ ${misc:Depends},
+Description: Header files and static libraries for Wnn (FreeWnn jserver)
+ FreeWnn jserver (Wnn) is a network-extensible Kana-to-Kanji
+ conversion system.  It was jointly developed and released by the
+ Software Research Group of Kyoto University Research Institute for
+ Mathematical Science, OMRON Corporation and Astec, Inc. and now
+ maintained by the FreeWnn Project.
+ .
+ This package contains the header files and static library for
+ Wnn. Install this package if you wish to develop your own Wnn client
+ programs.
+
+Package: libcwnn-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libcwnn0t64 (= ${binary:Version}),
+ ${misc:Depends},
+Description: Header files and static library for cWnn (FreeWnn cserver)
+ FreeWnn cserver (cWnn) is an integrated Chinese input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Chinese users from all over the world,
+ including P.R.China and Taiwan. FreeWnn cserver is capable of
+ carrying out Hanzi conversion from an arbitrary Pinyin or Zhuyin
+ sequence, hence improving the speed of Pinyin/Zhuyin input.
+ .
+ This package contains the header files and the static library for
+ cWnn. Install this package if you wish to develop your own cWnn
+ client programs.
+
+Package: libkwnn-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libkwnn0t64 (= ${binary:Version}),
+ ${misc:Depends},
+Description: Header files and static library for kWnn (FreeWnn kserver)
+ FreeWnn kserver (kWnn) is an integrated Korean input system running
+ on Unix workstation. It supports a wide range of input methods,
+ satisfying the needs of the Korean users from all over the world.
+ .
+ This package contains the header files and the static library for
+ kWnn. Install this package if you wish to develop your own kWnn
+ client programs.

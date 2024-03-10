@@ -1,0 +1,5 @@
+usr/lib/*/*.la
+usr/bin/atod
+usr/bin/atof
+usr/bin/dtoa
+usr/sbin/tserver

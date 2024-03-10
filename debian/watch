@@ -1,0 +1,7 @@
+version=3
+
+opts="downloadurlmangle=s/osdn/dl.osdn/;s/downloads\///;s/projects\///;s/gz\//gz/;s/xz\//xz/;s/bz2\//bz2/,\
+  uversionmangle=s/-beta/~beta/;s/-rc/~rc/;s/-preview/~preview/;s/-a/~a/;s/^1\.10$/1.1/" \
+  https://osdn.net/projects/freewnn/releases/ \
+  /projects/freewnn/downloads/.*/FreeWnn@ANY_VERSION@@ARCHIVE_EXT@/ \
+  debian uupdate

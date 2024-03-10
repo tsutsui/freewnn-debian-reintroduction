@@ -1,0 +1,479 @@
+freewnn (1.1.1~a021+cvs20130302-8) unstable; urgency=medium
+
+  * QA upload.
+  * Run wrap-and-sort -ast.
+  * lintian: Remove trailing whitespace.
+  * Use dh13 compat mode:
+    + List usr/lib/*/*.la usr/bin/atod usr/bin/atof usr/bin/dtoa
+      usr/sbin/tserverin in debian/not-installed.
+    + Ship uum.1 uumkey.4 uumrc.4 in freewnn-jserver.
+  * Add implicit_functions.diff to fix FTBFS with
+    -Werror=implicit-function-declaration. Closes: #1065772
+  * [lintian] B-d on libncurses-dev instead of libncurses5-dev.
+  * [lintian] Add missing ${misc:Pre-Depends}.
+  * [lintian] Set Rules-Requires-Root: no.
+  * Configure with --enable-debug to prevent stripping at install-time.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sun, 10 Mar 2024 13:22:57 +0100
+
+freewnn (1.1.1~a021+cvs20130302-7.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Rename libraries for 64-bit time_t transition.  Closes: #1061953
+
+ -- Michael Hudson-Doyle <mwhudson@debian.org>  Wed, 28 Feb 2024 09:14:52 +0000
+
+freewnn (1.1.1~a021+cvs20130302-7) unstable; urgency=medium
+
+  * QA upload.
+  * rules: Drop override_dh_installinit, trying to *additionally install
+    the freewnn-cserver initscript into the freewnn-tserver package, which
+    has never existed. This breakage was introduced in
+    1.1.1~a021+cvs20100325-1 in 2010, previous versions shipped an additional
+    initscript for freewnn-tserver in the freewnn-cserver package. This
+    version also stopped shipping the tserver binary in cserver package.
+    Closes: #876987
+    Also drop debian/freewnn-cserver.freewnn-tserver from the source package.
+  * freewnn-common: Drop ancient Conflicts (freewnn-jserver/wnn-common) and
+    replaces (wnn-common).
+  * Ditto for conflicts/replaces with kwnn, wnn, cwnn, freewnn-?server-dev,
+    {c,k,}wnn-dev and wnn6-dev.
+  * Update homepage/download URL (osdn instead of sf).
+  * Improved tagging for patches/egrep-a.patch.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sun, 01 Oct 2017 15:15:36 +0200
+
+freewnn (1.1.1~a021+cvs20130302-6) unstable; urgency=medium
+
+  * QA upload.
+  * Build with DEB_BUILD_MAINT_OPTIONS=hardening=+all instead of with
+    +all,-pie to fix build error. Closes: #844849
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 19 Nov 2016 13:15:46 +0100
+
+freewnn (1.1.1~a021+cvs20130302-5) unstable; urgency=medium
+
+  [ Andreas Beckmann ]
+  * QA upload.
+  * debian/patches/egrep-a.patch: Prevent egrep from reporting "Binary file ...
+    matches" in some locales.  (Closes: #797242)
+
+  [ Andreas Metzler ]
+  * Upload to unstable. (mlterm rdep)
+
+ -- Andreas Metzler <ametzler@debian.org>  Fri, 23 Oct 2015 18:51:38 +0200
+
+freewnn (1.1.1~a021+cvs20130302-4) unstable; urgency=low
+
+  * QA upload.
+  * debian/patches/fix-parallel-build.patch: (Closes: #724058)
+    - Add patch from upstream to fix:
+      "mv: cannot stat 'std.fzk': No such file or directory"
+      during parallel build.
+  * debian/control, debian/rules:
+    - Use autotools-dev and it's dh addon to update config.guess/sub
+      (Closes: #727380)
+  * Run wrap-and-sort to make files in the debian-directory more readable
+
+ -- Andreas Moog <amoog@ubuntu.com>  Mon, 18 Nov 2013 23:36:27 +0100
+
+freewnn (1.1.1~a021+cvs20130302-3) unstable; urgency=low
+
+  * QA upload.
+  * Add libcwnn0 depends to libcwnn-dev. (Closes: #715075).
+  * Add libkwnn0 depends to libkwnn-dev. (Closes: #715089).
+  * Add libwnn0 depends to libwnn-dev. (Closes: #715126).
+  * Re-update makerules.mk.in patch to install dicts in var/lib
+    instead of usr/lib. (Closes: #699622).
+  * Install cserver user manual. (Closes: #391978).
+  * Add as-needed to remove unnecessary links.
+  * Bump Standards Version to 3.9.4.
+
+ -- Barry deFreese <bdefreese@debian.org>  Mon, 29 Jul 2013 22:28:13 -0400
+
+freewnn (1.1.1~a021+cvs20130302-2) experimental; urgency=low
+
+  * Set the Maintainer field to Debian QA Group.
+
+ -- Keita Maehara <maehara@debian.org>  Tue, 02 Jul 2013 01:27:55 +0900
+
+freewnn (1.1.1~a021+cvs20130302-1) experimental; urgency=low
+
+  * taken from upstream CVS.
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 03 Mar 2013 06:07:37 +0900
+
+freewnn (1.1.1~a021+cvs20120618-1) experimental; urgency=low
+
+  * New upstream snapshot
+  * debian/patches
+    - drop fix_add_to_dict, merged upstream
+    - drop fix_ftbfs_shell, merged upstream
+    - drop format_strings.patch, merged upstream
+    - drop configure.in.kfreebsd, merged upstream
+    - refresh them
+    - add hurd_support.patch to avoid build failure in Hurd.
+  * debian/rules
+    - enable parallel build
+  * debian/freewnn-common.install
+    - cvt_key_*, lt_LN and serverdefs files moves from /usr/share/wnn to
+      /usr/lib/wnn
+  * debian/freewnn-{c,j,k}server.install, freewnn-{c,j}server-manpages
+    - adjust some directory
+
+ -- Hideki Yamane <henrich@debian.org>  Mon, 18 Jun 2012 10:53:02 +0900
+
+freewnn (1.1.1~a021+cvs20100325-8) experimental; urgency=low
+
+  * debian/patches
+    - add format_strings.patch, Thanks to Makoto Fujiwara <makoto@ki.nu> for
+      the hint
+  * debian/rules
+    - set "DEB_BUILD_MAINT_OPTIONS=hardening=+all,-pie", remove "-format" to
+      enable DEB_BUILD_HARDENING_FORMAT
+  * debian/control
+    - lib*wnn-dev: remove ${shlibs:Depends} from "Depends:"
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 31 May 2012 21:50:55 +0900
+
+freewnn (1.1.1~a021+cvs20100325-7) experimental; urgency=low
+
+  * debian/control
+    - set "Build-Depends: debhelper (>= 9)" to enable hardening
+    - set "Standards-Version: 3.9.3"
+    - set "Multi-Arch: same" and "Pre-Depends: ${misc:Pre-Depends}" to each
+      library package
+  * debian/compat
+    - set 9
+  * debian/rules
+    - fix typo for lintian warning.
+    - add "export DEB_BUILD_MAINT_OPTIONS=hardening=+all,-format,-pie"
+     (-format needs to be built, yet)
+  * debian/lib*.install
+    - deal with Multi-Arch.
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 31 May 2012 04:25:40 +0900
+
+freewnn (1.1.1~a021+cvs20100325-6) unstable; urgency=low
+
+  * debian/lib{,c,k}wnn0.install
+    - remove unnecessary *.la files. Thanks to codehelp@debian.org
+      (Closes: #621175)
+  * debian/patches
+    - remove makerule.mk.in.old
+    - add fix_ftbfs_shell, thanks to upstream. (Closes: #621928)
+  * debian/control
+    - Bump up "Standard-Version: 3.9.2" with no change
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 26 Apr 2011 21:16:50 +0900
+
+freewnn (1.1.1~a021+cvs20100325-5) unstable; urgency=medium
+
+  * debian/patches
+    - add fix_add_words_dict patch to fix jserver will crash when word
+      registration in certain environment.
+      Thanks to KASAI Shigeo <kasai@ss.iij4u.or.jp> for investigation
+      and the patch.
+  * debian/control
+    - update my address and remove DM-Update-Allowed field.
+    - Bump up "Standard-Version: 3.9.1" with no change
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 04 Dec 2010 10:57:00 +0900
+
+freewnn (1.1.1~a021+cvs20100325-4) unstable; urgency=low
+
+  * debian/rules
+    - add autoreconf -i, sorry for missing (Closes: #577097)
+  * debian/control
+    - add "Build-Depends: autoconf, automake, libtool"
+
+ -- Hideki Yamane (Debian-JP) <henrich@debian.or.jp>  Sun, 18 Apr 2010 23:05:33 +0900
+
+freewnn (1.1.1~a021+cvs20100325-3) unstable; urgency=low
+
+  * debian/patches
+    - add configure.in.kfreebsd to fix FTBFS in kfreebsd (Closes: #577097)
+      Thanks to Petr Salinger <Petr.Salinger@seznam.cz>
+
+ -- Hideki Yamane (Debian-JP) <henrich@debian.or.jp>  Thu, 15 Apr 2010 21:29:19 +0900
+
+freewnn (1.1.1~a021+cvs20100325-2) unstable; urgency=low
+
+  * add debian/watch file
+
+ -- Hideki Yamane (Debian-JP) <henrich@debian.or.jp>  Tue, 06 Apr 2010 00:27:35 +0900
+
+freewnn (1.1.1~a021+cvs20100325-1) unstable; urgency=low
+
+  * New upstream snapshot release from CVS
+    - now we can use ~ for version numbering.
+    - it introduce updated config.{sub,guess} (Closes: #534811)
+    - also fixes dependent library (Closes: #558858)
+  * switch to source format 3.0 (quilt) and don't include upstream tarball
+    without expansion
+  * debian/patches
+    - applied newlayout patch. see archive at freewnn-users@lists.sourceforge.jp
+    - add man patch to eliminate lintian "manpage-section-mismatch" warning and
+      adjust sections.
+  * also switch to debhelper7 style, rewrite debian/rules and add files.
+  * don't include COPYRIGHT and COPYRIGHT-j files, it is covered by
+    debian/copyright file
+  * remove deprecated debian/*.undocumented files
+  * debian/control
+    - "Build-Depends: debhelper (>= 7.0.50~)", remove dbs since we use quilt
+    - Bump up "Standards-Version: 3.8.4"
+    - add "Homepage:"
+    - merge control.uum and comment it out.
+    - add myself to Uploaders and set "DM-Upload-Allowed: yes"
+  * move /usr/bin/{Wnn4,kWnn4,cWnn4}/* files to /usr/sbin and /usr/bin.
+    (Closes: #226067, #552766, #552767, #552768)
+  * really remove debian/patches/01_makerule.mk.in-updates
+  * update debian/freewnn-{cserver,jserver,kserver}.postinst
+    (Closes: #366887, #391980)
+  * including cuum (Closes: #137298)
+  * debian/freewnn-{c,j,k}server.init
+    - remove /usr/local from PATH.
+
+ -- Hideki Yamane (Debian-JP) <henrich@debian.or.jp>  Sat, 27 Mar 2010 16:11:44 +0900
+
+freewnn (1.1.0+1.1.1-a021-1.3) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Added LSB formatted dependency info in init.d scripts (closes: #468293)
+  * Use $(CURDIR) instead of pwd in debian/rules
+  * Changed section of lib*-dev packages to libdevel
+
+ -- Peter Eisentraut <petere@debian.org>  Fri, 04 Apr 2008 15:35:41 +0200
+
+freewnn (1.1.0+1.1.1-a021-1.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * postrm no longer calls deluser if not installed when purging.
+  * postrm no longer uses --remove-home if not available when purging.
+  (Closes: #431514, #431515)
+
+ -- Arnaud Hocevar <arnaud@hocevar.net>  Sat, 29 Sep 2007 17:25:51 +0000
+
+freewnn (1.1.0+1.1.1-a021-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * postrm no longer calls deluser if not installed when purging.
+  * postrm no longer uses --remove-home if not available when purging.
+  (Closes: #389760)
+  * Updated debhelper version.
+  * Updated Standards-Version.
+
+ -- Arnaud Hocevar <arnaud@hocevar.net>  Sun,  8 Oct 2006 12:57:35 +0000
+
+freewnn (1.1.0+1.1.1-a021-1) unstable; urgency=low
+
+  * New upstream release (closes: Bug#376893).
+  * Removed 01_makerule.mk.in-updates (incorporated upstream).
+  * Fixed typo (closes: Bug#360830).
+
+ -- Keita Maehara <maehara@debian.org>  Sat, 26 Aug 2006 09:02:38 +0900
+
+freewnn (1.1.0+1.1.1-a020-1) unstable; urgency=low
+
+  * New upstream release.
+  * Switched to dbs.
+
+ -- Keita Maehara <maehara@debian.org>  Thu,  1 Jan 2004 21:23:19 +0900
+
+freewnn (1.1.0+1.1.1-a019-2) unstable; urgency=low
+
+  * Now provides upstream changelogs (closes: Bug#182560).
+
+ -- Keita Maehara <maehara@debian.org>  Sun,  2 Mar 2003 17:08:09 +0900
+
+freewnn (1.1.0+1.1.1-a019-1) unstable; urgency=low
+
+  * New upstream release.
+  * Updated to Standards-Version 3.5.8.
+  * Added a versioned dependency on debhelper (>> 3.0.0).
+  * Updated debian/copyright to include the proper download site, the
+    original/current authors and a reference to GPL.
+  * Improved description (closes: Bug#112084).
+  * Modified debian/rules to follow the directory structure of the new
+    upstream.
+  * Now provides new packages libwnn0, libcwnn0 and libkwnn0, which are
+    linked with corresponding servers.
+  * New package: libjd0 and libjd-dev.
+  * Replaced freewnn-{j,c,k}server-dev with new packages lib{,c,k}wnn0-
+    dev.
+  * Ready for the experimental uum package (not being built by default
+    since it's still buggy).
+
+ -- Keita Maehara <maehara@debian.org>  Fri, 14 Feb 2003 23:09:35 +0900
+
+freewnn (1.1.0+1.1.1-a017-7) unstable; urgency=low
+
+  * Maintainer release (closes: Bug#109314).
+  * Now server packages depend on adduser (>= 3.34) (closes:
+    Bug#121806).
+  * Fixed location of Japanese manpages in freewnn-jserver-dev (closes:
+    Bug#119957).
+
+ -- Keita Maehara <maehara@debian.org>  Fri, 14 Dec 2001 23:31:23 +0900
+
+freewnn (1.1.0+1.1.1-a017-6.4) unstable; urgency=high
+
+  * Non Maintainer Upload
+    acknowledged by maintainer Keita Maehara
+  * [security fix]
+    - adduser wnn, kwnn, cwnn for jserver,kserver,cserver respectively
+      instead of running as root user
+    - restrict upload/create path under jserver_dir
+
+ -- Fumitoshi UKAI <ukai@debian.or.jp>  Fri, 17 Aug 2001 00:27:02 +0900
+
+freewnn (1.1.0+1.1.1-a017-6.3) unstable; urgency=low
+
+  * use different home dir for freewnn-{jserver,kserver,cserver}
+
+ -- Fumitoshi UKAI <ukai@debian.or.jp>  Thu, 16 Aug 2001 00:31:30 +0900
+
+freewnn (1.1.0+1.1.1-a017-6.2) unstable; urgency=low
+
+  * [security fix]
+    - missing check jserver_dir
+
+ -- Fumitoshi UKAI <ukai@debian.or.jp>  Wed, 15 Aug 2001 23:29:03 +0900
+
+freewnn (1.1.0+1.1.1-a017-6.1) unstable; urgency=high
+
+  * [security fix]
+    - adduser wnn, kwnn, cwnn for jserver,kserver,cserver respectively
+    - restrict path under jserver_dir
+
+ -- Fumitoshi UKAI <ukai@debian.or.jp>  Wed, 15 Aug 2001 15:58:17 +0900
+
+freewnn (1.1.0+1.1.1-a017-6) unstable; urgency=low
+
+  * Added init script for tserver.
+
+ -- Keita Maehara <maehara@debian.org>  Tue, 22 May 2001 22:17:11 +0900
+
+freewnn (1.1.0+1.1.1-a017-5) unstable; urgency=low
+
+  * Added build-time dependency on libncurses5-dev (closes: Bug#93637).
+
+ -- Keita Maehara <maehara@debian.org>  Wed, 11 Apr 2001 20:52:02 +0900
+
+freewnn (1.1.0+1.1.1-a017-4) unstable; urgency=low
+
+  * Reorganized file location.
+
+ -- Keita Maehara <maehara@debian.org>  Mon,  2 Apr 2001 01:18:50 +0900
+
+freewnn (1.1.0+1.1.1-a017-3) unstable; urgency=low
+
+  * Packages freewnn-[cjk]server don't provide "wnn" anymore (closes:
+    Bug#86615).
+
+ -- Keita Maehara <maehara@debian.org>  Mon, 19 Feb 2001 22:05:36 +0900
+
+freewnn (1.1.0+1.1.1-a017-2) unstable; urgency=low
+
+  * Fixed location of manpages (closes: Bug#69871).
+
+ -- Keita Maehara <maehara@debian.org>  Fri, 25 Aug 2000 21:00:19 +0900
+
+freewnn (1.1.0+1.1.1-a017-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Keita Maehara <maehara@debian.org>  Thu, 29 Jun 2000 23:30:57 +0900
+
+freewnn (1.1.0+1.1.1-a016-1) frozen unstable; urgency=low
+
+  * Maintainer release (closes: Bug#59450).
+  * New upstream release with security-related fixes.
+    - fixes for msg_open() bug ([freewnn:00350]).
+    - freewnn-size_limit.diff ([freewnn:00361]).
+    - freewnn-mkdir.diff ([freewnn:00359]).
+
+ -- Keita Maehara <maehara@debian.org>  Mon, 20 Mar 2000 21:46:52 +0900
+
+freewnn (1.1.0+1.1.1-a013-3.1) frozen unstable; urgency=low
+
+  * NMU
+  * Set suid install perms to 4755 in makerules.mk.in to comply with
+    debian policy
+  * Change WNNOWNER to root in makerules.mk. This thing has been setup
+    without suid perms for a long time without bug reports, so I assum
+    (and I don't see any reason why it needs it anyway) it is ok top run
+    this way).
+
+ -- Ben Collins <bcollins@debian.org>  Fri, 17 Mar 2000 11:01:36 -0700
+
+freewnn (1.1.0+1.1.1-a013-3) frozen unstable; urgency=low
+
+  * Moved user dictionary directory under
+    /var/lib/wnn/<lang>_<territory>/dic/usr rather than
+    /usr/lib/wnn/<lang>_<territory>/dic/usr.
+
+ -- Keita Maehara <maehara@debian.org>  Tue, 18 Jan 2000 00:11:19 +0900
+
+freewnn (1.1.0+1.1.1-a013-2) unstable; urgency=low
+
+  * Updated to Standards-Version 3.0.1.
+  * Added "Provides: wnn" to freewnn-{jserver,cserver,kserver}.
+  * Truncated too long description synopsis.
+
+ -- Keita Maehara <maehara@debian.org>  Mon, 25 Oct 1999 00:11:45 +0900
+
+freewnn (1.1.0+1.1.1-a013-1) unstable; urgency=low
+
+  * New upstream release, based on FreeWnn-1.1.1-a013.tar.gz.
+
+ -- Keita Maehara <maehara@debian.org>  Wed, 20 Oct 1999 22:56:29 +0900
+
+freewnn (1.1.0+1.1.1-a012-1) unstable; urgency=low
+
+  * New upstream release, based on FreeWnn-1.1.1-a012.tar.gz.
+
+ -- Keita Maehara <maehara@debian.org>  Thu, 30 Sep 1999 02:00:43 +0900
+
+freewnn (1.1.0+1.1.1-a011-1) unstable; urgency=low
+
+  * New upstream release, based on FreeWnn-1.1.1-a011.tar.gz.
+
+ -- Keita Maehara <maehara@debian.org>  Sat, 25 Sep 1999 02:30:31 +0900
+
+freewnn (1.1.0+1.1.1-a009-1) unstable; urgency=low
+
+  * New upstream release, based on FreeWnn-1.1.1-a009.tar.gz.
+  * Applied patch for "Xsi/PubdicPlus/pod.c:54: initializer element is
+    not constant" problem (a008-pod.c.diff from [freewnn:00129]).
+  * Added null target install.man to Xsi/PubdicPlus/Makefile.in.
+
+ -- Keita Maehara <maehara@debian.org>  Wed, 22 Sep 1999 21:45:35 +0900
+
+freewnn (1.1.0+1.1.1-a007-1) unstable; urgency=low
+
+  * New upstream release, based on FreeWnn-1.1.1-a007.tar.gz (Now
+    non-Debian-specific part of the Debian patch for 1.1.1-a005 are
+    incorperated into the upstream).
+  * Removed --pidfile option from start-stop-daemon in
+    /etc/init.d/freewnn-{jserver,cserver,kserver}.
+
+ -- Keita Maehara <maehara@debian.org>  Thu, 16 Sep 1999 22:59:25 +0900
+
+freewnn (1.1.0+1.1.1-a005-1) unstable; urgency=low
+
+  * Initial Release.
+  * Based on FreeWnn-1.1.1-a005.tar.gz, which is a bugfix release for
+    FreeWnn 1.1.0 as well as a prerelease of FreeWnn 1.1.1. Note that
+    the upstream version for Debian is 1.1.0+1.1.1-a005 (due to the
+    version comparison issue).
+  * Modified the way to make a symlink in Xsi/Wnn/include/Makefile.in
+    so that we can successfully do "make install" in the
+    non-privileged environment.
+  * Workaround for manpages:
+    - Modified MANPATH from /usr/X11R6/man to @mandir@.
+    - Added the target install.man in makerule.mk.in.
+    - Added missing target install.man for cwnntouch.man in
+      Xsi/cWnn/man/6.jutil/Makefile.in.
+
+ -- Keita Maehara <maehara@debian.org>  Mon, 13 Sep 1999 14:41:41 +0900
