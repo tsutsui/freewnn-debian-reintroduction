@@ -546,7 +546,7 @@ extern unsigned int diff_sisheng (int, int);
 /* snd_rcv.c */
 extern int fopen_read_cur (char *);
 extern int fopen_write_cur (char *);
-extern int fread_cur (char *, register int, register int);
+extern int fread_cur (void *, register int, register int);
 extern int xgetc_cur ();
 extern void xungetc_cur (int);
 extern void fwrite_cur (unsigned char *, int, int);

@@ -54,15 +54,16 @@ fopen_write_cur (fn)
 /* JS_FILE_SEND (server recieves) */
 int
 fread_cur (p, size, nitems)
-     char *p;
+     void *p;
      register int size, nitems;
 {
+  char *cp = p;
   register int i, j, xx;
   for (i = 0; i < nitems; i++)
     {
       for (j = 0; j < size; j++)
         {
-          *p++ = xx = xgetc_cur ();
+          *cp++ = xx = xgetc_cur ();
           if (xx == -1)
             return i;
         }
