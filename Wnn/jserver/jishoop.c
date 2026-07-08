@@ -531,7 +531,7 @@ found_it:
   if (p->kosuu == 1)
     {
       *next_pter = p->next;
-      if (tary[ind1].pter == NULL)
+      if (tary[ind1].pter == ENDPTR)
         remove_space (tary, ind1, jtl, tary[ind1].pter1);
       if (p->serial == jtl->maxserial - 1)
         {
