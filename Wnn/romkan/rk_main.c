@@ -88,7 +88,7 @@ char eofflg;                    /* romkan_next()からLTREOFが来たときに、romkan_h
                                    処理中はeofflgは2。 */
 
 letter evalbuf[2][2][OUTSIZ];
-char ebf_sw = 0;
+int ebf_sw = 0;
 letter saishu_out[OUTSIZ];
 letter delchr, delchr2 = EOLTTR, nisedl;        /* DELのキャラクタは二個まで持てる */
 
