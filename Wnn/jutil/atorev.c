@@ -64,9 +64,6 @@ static void make_ri2 FRWNN_PARAMS((void));
 static void make_ri1 FRWNN_PARAMS((int));
 static void set_rpter1 FRWNN_PARAMS((int));
 
-extern int sort_func_je ();
-extern void sort_kanji ();
-
 struct je **ptmp;
 
 void
