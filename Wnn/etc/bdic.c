@@ -857,7 +857,6 @@ get_kanji_str (UCHAR* kptr, w_char* kanji, w_char* yomi, w_char* comment)
   w_char *tmpy;
   w_char *tmpk;
   w_char *tmpc;
-  extern void Get_kanji_str_r ();
 
   Get_kanji_str_r (kptr, &tmpk, &tmpy, &tmpc);
 
@@ -1306,7 +1305,6 @@ Print_entry (
   char *k;
   char buf[32];
   static w_char revy[LENGTHKANJI];
-  extern void kanji_esc_str ();
 
   if (serial != -1)
     {
