@@ -58,7 +58,6 @@
 extern int kanjicount;
 extern struct JT jt;
 
-static void set_rpter1 ();
 static void r_alloc FRWNN_PARAMS((void));
 static void make_ri2 FRWNN_PARAMS((void));
 static void make_ri1 FRWNN_PARAMS((int));

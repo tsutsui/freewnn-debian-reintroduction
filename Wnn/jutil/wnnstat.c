@@ -80,12 +80,6 @@ struct wnn_ret_buf rb = { 0, NULL };
 extern int optind;
 extern char *optarg;
 
-#ifdef JAPANESE
-extern int eujis_to_jis8 (), eujis_to_sjis ();
-#endif
-#ifdef CHINESE
-extern int ecns_to_big5 ();
-#endif
 static void  err (), usage (), dic (), dic_all (), file_all ();
 static void printall FRWNN_PARAMS((WNN_ENV_INFO *, int));
 static void printpat FRWNN_PARAMS((WNN_ENV_INFO *, int));
@@ -128,7 +122,6 @@ main (argc, argv)
 */
   char *server_env = NULL;
   char *prog = argv[0];
-  extern char *get_server_env ();
 
 /*
     if ((p = getenv("LANG")) != NULL) {

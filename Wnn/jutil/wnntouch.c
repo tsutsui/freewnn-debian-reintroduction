@@ -54,7 +54,6 @@ static char *rcs_id = "$Id: wnntouch.c,v 1.9 2013/09/02 11:01:39 itisango Exp $"
 
 #include "etc.h"
 
-extern int input_file_header (), check_inode (), change_file_uniq ();
 static void usage (void);
 
 char *com_name;

@@ -76,7 +76,6 @@ extern unsigned char kanjiaddr (unsigned char *d0, w_char* kanji, w_char* yomi, 
 extern void Print_entry (w_char* yomi, w_char* kstr, w_char* cstr,
 		int hindo, int ima, int hinsi, int serial,
 		FILE* ofpter, int esc_exp);
-extern int  w_stradd ();
 
 static void Kanjistradd FRWNN_PARAMS((w_char *, w_char *, w_char *, register UCHAR **));
 static void bunpou_num FRWNN_PARAMS((register char *, register int *));

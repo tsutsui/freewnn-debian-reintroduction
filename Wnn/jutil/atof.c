@@ -289,8 +289,6 @@ static void set_id FRWNN_PARAMS((int, int));
 static void pre_clear_jiritugo_v FRWNN_PARAMS((int));
 static void init FRWNN_PARAMS((int, char **));
 
-extern int wnn_loadhinsi (), create_file_header ();
-
 static void
 error_format (s, d1, d2, d3, d4, d5)
      char *s;
@@ -521,8 +519,6 @@ read_attr ()
         }
     }
 }
-
-extern char *wnn_get_hinsi_name ();
 
 static void
 read_id ()
