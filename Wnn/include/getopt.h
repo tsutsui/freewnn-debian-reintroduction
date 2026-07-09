@@ -112,7 +112,7 @@ struct option
 extern int getopt (int argc, char *const *argv, const char *shortopts);
 #else /* not __GNU_LIBRARY__ */
 # if !defined (HAVE_DECL_GETOPT)
-extern int getopt ();
+extern int getopt (int argc, char *const *argv, const char *shortopts);
 # endif
 #endif /* __GNU_LIBRARY__ */
 extern int getopt_long (int argc, char *const *argv, const char *shortopts,
