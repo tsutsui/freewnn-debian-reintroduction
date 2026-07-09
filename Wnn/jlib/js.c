@@ -130,7 +130,7 @@ static int rbc = -1;                    /** 受信バッファーポインター **/
 # endif /* defined(EWOULDBLOCK) */
 #endif /* defined(EAGAIN) */
 
-static void connect_timeout ();
+static void connect_timeout FRWNN_PARAMS((int));
 static int _get_server_name FRWNN_PARAMS((const char *, char *));
 static int writen FRWNN_PARAMS((int));
 static char *get_unixdomain_of_serv_defs FRWNN_PARAMS((const char *lang));
@@ -395,8 +395,10 @@ cd_open_in (server, lang, timeout)
 }
 
 static void
-connect_timeout ()
+connect_timeout (sig)
+     int sig;
 {
+  (void) sig;
 }
 
 /* get server name and return serverNo */
