@@ -379,11 +379,11 @@ extern void error_exit ();
 #endif
 extern void log_err (const char *, ...);
 extern void log_debug (const char *, ...);
-extern RETSIGTYPE signal_hand ();
-extern RETSIGTYPE terminate_hand ();
+extern RETSIGTYPE signal_hand (int);
+extern RETSIGTYPE terminate_hand (int);
 /* error1() - For compatiblity */
 #define error1 log_debug
-extern void out ();
+extern void out (char *, ...);
 #ifdef DEBUG
 #ifdef  putwchar
 #undef  putwchar

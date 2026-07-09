@@ -62,8 +62,8 @@
 
 #define _DIVID(val, div)        (((int)(val) > (int)0) ? ((val) / (div)) : ((val) * (div)))
 
-extern struct fzkkouho *getfzkoh_body ();
-extern struct fzkkouho *getfzkoh1_body ();
+extern struct fzkkouho *getfzkoh_body (struct ICHBNP *, int);
+extern struct fzkkouho *getfzkoh1_body (struct ICHBNP *, int);
 
 #define getfzkoh(ichbnp_p,no) \
         (((int)(no) < (int)FZKIBNO) ? &((ichbnp_p)->fzkib[no]) : getfzkoh_body(ichbnp_p,no))

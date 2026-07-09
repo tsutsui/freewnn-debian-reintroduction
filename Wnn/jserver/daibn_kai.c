@@ -310,7 +310,6 @@ zentan_able (v, hinsi, fzkchar)
   w_char *fzk_buf;
   int fzkcnt;
   int fzklen;
-  w_char *rev_fzk ();
 #endif /* NO_FZK */
 
   if (hinsi == WNN_ALL_HINSI)

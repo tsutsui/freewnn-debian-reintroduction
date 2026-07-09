@@ -482,10 +482,6 @@ zen_sbn (yomi_sno, yomi_eno, endvect, endvect1, tjktsbn, bnst_num, parent
   int *vector1;
 #endif
 
-#ifndef NO_KATA
-  struct JKT_SBN *get_kata_kouho ();
-#endif
-  struct JKT_SBN *get_hira_kouho ();
   struct SYO_BNSETSU *giji_sbn;
   struct SYO_BNSETSU *getsbnsp ();
 
