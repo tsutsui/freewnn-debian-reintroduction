@@ -157,6 +157,7 @@ static void listkinds (void);
 static int kindcompar (const void *k1, const void *k2);
 static void sortkind (void);
 static struct dicpack *intern (int key, Wchar *yomi, Wchar *kouho, Wchar *hinshi, int hindo, long kind, int *stat, long flags);
+static void for_all_interned (void (*fn)(struct dicpack *));
 static void storepd (FILE *file);
 static void comparepd (FILE *file);
 static void canna_output (FILE *cf, struct dicpack *p, Wchar *h, int n);
@@ -980,8 +981,7 @@ intern (key, yomi, kouho, hinshi, hindo, kind, stat, flags)
 /* 登録されているエントリに対して fn を実行する */
 
 static void
-for_all_interned (fn)
-     void (*fn) ();
+for_all_interned (void (*fn)(struct dicpack *))
 {
   int i;
   struct dicpack *p;
