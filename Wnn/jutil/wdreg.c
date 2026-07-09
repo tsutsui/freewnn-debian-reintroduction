@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wdreg.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
 #  if HAVE_MALLOC_H
 #    include <malloc.h>
 #  endif
-extern char *getenv ();
 #endif /* STDC_HEADERS */
 #include <sys/types.h>
 #include <sys/file.h>

@@ -79,7 +79,6 @@ struct wnn_ret_buf rb = { 0, NULL };
 
 extern int optind;
 extern char *optarg;
-extern char *getenv ();
 
 #ifdef JAPANESE
 extern int eujis_to_jis8 (), eujis_to_sjis ();

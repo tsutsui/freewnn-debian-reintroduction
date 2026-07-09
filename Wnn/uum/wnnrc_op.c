@@ -139,7 +139,6 @@ expand_expr (s)
   register char *p, *s1;
   int noerr, expandsuc;
   struct passwd *u;
-  extern struct passwd *getpwnam ();
 
   if (*s != '~' && *s != '@')
     {

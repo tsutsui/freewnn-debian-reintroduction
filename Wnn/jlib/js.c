@@ -726,7 +726,6 @@ dmp (p, c)
 static char *
 getlogname ()
 {
-  struct passwd *getpwuid ();
   return getpwuid (getuid ())->pw_name;
 }
 
@@ -906,7 +905,6 @@ js_set_lang (env, lang)
      register char *lang;
 {
   register char *p;
-  extern char *getenv ();
 
   /* if not specified language , use $LANG */
   if (lang == 0 || *lang == 0)

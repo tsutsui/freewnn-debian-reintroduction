@@ -2973,7 +2973,6 @@ expand_expr_all (s, env)
 static char *
 getlogname ()
 {
-  struct passwd *getpwuid ();
   return getpwuid (getuid ())->pw_name;
 }
 
@@ -2990,8 +2989,6 @@ expand_expr (s, env)
   char tmp[EXPAND_PATH_LENGTH];
   int noerr, expandsuc;
   struct passwd *u;
-  extern char *getenv ();
-  extern struct passwd *getpwnam ();
 
   if (*s != '~' && *s != '@')
     return (0);

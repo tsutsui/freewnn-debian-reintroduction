@@ -125,7 +125,6 @@ static struct wnn_ret_buf ret_buf = { 0, NULL };
 static char *
 getlogname ()
 {
-  extern struct passwd *getpwuid ();
   struct passwd *p;
 
   if ((p = getpwuid (getuid ())) == NULL)
