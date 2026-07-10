@@ -36,6 +36,8 @@
 #  include <config.h>
 #endif
 
+#include <time.h>
+
 #ifndef JS
 #include <stdio.h>
 #if STDC_HEADERS
@@ -46,7 +48,6 @@
 #if HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include <time.h>
 
 #include "commonhd.h"
 #include "jslib.h"
