@@ -121,6 +121,7 @@ static char *rcs_id = "$Id: atof.c,v 1.8 2013/09/02 11:01:39 itisango Exp $";
 #    include <strings.h>
 #  endif
 #endif /* STDC_HEADERS */
+#include <stdarg.h>
 #if HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
@@ -290,12 +291,16 @@ static void pre_clear_jiritugo_v FRWNN_PARAMS((int));
 static void init FRWNN_PARAMS((int, char **));
 
 static void
-error_format (s, d1, d2, d3, d4, d5)
-     char *s;
-     int d1, d2, d3, d4, d5;
+error_format (const char *fmt, ...)
 {
+  va_list ap;
+
   fprintf (stderr, "Bad format near line %d \"%s\".\n", line_no, buf);
-  fprintf (stderr, s, d1, d2, d3, d4, d5);
+
+  va_start (ap, fmt);
+  vfprintf (stderr, fmt, ap);
+  va_end (ap);
+
   exit (1);
 }
 
