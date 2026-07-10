@@ -395,7 +395,7 @@ dnl Now that we are using autoconf, CCOPTIONS should be nuked...
 dnl But please report if your system needs specific settings (CCOPTIONS etc.)
 case $host in
 *-*-linux*)
-    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_BSD_SOURCE"
+    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_DEFAULT_SOURCE"
     ;;
 *-*-*-gnu)
     # Non-Linux kernel with GNU libc.

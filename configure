@@ -4938,7 +4938,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 case $host in
 *-*-linux*)
-    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_BSD_SOURCE"
+    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_DEFAULT_SOURCE"
     ;;
 *-*-*-gnu)
     # Non-Linux kernel with GNU libc.
