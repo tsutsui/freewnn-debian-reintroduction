@@ -62,7 +62,7 @@ all:: $(ALLTGT)
 $(DICS): $(HINSI)
 
 $(FULL):: $(FZK_SRCS) fzk.master-.c
-	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) fzk.master-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) fzk.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
 
 # To avoid circular dependency, we don't use 'fzk.master.c'
 fzk.master-.c: fzk.master

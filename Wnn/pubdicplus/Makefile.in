@@ -353,7 +353,7 @@ $(WNNDICS): pod $(PUBDICPLUSSRC)/pubdic.p
 	$(ATOD) -h $(HINSI) $@ < $<
 
 .fsrc.fzk:
-	egrep -v '^(# |#line |#pragma |$$)' $< | $(ATOF) -h $(HINSI) $@
+	LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' $< | $(ATOF) -h $(HINSI) $@
 
 $(DIC): $(HINSI)
 
