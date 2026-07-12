@@ -124,7 +124,7 @@ int dic_list_size;
 short internal_code;
 short file_code;
 
-int (**code_trans) ();
+WNN_CodeTransFunc *code_trans;
 
 struct msg_cat *cd;
 
@@ -143,10 +143,10 @@ FuncDataBase function_db[] = {
     errorkeyin, call_jl_yomi_len},
    TTY_KCODE, PTY_KCODE, J_IUJIS, J_EUJIS,
    {
-    through, iujis_to_eujis, iujis_to_jis8, iujis_to_sjis,
-    eujis_to_iujis, through, eujis_to_jis8, eujis_to_sjis,
-    jis_to_iujis, jis_to_eujis, through, jis_to_sjis,
-    sjis_to_iujis, sjis_to_eujis, sjis_to_jis8, through},
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iujis_to_eujis, (WNN_CodeTransFunc) iujis_to_jis8, (WNN_CodeTransFunc) iujis_to_sjis,
+    (WNN_CodeTransFunc) eujis_to_iujis, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) eujis_to_jis8, (WNN_CodeTransFunc) eujis_to_sjis,
+    (WNN_CodeTransFunc) jis_to_iujis, (WNN_CodeTransFunc) jis_to_eujis, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) jis_to_sjis,
+    (WNN_CodeTransFunc) sjis_to_iujis, (WNN_CodeTransFunc) sjis_to_eujis, (WNN_CodeTransFunc) sjis_to_jis8, (WNN_CodeTransFunc) through},
    "ujsUJS",
    "ujsUJS",
    {
@@ -164,10 +164,10 @@ FuncDataBase function_db[] = {
     not_call_jl_yomi_len},
    TTY_CCODE, PTY_CCODE, C_IUGB, C_EUGB,
    {
-    through, iugb_to_eugb, through, through,
-    eugb_to_iugb, through, through, through,
-    through, through, through, through,
-    through, through, through, through},
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iugb_to_eugb, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) eugb_to_iugb, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
    "",
    "",
    {
@@ -183,10 +183,10 @@ FuncDataBase function_db[] = {
     not_call_jl_yomi_len},
    TTY_TCODE, PTY_TCODE, C_ICNS11643, C_ECNS11643,
    {
-    through, icns_to_ecns, icns_to_big5, through,
-    ecns_to_icns, through, ecns_to_big5, through,
-    big5_to_icns, big5_to_ecns, through, through,
-    through, through, through, through},
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) icns_to_ecns, (WNN_CodeTransFunc) icns_to_big5, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) ecns_to_icns, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) ecns_to_big5, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) big5_to_icns, (WNN_CodeTransFunc) big5_to_ecns, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
    "btBT",
    "btBT",
    {
@@ -203,10 +203,10 @@ FuncDataBase function_db[] = {
     errorkeyin, call_jl_yomi_len},
    TTY_HCODE, PTY_HCODE, K_IUKSC, K_EUKSC,
    {
-    through, iuksc_to_euksc, through, through,
-    euksc_to_iuksc, through, through, through,
-    through, through, through, through,
-    through, through, through, through},
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iuksc_to_euksc, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) euksc_to_iuksc, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
+    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
    "uU",
    "uU",
    {
@@ -226,6 +226,6 @@ FuncDataBase function_db[] = {
    }
 };
 
-int (*default_code_trans[]) () =
+WNN_CodeTransFunc default_code_trans[] =
 {
-through, through, through, through, through, through, through, through, through, through, through, through, through, through, through, through};
+(WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through};

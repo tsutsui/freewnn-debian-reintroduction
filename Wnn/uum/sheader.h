@@ -77,12 +77,16 @@ typedef struct _FunctionTable
 }
 FunctionTable;
 
+/* 出力先、入力元、長さを受け取る文字コード変換関数。
+   バッファの具体的な型は変換方式ごとに異なる。 */
+typedef int (*WNN_CodeTransFunc) (void *, void *, int);
+
 typedef struct _FuncDadaBase
 {
   char *lang;
   FunctionTable f_table;
   short tty_code, pty_code, internal_code, file_code;
-  int (*code_trans[16]) ();
+  WNN_CodeTransFunc code_trans[16];
   char *ostr;
   char *getoptstr;
   int (*do_opt[6]) ();
@@ -186,7 +190,7 @@ extern int touroku_comment;
 extern short internal_code;
 extern short file_code;
 
-extern int (**code_trans) ();
+extern WNN_CodeTransFunc *code_trans;
 
 extern struct msg_cat *cd;
 
@@ -196,7 +200,7 @@ extern FunctionTable *f_table;
 
 extern FuncDataBase function_db[];
 
-extern int (*default_code_trans[]) ();
+extern WNN_CodeTransFunc default_code_trans[];
 
 /* ============================================================
  *   extern function prototypes
@@ -422,18 +426,6 @@ extern void conv_ltr_to_ieuc (register unsigned int *);
 extern int conv_keyin (char *);
 
 #ifdef  JAPANESE
-extern int eujis_to_iujis ();
-extern int jis_to_iujis ();
-extern int sjis_to_iujis ();
-extern int iujis_to_eujis ();
-extern int jis_to_eujis ();
-extern int sjis_to_eujis ();
-extern int iujis_to_jis8 ();
-extern int eujis_to_jis8 ();
-extern int sjis_to_jis8 ();
-extern int iujis_to_sjis ();
-extern int eujis_to_sjis ();
-extern int jis_to_sjis ();
 extern int do_u_opt ();
 extern int do_j_opt ();
 extern int do_s_opt ();
@@ -464,14 +456,6 @@ extern int not_call_jl_yomi_len ();
 /* extern int cwnn_pzy_yincod ();  */ /* move to include/etc.h  */
 extern int cwnn_yincod_pzy_str ();
 
-extern int icns_to_ecns ();
-extern int icns_to_big5 ();
-extern int ecns_to_icns ();
-extern int ecns_to_big5 ();
-extern int big5_to_icns ();
-extern int big5_to_ecns ();
-extern int iugb_to_eugb ();
-extern int eugb_to_iugb ();
 extern int do_b_opt ();
 extern int do_t_opt ();
 extern int do_B_opt ();
@@ -479,12 +463,6 @@ extern int do_T_opt ();
 #endif /* CHINESE */
 
 #ifdef  KOREAN
-extern int iuksc_to_ksc ();
-extern int euksc_to_ksc ();
-extern int iuksc_to_euksc ();
-extern int ksc_to_euksc ();
-extern int ksc_to_iuksc ();
-extern int euksc_to_iuksc ();
 extern int do_u_opt ();
 extern int do_U_opt ();
 #endif /* KOREAN */
