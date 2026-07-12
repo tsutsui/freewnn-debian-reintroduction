@@ -16,6 +16,8 @@ done
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 dirs='Wnn/pubdicplus cWnn/cdic cWnn/tdic kWnn/kdic'
+SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-0}
+export SOURCE_DATE_EPOCH
 
 build_and_hash()
 {

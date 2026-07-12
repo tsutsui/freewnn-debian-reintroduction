@@ -6,6 +6,7 @@ Build-Depends:
  debhelper-compat (= 13),
  dh-autoreconf,
  dpkg-dev (>= 1.22.5),
+ libcrypt-dev,
  libncurses-dev,
 Rules-Requires-Root: no
 Standards-Version: 4.7.2
