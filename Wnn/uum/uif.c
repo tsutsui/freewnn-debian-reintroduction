@@ -115,7 +115,7 @@ kk ()
   init_screen ();
   if (henkan_off_flag)
     {
-      henkan_off ();
+      henkan_off (0, 0);
     }
 /* end of addition */
   buffer_in ();
@@ -138,9 +138,11 @@ kk ()
 */
 
 int
-return_it (c)
+return_it (c, romkan)
      int c;
+     int romkan;
 {
+  (void) romkan;
   c_b->maxlen = 1;
   c_b->buffer[0] = c;
   return (1);
@@ -159,7 +161,7 @@ return_it_if_ascii (c, nisemono)
     }
   else
     {
-      insert_char_and_change_to_insert_mode (c);
+      insert_char_and_change_to_insert_mode (c, 0);
       return (0);
     }
 }
@@ -169,22 +171,27 @@ push_char_return (c, romkan)
      int c, romkan;
 {
   push_unget_buf (romkan);
-  kakutei ();			/* kakutei (c);*/
+  kakutei (0, 0);			/* kakutei (c);*/
   return (1);
 }
 
 int
-ignore_it_and_clear_romkan ()
+ignore_it_and_clear_romkan (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   romkan_clear ();
   return (0);
 }
 
 
 int
-insert_char_and_change_to_insert_mode (c)
+insert_char_and_change_to_insert_mode (c, dummy2)
      int c;
+     int dummy2;
 {
+  (void) dummy2;
   if (c != -1)
     {
       insert_char (c);
@@ -209,7 +216,7 @@ change_to_insert_mode ()
   c_b->key_table = main_table[1];
   c_b->rk_clear_tbl = romkan_clear_tbl[1];
   c_b->key_in_fun = 0;
-  c_b->ctrl_code_fun = (int (*)()) 0;
+  c_b->ctrl_code_fun = NULL;
   c_b->hanten = 0x08 | 0x20;
   henkan_mode = 1;
   kk_cursor_normal ();
@@ -221,7 +228,7 @@ change_to_nobasi_tijimi_mode ()
   c_b->key_table = main_table[2];
   c_b->rk_clear_tbl = romkan_clear_tbl[2];
   c_b->key_in_fun = ignore_it_and_clear_romkan;
-  c_b->ctrl_code_fun = (int (*)()) 0;
+  c_b->ctrl_code_fun = NULL;
   c_b->hanten = 0x04;
   henkan_mode = 2;
   kk_cursor_invisible ();
@@ -255,7 +262,7 @@ change_to_henkango_mode ()
   c_b->key_table = main_table[0];
   c_b->rk_clear_tbl = romkan_clear_tbl[0];
   c_b->key_in_fun = push_char_return;
-  c_b->ctrl_code_fun = (int (*)()) 0;
+  c_b->ctrl_code_fun = NULL;
   c_b->hanten = 0x04 | 0x40;
   henkan_mode = 0;
   kk_cursor_invisible ();
@@ -306,8 +313,11 @@ make_kanji_buffer (bnst)
 
 /** 連文節変換 */
 int
-ren_henkan ()
+ren_henkan (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int ret;
 
   jl_env_set (bun_data_, env_normal);
@@ -317,8 +327,11 @@ ren_henkan ()
 
 /** 連文節漢字かな変換 */
 int
-kankana_ren_henkan ()
+kankana_ren_henkan (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int ret;
 
   if (*reverse_envrcname != '\0')
@@ -396,8 +409,11 @@ ren_henkan0 ()
 }
 
 int
-tan_henkan ()
+tan_henkan (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp;
 
   jl_env_set (bun_data_, env_normal);
@@ -406,8 +422,11 @@ tan_henkan ()
 }
 
 int
-tan_henkan_dai ()
+tan_henkan_dai (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp;
 
   jl_env_set (bun_data_, env_normal);
@@ -458,8 +477,11 @@ tan_conv (daip)
 
 /** 単文節変換*/
 int
-nobi_henkan ()
+nobi_henkan (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp;
 
   tmp = nobi_conv (WNN_SHO, NULL);
@@ -467,8 +489,11 @@ nobi_henkan ()
 }
 
 int
-nobi_henkan_dai ()
+nobi_henkan_dai (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp;
 
   tmp = nobi_conv (WNN_DAI, NULL);
@@ -552,14 +577,17 @@ henkan_if_maru (c)
      w_char c;
 {
   if (ISKUTENCODE (c) && c_b->key_table == main_table[1])
-    ren_henkan ();
+    ren_henkan (0, 0);
 }
 
 
 /* 確定 */
 int
-kakutei ()
+kakutei (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int moji_suu = 0;
   w_char *w = (w_char *) 0;
   w_char yomi[512];
@@ -618,26 +646,32 @@ kakutei ()
 
 /*yank*/
 int
-yank_c ()
+yank_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
 
   if (empty_modep ())
     {
       change_to_insert_mode ();
     }
-  t_yank ();
+  t_yank (0, 0);
   return (0);
 }
 
 /** 読みの再入力*/
 int
-remember_me ()
+remember_me (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (jl_bun_suu (bun_data_) == 0)
     {
       if (c_b->key_in_fun)
         {
-          (*c_b->key_in_fun) (-1);
+          (*c_b->key_in_fun) (-1, 0);
           c_b->key_in_fun = NULL;
         }
       Strcpy (c_b->buffer, remember_buf);
@@ -655,9 +689,12 @@ initialize_vars ()
 }
 
 int
-kill_c ()
+kill_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  t_kill ();
+  (void) dummy1;
+  (void) dummy2;
+  t_kill (0, 0);
   if (c_b->maxlen == 0)
     {
       change_to_empty_mode ();
@@ -670,7 +707,8 @@ int
 delete_c (c, romkan)
      int c, romkan;
 {
-  t_delete_char (); /*  t_delete_char (c, romkan);  */
+  (void) c;
+  t_delete_char (0, 0);
   if ((c_b->maxlen == 0) && is_HON (romkan))
     {
       change_to_empty_mode ();
@@ -680,8 +718,7 @@ delete_c (c, romkan)
 
 int
 rubout_c (c, romkan)
-     w_char c;
-     int romkan;
+     int c, romkan;
 {
   t_rubout (c, romkan);
   if ((c_b->maxlen == 0) && is_HON (romkan))
@@ -692,8 +729,11 @@ rubout_c (c, romkan)
 }
 
 int
-end_bunsetsu ()
+end_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp = cur_bnst_;
   cur_bnst_ = jl_bun_suu (bun_data_) - 1;
   c_b->t_m_start = bunsetsuend[cur_bnst_];
@@ -704,8 +744,11 @@ end_bunsetsu ()
 }
 
 int
-top_bunsetsu ()
+top_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int tmp = cur_bnst_;
   cur_bnst_ = 0;
   c_b->t_m_start = bunsetsuend[0];
@@ -716,8 +759,11 @@ top_bunsetsu ()
 }
 
 int
-forward_bunsetsu ()
+forward_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (cur_bnst_ < jl_bun_suu (bun_data_) - 1)
     {
       cur_bnst_ += 1;
@@ -730,8 +776,11 @@ forward_bunsetsu ()
 }
 
 int
-backward_bunsetsu ()
+backward_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (cur_bnst_ > 0)
     {
       cur_bnst_ -= 1;
@@ -744,8 +793,11 @@ backward_bunsetsu ()
 }
 
 int
-kaijo ()
+kaijo (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   w_char yomi[512];
 
   c_b->t_b_end = c_b->t_b_st;
@@ -767,8 +819,11 @@ kaijo ()
 }
 
 int
-jutil_c ()
+jutil_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
 
   if (!isconect_jserver ())
     {
@@ -786,8 +841,11 @@ jutil_c ()
 }
 
 int
-touroku_c ()
+touroku_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (!isconect_jserver ())
     {
       return (0);
@@ -800,8 +858,11 @@ touroku_c ()
 }
 
 int
-enlarge_bunsetsu ()
+enlarge_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   w_char yomi[512];
   int area_len, len1;
 
@@ -821,8 +882,11 @@ enlarge_bunsetsu ()
 }
 
 int
-smallen_bunsetsu ()
+smallen_bunsetsu (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   w_char yomi[512];
   int area_len;
 
@@ -843,10 +907,12 @@ smallen_bunsetsu ()
 
 
 int
-send_string (c)
+send_string (c, dummy2)
      int c;
+     int dummy2;
 {
-  kakutei ();
+  (void) dummy2;
+  kakutei (0, 0);
   c_b->buffer[c_b->maxlen] = c;
   c_b->maxlen += 1;
   c_b->t_c_p = c_b->maxlen;
@@ -854,8 +920,11 @@ send_string (c)
 }
 
 int
-tijime ()
+tijime (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (c_b->t_c_p > c_b->t_m_start + 1)
     {
       backward ();
@@ -864,16 +933,22 @@ tijime ()
 }
 
 int
-jmptijime ()
+jmptijime (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   call_t_redraw_move_1 (c_b->t_m_start, c_b->t_m_start, c_b->maxlen, 1, 1, 1, (insert_modep ()? 1 : 0));
   return (0);
 }
 
 
 int
-henkan_forward ()
+henkan_forward (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (!isconect_jserver ())
     {
       return (0);
@@ -883,14 +958,17 @@ henkan_forward ()
     {
       return (0);
     }
-  zenkouho_dai_c ();
-  forward_bunsetsu ();
+  zenkouho_dai_c (0, 0);
+  forward_bunsetsu (0, 0);
   return (0);
 }
 
 int
-henkan_backward ()
+henkan_backward (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (!isconect_jserver ())
     {
       return (0);
@@ -898,7 +976,7 @@ henkan_backward ()
 
   if (cur_bnst_ <= 0)
     {                           /* 左端なら変換のみ */
-      nobi_henkan_dai ();
+      nobi_henkan_dai (0, 0);
     }
   else
     {
@@ -906,15 +984,18 @@ henkan_backward ()
         {
           return (0);
         }
-      zenkouho_dai_c ();
-      backward_bunsetsu ();
+      zenkouho_dai_c (0, 0);
+      backward_bunsetsu (0, 0);
     }
   return (0);
 }
 
 int
-backward_c ()
+backward_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (c_b->t_c_p == c_b->t_m_start)
     {
       if (c_b->t_c_p != 0)
@@ -925,21 +1006,24 @@ backward_c ()
             }
           ren_henkan0 ();
           change_to_henkango_mode ();
-          backward_bunsetsu ();
+          backward_bunsetsu (0, 0);
         }
     }
   else
     {
-      backward_char ();
+      backward_char (0, 0);
     }
   return (0);
 }
 
 
 int
-insert_it_as_yomi ()
+insert_it_as_yomi (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  kakutei ();
+  (void) dummy1;
+  (void) dummy2;
+  kakutei (0, 0);
   change_to_insert_mode ();
   c_b->t_m_start = 0;
   cur_bnst_ = 0;
@@ -951,8 +1035,11 @@ insert_it_as_yomi ()
 
 /****history *******/
 int
-previous_history ()
+previous_history (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int k;
   if (jl_bun_suu (bun_data_) == 0)
     {
@@ -970,8 +1057,11 @@ previous_history ()
 }
 
 int
-next_history ()
+next_history (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int k;
   if (jl_bun_suu (bun_data_) == 0)
     {
@@ -1016,24 +1106,33 @@ henkan_gop ()
 static int send_ascii_stack = 0;
 
 int
-send_ascii ()
+send_ascii (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   send_ascii_stack = send_ascii_char;
   send_ascii_char = 1;
   return (0);
 }
 
 int
-not_send_ascii ()
+not_send_ascii (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   send_ascii_stack = send_ascii_char;
   send_ascii_char = 0;
   return (0);
 }
 
 int
-toggle_send_ascii ()
+toggle_send_ascii (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   send_ascii_stack = send_ascii_char;
   if (send_ascii_char == 0)
     {
@@ -1047,8 +1146,11 @@ toggle_send_ascii ()
 }
 
 int
-pop_send_ascii ()
+pop_send_ascii (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   send_ascii_char = send_ascii_stack;
   return (0);
 }
@@ -1077,40 +1179,55 @@ check_empty_mode_keyin_fun ()
 }
 
 int
-send_ascii_e ()
+send_ascii_e (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  send_ascii ();
+  (void) dummy1;
+  (void) dummy2;
+  send_ascii (0, 0);
   check_empty_mode_keyin_fun ();
   return (0);
 }
 
 int
-not_send_ascii_e ()
+not_send_ascii_e (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  not_send_ascii ();
+  (void) dummy1;
+  (void) dummy2;
+  not_send_ascii (0, 0);
   check_empty_mode_keyin_fun ();
   return (0);
 }
 
 int
-toggle_send_ascii_e ()
+toggle_send_ascii_e (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  toggle_send_ascii ();
+  (void) dummy1;
+  (void) dummy2;
+  toggle_send_ascii (0, 0);
   check_empty_mode_keyin_fun ();
   return (0);
 }
 
 int
-pop_send_ascii_e ()
+pop_send_ascii_e (dummy1, dummy2)
+     int dummy1, dummy2;
 {
-  pop_send_ascii ();
+  (void) dummy1;
+  (void) dummy2;
+  pop_send_ascii (0, 0);
   check_empty_mode_keyin_fun ();
   return (0);
 }
 
 int
-quote_send_ascii_e ()
+quote_send_ascii_e (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   quote_send_ascii ();
   check_empty_mode_keyin_fun ();
   return (0);
@@ -1118,8 +1235,11 @@ quote_send_ascii_e ()
 
 /** jserverとのコネクションを再確立する。*/
 int
-reconnect_jserver ()
+reconnect_jserver (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (!jl_isconnect_e (env_normal) || (env_reverse != 0 && !jl_isconnect_e (env_reverse)))
     {
       push_cursor ();
@@ -1212,8 +1332,11 @@ disconnect_jserver ()
 /** 変換オフ時のループ */
 
 int
-henkan_off ()
+henkan_off (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   unsigned char c, c_buf[3];
   int i, len;
   extern int ptyfd;

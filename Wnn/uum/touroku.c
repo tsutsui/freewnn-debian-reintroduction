@@ -218,8 +218,11 @@ kana_start:
 
 /** key_tableにバインドして用います*/
 int
-t_markset ()
+t_markset (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
 
   if (c_b->t_m_start == -2)
     {
@@ -336,7 +339,7 @@ hani_settei_normal (c_b)
   c_b->rk_clear_tbl = romkan_clear_tbl[5];
   c_b->key_in_fun = 0;
   c_b->redraw_fun = redraw_nisemono;
-  c_b->ctrl_code_fun = (int (*)()) 0;
+  c_b->ctrl_code_fun = NULL;
   init_screen ();
   return (0);
 }
@@ -361,7 +364,7 @@ hani_settei_yincod (c_b)
   c_b->rk_clear_tbl = romkan_clear_tbl[5];
   c_b->key_in_fun = 0;
   c_b->redraw_fun = redraw_nisemono;
-  c_b->ctrl_code_fun = (int (*)()) 0;
+  c_b->ctrl_code_fun = NULL;
   init_screen ();
   c_b->t_m_start = -1;
   return (0);

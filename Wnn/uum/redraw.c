@@ -38,8 +38,11 @@
 #include "buffer.h"
 
 int
-reset_line ()
+reset_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
 #if defined(uniosu)
   putchar (Ctrl ('O'));         /* おまじない。括弧の中はゼロでなくオー */
 #endif /* defined(uniosu) */

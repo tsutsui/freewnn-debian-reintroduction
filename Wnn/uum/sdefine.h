@@ -39,6 +39,14 @@
 
 #include "commonhd.h"
 
+#ifndef FRWNN_PARAMS
+# if __STDC__
+#  define FRWNN_PARAMS(paramlist)	paramlist
+# else
+#  define FRWNN_PARAMS(paramlist)	()
+# endif
+#endif
+
 /* ncurses' term.h defines them to either 0 or 1! */
 #ifndef HAVE_TERMIOS_H
 #  define DONT_HAVE_TERMIOS_H
@@ -169,12 +177,18 @@ struct jisho_
   int rdonly;
 };
 
+/* 入力処理関数の共通呼出形式。引数は入力文字と romkan の結果。 */
+typedef int (*WNN_UumCommand) FRWNN_PARAMS((int, int));
+
+/* romkan_henkan() が REDRAW を返したときに呼び出す再表示関数。 */
+typedef int (*WNN_UumRedrawFunc) FRWNN_PARAMS((void));
+
 struct kansuu
 {                               /* kansuu_hyo no entry */
   char *kansuumei;
   char *comment;
   int romkan_flag;              /* Clear Romkan or Not.  */
-  int (*func[TBL_CNT]) ();
+  WNN_UumCommand func[TBL_CNT];
 };
 
 #ifndef w_char

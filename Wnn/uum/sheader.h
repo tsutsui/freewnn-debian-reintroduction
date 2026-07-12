@@ -110,7 +110,7 @@ extern int cur_bnst_;           /* current bunsetsu pointer */
                                 /* Use jl_bun_suu(bun_data_) */
 
 extern char romkan_clear_tbl[TBL_CNT][TBL_SIZE];
-extern int (*main_table[TBL_CNT][TBL_SIZE]) (); /* holding commands */
+extern WNN_UumCommand main_table[TBL_CNT][TBL_SIZE]; /* holding commands */
 
 /*  extern w_char *p_holder; *//* points the end of data in buffer. */
 
@@ -266,8 +266,8 @@ extern int find_dic_by_no (int);
 extern int find_end_of_tango (int);
 extern int find_entry (char *);
 extern void flushw_buf (void);
-extern int forward_char (void);
-extern int backward_char (void);
+extern int forward_char (int, int);
+extern int backward_char (int, int);
 extern void get_end_of_history (register w_char *);
 extern void getfname (char *, char *);
 extern void h_r_off ();
@@ -276,7 +276,7 @@ extern void h_r_on ();
 extern void h_r_on_raw ();
 extern int henkan_gop ();
 extern void henkan_if_maru (w_char);
-extern int henkan_off ();
+extern int henkan_off (int, int);
 extern int hextodec (char);
 extern int hinsi_in ();
 extern int init_history ();
@@ -287,7 +287,7 @@ extern int initial_message_out ();
 extern void initialize_vars ();
 extern int input_a_char_from_function (int (*) (void));
 extern int insert_char (w_char);
-extern int insert_char_and_change_to_insert_mode (int);
+extern int insert_char_and_change_to_insert_mode (int, int);
 extern int insert_modep ();
 extern int j_term_init ();
 /* extern int flush_designate (w_char *);  */ /* move to include/etc.h  */
@@ -332,9 +332,9 @@ extern void ring_bell ();
 extern void save_cursor_raw ();
 extern void scroll_up ();
 extern int select_jikouho1 (int);
-extern int select_line_element (char **, int, int, char *, int, int, int (**) ());
+extern int select_line_element (char **, int, int, char *, int, int, WNN_UumCommand *);
 extern int select_one_dict1 (int);
-extern int select_one_element (char **, int, int, char *, int, int, int (**) ());
+extern int select_one_element (char **, int, int, char *, int, int, WNN_UumCommand *);
 extern int set_TERMCAP ();
 extern void set_bold (int);
 extern void set_cursor_status ();
@@ -347,15 +347,16 @@ extern void set_keypad_off ();
 extern void set_scroll_region (int, int);
 extern int st_colum (int);
 extern void t_cont_line_note_delete ();
-extern int t_delete_char (void);
-extern int t_kill ();
+extern int t_delete_char (int, int);
+extern int t_kill (int, int);
+extern int t_quit (int, int);
 extern int t_move (int);
 extern int t_print_l ();
 extern void t_print_line (int, int, int);
 extern int t_redraw_move (int, int, int, int);
 extern int t_rubout (int, int);
 extern void t_throw ();
-extern int t_yank ();
+extern int t_yank (int, int);
 extern int tan_conv (int);
 extern int tan_henkan1 (int, struct wnn_env *);
 extern void throw_col (int);
@@ -373,7 +374,7 @@ extern void w_sttost ();
 extern int wchartochar (w_char *, UCHAR *);
 extern int yes_or_no (const char *);
 extern int yes_or_no_or_newline (char *);
-extern int zenkouho_dai_c ();
+extern int zenkouho_dai_c (int, int);
 extern void find_yomi_for_kanji (w_char *, w_char *);
 extern int check_vst ();
 extern void t_redraw_one_line ();
@@ -489,9 +490,9 @@ extern int do_U_opt ();
 #endif /* KOREAN */
 
 /* uif.c  */
-extern int return_it (int);
-extern int send_string (int);
-extern int kakutei (void);
+extern int return_it (int, int);
+extern int send_string (int, int);
+extern int kakutei (int, int);
 
 
 #endif	/* FRWNN_SHEADER_H  */

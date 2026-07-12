@@ -61,14 +61,14 @@ struct buf
 
   int vst;                      /* bufferの中で画面に表示されている最初の位置 */
   /*これは、勝手に上のルーチンでいじらない方が望ましい。 */
-  int (*key_in_fun) ();         /*ここに関数が設定されていると、key_tableにバインドが
+  WNN_UumCommand key_in_fun;         /*ここに関数が設定されていると、key_tableにバインドが
                                    ない文字の入力を
                                    受けた時にバッファーにその文字を入れずに代わりにその関数が呼ばれる */
-  int (*redraw_fun) ();         /* romkan kara redraw ga kaette kitatoki */
-  int (*ctrl_code_fun) ();      /*ここに関数が設定されていると、key_tableにバインドが
+  WNN_UumRedrawFunc redraw_fun;         /* romkan kara redraw ga kaette kitatoki */
+  WNN_UumCommand ctrl_code_fun;      /*ここに関数が設定されていると、key_tableにバインドが
                                    ないコントロール文字の入力を受けた時にベルを鳴らす代わりに
                                    その関数が呼ばれる */
-  int (**key_table) ();         /*キーバインドのテーブル */
+  WNN_UumCommand *key_table;         /*キーバインドのテーブル */
   char *rk_clear_tbl;           /* romakn_clear が hituyouka */
 };
 

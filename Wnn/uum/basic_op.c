@@ -109,7 +109,7 @@ kana_in_w_char_msg (msg, mode, buffer, buflen)
   c_b->key_table = main_table[6];
   c_b->rk_clear_tbl = romkan_clear_tbl[6];
   c_b->key_in_fun = NULL;
-  c_b->ctrl_code_fun = (int (*)()) NULL;
+  c_b->ctrl_code_fun = NULL;
   kill_buffer_offset = 0;
 
   init_screen ();
@@ -157,7 +157,7 @@ kana_in (msg, mode, buffer, buflen)
   c_b->rk_clear_tbl = romkan_clear_tbl[6];
   c_b->key_in_fun = NULL;
   c_b->redraw_fun = redraw_nisemono;
-  c_b->ctrl_code_fun = (int (*)()) NULL;
+  c_b->ctrl_code_fun = NULL;
   kill_buffer_offset = 0;
 
   init_screen ();
@@ -283,8 +283,7 @@ buffer_in ()
             {
               if (tmp_send)
                 {
-                  /* ret = return_it (c, romkan);  */
-                  ret = return_it (c);
+                  ret = return_it (c, romkan);
                   tmp_send = 0;
                 }
               else
@@ -299,7 +298,7 @@ buffer_in ()
                 {
                   if (tmp_send)
                     {
-                      ret = return_it (c);
+                      ret = return_it (c, romkan);
                       tmp_send = 0;
                     }
                   else if (c_b->key_in_fun)
@@ -348,14 +347,16 @@ buffer_in ()
 }
 
 int
-t_rubout (c, romkan)
-     int c, romkan;
+t_rubout (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
 
   if (c_b->t_c_p != 0)
     {
       backward ();
-      t_delete_char ();
+      t_delete_char (0, 0);
     }
   return (0);
 }
@@ -372,8 +373,11 @@ delete_char1 ()
 }
 
 int
-t_delete_char ()
+t_delete_char (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   delete_char1 ();
   call_t_redraw_move (c_b->t_c_p, c_b->t_c_p, c_b->maxlen, 2, 1);
   return (0);
@@ -383,15 +387,21 @@ extern int in_kuten ();
 extern int in_jis ();
 
 int
-kuten ()
+kuten (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   input_a_char_from_function (in_kuten);
   return (0);
 }
 
 int
-jis ()
+jis (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   input_a_char_from_function (in_jis);
   return (0);
 }
@@ -420,8 +430,11 @@ input_a_char_from_function (fun)
 }
 
 int
-t_kill ()
+t_kill (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   kill_buffer_offset = min (c_b->maxlen - c_b->t_c_p, maxchg);
   Strncpy (kill_buffer, c_b->buffer + c_b->t_c_p, kill_buffer_offset);
   c_b->maxlen = c_b->t_c_p;
@@ -431,8 +444,11 @@ t_kill ()
 
 
 int
-t_yank ()
+t_yank (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (kill_buffer_offset <= c_b->buflen - c_b->t_c_p)
     {
       Strncpy (c_b->buffer + c_b->t_c_p + kill_buffer_offset, c_b->buffer + c_b->t_c_p, c_b->maxlen - c_b->t_c_p);
@@ -444,42 +460,60 @@ t_yank ()
 }
 
 int
-t_ret ()
+t_ret (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (1);
 }
 
 int
-t_quit ()
+t_quit (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (-1);
 }
 
 
 int
-c_top ()
+c_top (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   (*c_top_func) ();
   return (0);
 }
 
 int
-c_end ()
+c_end (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   (*c_end_func) ();
   return (0);
 }
 
 int
-c_end_nobi ()
+c_end_nobi (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   (*c_end_nobi_func) ();
   return (0);
 }
 
 int
-t_jmp_backward ()
+t_jmp_backward (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int k;
 
   for (k = 1; k < touroku_bnst_cnt; k++)
@@ -492,7 +526,7 @@ t_jmp_backward ()
             }
           else
             {
-              c_top ();
+              c_top (0, 0);
             }
           return (0);
         }
@@ -502,8 +536,11 @@ t_jmp_backward ()
 }
 
 int
-t_jmp_forward ()
+t_jmp_forward (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int k;
 
   for (k = 1; k < touroku_bnst_cnt; k++)
@@ -514,14 +551,17 @@ t_jmp_forward ()
           return (0);
         }
     }
-  forward_char ();
+  forward_char (0, 0);
   return (0);
 }
 
 
 int
-forward_char ()
+forward_char (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (c_b->t_c_p < c_b->maxlen)
     {
       call_t_redraw_move_2 (c_b->t_c_p + 1, c_b->t_c_p, c_b->t_m_start, c_b->t_c_p + 2, c_b->t_c_p + 1, 0, 1);
@@ -530,8 +570,11 @@ forward_char ()
 }
 
 int
-forward ()
+forward (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (c_b->t_c_p < c_b->maxlen)
     {
       t_move (c_b->t_c_p + 1);
@@ -540,8 +583,11 @@ forward ()
 }
 
 int
-backward_char ()
+backward_char (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (c_b->t_c_p >= 1 && c_b->t_c_p > c_b->t_m_start)
     {
       call_t_redraw_move_2 (c_b->t_c_p - 1, c_b->t_c_p - 1, c_b->t_m_start, c_b->t_c_p + 1, c_b->t_c_p, 0, 1);
@@ -597,13 +643,16 @@ set_screen_vars_default ()
 }
 
 int
-quote ()
+quote (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int c;
   c = keyin ();
   if (c_b->key_table[c] == henkan_off)
     {
-      (*c_b->key_table[c]) ();
+      (*c_b->key_table[c]) (c, 0);
       return (0);
     }
   if (empty_modep () && c_b->key_in_fun)

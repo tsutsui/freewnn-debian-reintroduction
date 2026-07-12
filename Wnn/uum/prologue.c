@@ -57,9 +57,9 @@
 #include "jllib.h"
 #include "commonhd.h"
 #include "wnn_config.h"
-#include "buffer.h"
-#include "rk_spclval.h"
 #include "sdefine.h"
+#include "rk_spclval.h"
+#include "buffer.h"
 #include "sheader.h"
 #include "wnn_os.h"
 

@@ -68,8 +68,11 @@ static int next_flag;
 #define I_CUR 3
 
 int
-inspect_kouho ()
+inspect_kouho (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   push_cursor ();
   next_flag = I_CUR;
   while (next_flag)
@@ -184,8 +187,11 @@ make_string_for_ke (bun_no, buf, buf_size)
 static void sakujo_kouho1 (int);
 
 int
-sakujo_kouho ()
+sakujo_kouho (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   push_cursor ();
   sakujo_kouho1 (cur_bnst_);
   pop_cursor ();
@@ -228,8 +234,11 @@ sakujo_kouho1 (bun_no)
 }
 
 int
-inspectdel ()
+inspectdel (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   struct wnn_jl_bun *bun = bun_data_->bun[Bun_no];
   int type;
   w_char buf1[1024];
@@ -280,8 +289,11 @@ inspectdel ()
 }
 
 int
-inspectuse ()
+inspectuse (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   struct wnn_jl_bun *bun = bun_data_->bun[Bun_no];
   w_char buf1[1024];
   char buf[512];
@@ -320,15 +332,21 @@ inspectuse ()
 }
 
 int
-next_inspect ()
+next_inspect (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   next_flag = I_NEXT;
   return (1);
 }
 
 int
-previous_inspect ()
+previous_inspect (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   next_flag = I_PREV;
   return (1);
 }

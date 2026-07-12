@@ -160,36 +160,51 @@ jikouho_dai (num)
 }
 
 int
-jikouho_c ()
+jikouho_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   jikouho (1);
   return (0);
 }
 
 int
-zenkouho_c ()
+zenkouho_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   jikouho (-1);
   return (0);
 }
 
 int
-jikouho_dai_c ()
+jikouho_dai_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   jikouho_dai (1);
   return (0);
 }
 
 int
-zenkouho_dai_c ()
+zenkouho_dai_c (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   jikouho_dai (-1);
   return (0);
 }
 
 int
-select_jikouho ()
+select_jikouho (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (select_jikouho1 (WNN_SHO) == -1)
     {
       t_print_l ();
@@ -202,8 +217,11 @@ select_jikouho ()
 }
 
 int
-select_jikouho_dai ()
+select_jikouho_dai (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (select_jikouho1 (WNN_DAI) == -1)
     {
       t_print_l ();

@@ -63,7 +63,7 @@ int quote_flag = 0;
 
 int max_history;
 
-int (*main_table[TBL_CNT][TBL_SIZE]) ();
+WNN_UumCommand main_table[TBL_CNT][TBL_SIZE];
 char romkan_clear_tbl[TBL_CNT][TBL_SIZE];
 w_char jishopath[64];
 w_char hindopath[64];

@@ -93,14 +93,12 @@ select_one_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
      int init;
      char *msg1;
      int msg_len1;
-     int (**key_tbl) ();
+     WNN_UumCommand *key_tbl;
 {
   int oldmm;                    /* hitotu mae no mm */
   int d;
   int c1;
   int ret;
-
-  extern int henkan_off ();
 
   int not_redrawtmp = not_redraw;
   not_redraw = 1;               /* リドローしない */
@@ -148,12 +146,12 @@ select_one_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
 
           if (henkan_off == key_tbl[c1])
             {                   /* added by T.S 10 Jan. '88 */
-              henkan_off ();    /* What a mess!!  */
+              henkan_off (c1, 0);    /* What a mess!!  */
               throw_c (LEND);   /* not beautiful!! */
               flush ();
               continue;
             }
-          else if ((ret = (*key_tbl[c1]) ()) == 1)
+          else if ((ret = (*key_tbl[c1]) (c1, 0)) == 1)
             {
               not_redraw = not_redrawtmp;
               pop_cursor ();
@@ -322,8 +320,11 @@ change_decimal (c1)
 }
 
 int
-forward_select ()
+forward_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (mm < kosuu - 1)
     {
       mm++;
@@ -336,8 +337,11 @@ forward_select ()
 }
 
 int
-backward_select ()
+backward_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (mm > 0)
     {
       mm--;
@@ -350,34 +354,49 @@ backward_select ()
 }
 
 int
-lineend_select ()
+lineend_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   mm = dd[cc + 1] - 1;
   return (0);
 }
 
 int
-linestart_select ()
+linestart_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   mm = dd[cc];
   return (0);
 }
 
 int
-select_select ()
+select_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (1);                   /* return mm from upper function */
 }
 
 int
-quit_select ()
+quit_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (-1);
 }
 
 int
-previous_select ()
+previous_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (cc > 0)
     {
       mm = find_mm (cc - 1, mm - dd[cc]);
@@ -390,8 +409,11 @@ previous_select ()
 }
 
 int
-next_select ()
+next_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (cc < dd_size - 1)
     {
       mm = find_mm (cc + 1, mm - dd[cc]);
@@ -404,8 +426,11 @@ next_select ()
 }
 
 int
-redraw_select ()
+redraw_select (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   display_all (mm, cc);
   return (0);
 }
@@ -434,7 +459,7 @@ select_line_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
      char *msg1;
      int msg_len1;
      int state1;
-     int (**key_tbl) ();
+     WNN_UumCommand *key_tbl;
 {
   int c1;
   int ret;
@@ -467,7 +492,7 @@ select_line_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
 */
       if ((c1 < 256) && (key_tbl[c1] != NULL))
         {
-          if ((ret = (*key_tbl[c1]) ()) == 1)
+          if ((ret = (*key_tbl[c1]) (c1, 0)) == 1)
             {
               not_redraw = not_redrawtmp;
               pop_cursor ();
@@ -575,8 +600,11 @@ st_colum (x)
 
 
 int
-next_select_line ()
+next_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (lc < kosuu - 1)
     {
       lc++;
@@ -589,8 +617,11 @@ next_select_line ()
 }
 
 int
-previous_select_line ()
+previous_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (lc > 0)
     {
       lc--;
@@ -603,34 +634,49 @@ previous_select_line ()
 }
 
 int
-select_select_line ()
+select_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (1);
 }
 
 int
-linestart_select_line ()
+linestart_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   sc = 0;
   return (0);
 }
 
 int
-lineend_select_line ()
+lineend_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   sc = cnt_of_screen (lc) - 1;
   return (0);
 }
 
 int
-quit_select_line ()
+quit_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   return (-1);
 }
 
 int
-forward_select_line ()
+forward_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (sc < cnt_of_screen (lc) - 1)
     {
       sc++;
@@ -639,8 +685,11 @@ forward_select_line ()
 }
 
 int
-backward_select_line ()
+backward_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (sc > 0)
     {
       sc--;
@@ -649,8 +698,11 @@ backward_select_line ()
 }
 
 int
-redraw_select_line ()
+redraw_select_line (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   display (lc, sc);
   return (0);
 }
@@ -663,8 +715,11 @@ redraw_select_line ()
 
 /* jishodel for kensaku */
 int
-kdicdel ()
+kdicdel (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   char buf[512];
 
   /*
@@ -685,8 +740,11 @@ kdicdel ()
 
 
 int
-kdicuse ()
+kdicuse (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   char buf[512];
 
   if (dicinfo[lc - lc_offset].enablef)
@@ -717,8 +775,11 @@ kdicuse ()
 
 /* jishodel for kensaku */
 int
-kdiccom ()
+kdiccom (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   w_char com[512];
 #ifdef nodef
   char st[32];
@@ -785,8 +846,11 @@ kdiccom ()
 extern struct wnn_jdata *word_searched;
 
 int
-kworddel ()
+kworddel (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   char buf[512];
   int type;
 
@@ -830,8 +894,11 @@ kworddel ()
 }
 
 int
-kworduse ()
+kworduse (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   char buf[512];
 
   if (dicinfo[find_dic_by_no (word_searched[lc].dic_no)].hindo_rw == WNN_DIC_RDONLY)
@@ -875,8 +942,11 @@ kworduse ()
 }
 
 int
-kwordcom ()
+kwordcom (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   w_char com[512];
   int type;
   com[0] = 0;
@@ -927,8 +997,11 @@ call_hindo_set (ima, hindo)
 }
 
 int
-kwordima ()
+kwordima (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   if (word_searched[lc].ima)
     {
       if (call_hindo_set (WNN_IMA_OFF, WNN_HINDO_NOP))
@@ -943,8 +1016,11 @@ kwordima ()
 }
 
 int
-kwordhindo ()
+kwordhindo (dummy1, dummy2)
+     int dummy1, dummy2;
 {
+  (void) dummy1;
+  (void) dummy2;
   int cur_hindo;
   w_char kana_buf[512];
   char st[32];

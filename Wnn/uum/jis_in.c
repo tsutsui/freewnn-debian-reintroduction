@@ -52,8 +52,6 @@ in_jis ()                       /*  returns code for a moji  */
   int code;
   int c_p = 0;                  /* 何文字はいったかを示す */
   int c, k;
-  extern int t_quit ();
-  extern int henkan_off ();
   int not_redrawtmp = not_redraw;
   not_redraw = 1;               /*リドローしない */
 
@@ -95,7 +93,7 @@ start:
         }
       else if (henkan_off == main_table[5][c])
         {                       /*きたない! */
-          henkan_off ();
+          henkan_off (c, 0);
         }
       else if (c_p < 4 && ((c <= '9' && c >= '0') || (c <= 'F' && c >= 'A') || (c <= 'f' && c >= 'a')))
         {
