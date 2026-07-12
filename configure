@@ -20961,7 +20961,222 @@ printf "%s\n" "#define HAVE_TERMINFO 1" >>confdefs.h
 
 	  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes -- terminfo spoken here" >&5
 printf "%s\n" "yes -- terminfo spoken here" >&6; }
-	  CNVFILE_SUBDIR=sysV  ;;
+	  CNVFILE_SUBDIR=sysV
+
+	  if test -n "$with_term_libs"; then
+	    	    	    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $TERMLIB provides the required terminfo interfaces" >&5
+printf %s "checking whether $TERMLIB provides the required terminfo interfaces... " >&6; }
+	    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#ifdef HAVE_NCURSES_H
+# include <ncurses.h>
+#elif defined(HAVE_CURSES_H)
+# include <curses.h>
+#endif
+#ifdef HAVE_TERM_H
+# include <term.h>
+#endif
+
+int
+main (void)
+{
+
+	      int status;
+	      setupterm ((char *) 0, 1, &status);
+	      reset_shell_mode ();
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"
+then :
+
+	      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+else case e in #(
+  e)
+	      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	      as_fn_error $? "$TERMLIB does not provide setupterm and reset_shell_mode" "$LINENO" 5
+ ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+	  else
+	    	    	    	    LIBS="$olibs"
+	    terminfo_lib=
+	    curses_lib=
+
+	    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for library containing setupterm" >&5
+printf %s "checking for library containing setupterm... " >&6; }
+if test ${ac_cv_search_setupterm+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.
+   The 'extern "C"' is for builds by C++ compilers;
+   although this is not generally supported in C code supporting it here
+   has little cost and some practical benefit (sr 110532).  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char setupterm (void);
+int
+main (void)
+{
+return setupterm ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' terminfo tinfo ncurses curses
+do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_c_try_link "$LINENO"
+then :
+  ac_cv_search_setupterm=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext
+  if test ${ac_cv_search_setupterm+y}
+then :
+  break
+fi
+done
+if test ${ac_cv_search_setupterm+y}
+then :
+
+else case e in #(
+  e) ac_cv_search_setupterm=no ;;
+esac
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_setupterm" >&5
+printf "%s\n" "$ac_cv_search_setupterm" >&6; }
+ac_res=$ac_cv_search_setupterm
+if test "$ac_res" != no
+then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+
+	      case "$ac_cv_search_setupterm" in
+	        "none required") terminfo_lib= ;;
+	        *)               terminfo_lib="$ac_cv_search_setupterm" ;;
+	      esac
+
+else case e in #(
+  e)
+	      as_fn_error $? "no library provides setupterm" "$LINENO" 5
+ ;;
+esac
+fi
+
+
+	    LIBS="$olibs $terminfo_lib"
+	    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for library containing reset_shell_mode" >&5
+printf %s "checking for library containing reset_shell_mode... " >&6; }
+if test ${ac_cv_search_reset_shell_mode+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.
+   The 'extern "C"' is for builds by C++ compilers;
+   although this is not generally supported in C code supporting it here
+   has little cost and some practical benefit (sr 110532).  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char reset_shell_mode (void);
+int
+main (void)
+{
+return reset_shell_mode ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' ncurses curses
+do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_c_try_link "$LINENO"
+then :
+  ac_cv_search_reset_shell_mode=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext
+  if test ${ac_cv_search_reset_shell_mode+y}
+then :
+  break
+fi
+done
+if test ${ac_cv_search_reset_shell_mode+y}
+then :
+
+else case e in #(
+  e) ac_cv_search_reset_shell_mode=no ;;
+esac
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_reset_shell_mode" >&5
+printf "%s\n" "$ac_cv_search_reset_shell_mode" >&6; }
+ac_res=$ac_cv_search_reset_shell_mode
+if test "$ac_res" != no
+then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+
+	      case "$ac_cv_search_reset_shell_mode" in
+	        "none required") curses_lib= ;;
+	        *)               curses_lib="$ac_cv_search_reset_shell_mode" ;;
+	      esac
+
+else case e in #(
+  e)
+	      as_fn_error $? "no library provides reset_shell_mode" "$LINENO" 5
+ ;;
+esac
+fi
+
+
+	    if test -n "$curses_lib"; then
+	      TERMLIB="$curses_lib $terminfo_lib"
+	    else
+	      TERMLIB="$terminfo_lib"
+	    fi
+	    LIBS="$olibs $TERMLIB"
+	    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: terminal libraries: $TERMLIB" >&5
+printf "%s\n" "$as_me: terminal libraries: $TERMLIB" >&6;}
+	  fi  ;;
 esac
 fi
 rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \

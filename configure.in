@@ -595,7 +595,68 @@ int main(void)
 	  CNVFILE_SUBDIR=bsd ],
 	[ AC_DEFINE(HAVE_TERMINFO, 1, [terminfo spoken here])
 	  AC_MSG_RESULT([yes -- terminfo spoken here])
-	  CNVFILE_SUBDIR=sysV ],
+	  CNVFILE_SUBDIR=sysV
+
+	  if test -n "$with_term_libs"; then
+	    dnl Check that explicitly specified libraries provide both
+	    dnl the terminfo and curses interfaces used by uum.
+	    AC_MSG_CHECKING([whether $TERMLIB provides the required terminfo interfaces])
+	    AC_TRY_LINK([
+#ifdef HAVE_NCURSES_H
+# include <ncurses.h>
+#elif defined(HAVE_CURSES_H)
+# include <curses.h>
+#endif
+#ifdef HAVE_TERM_H
+# include <term.h>
+#endif
+], [
+	      int status;
+	      setupterm ((char *) 0, 1, &status);
+	      reset_shell_mode ();
+], [
+	      AC_MSG_RESULT(yes)
+], [
+	      AC_MSG_RESULT(no)
+	      AC_MSG_ERROR([$TERMLIB does not provide setupterm and reset_shell_mode])
+])
+	  else
+	    dnl The library selected above was only used to distinguish
+	    dnl termcap from terminfo.  Select the final libraries according
+	    dnl to the interfaces actually used by uum.
+	    LIBS="$olibs"
+	    terminfo_lib=
+	    curses_lib=
+
+	    AC_SEARCH_LIBS([setupterm], [terminfo tinfo ncurses curses],
+[
+	      case "$ac_cv_search_setupterm" in
+	        "none required") terminfo_lib= ;;
+	        *)               terminfo_lib="$ac_cv_search_setupterm" ;;
+	      esac
+], [
+	      AC_MSG_ERROR([no library provides setupterm])
+])
+
+	    LIBS="$olibs $terminfo_lib"
+	    AC_SEARCH_LIBS([reset_shell_mode], [ncurses curses],
+[
+	      case "$ac_cv_search_reset_shell_mode" in
+	        "none required") curses_lib= ;;
+	        *)               curses_lib="$ac_cv_search_reset_shell_mode" ;;
+	      esac
+], [
+	      AC_MSG_ERROR([no library provides reset_shell_mode])
+])
+
+	    if test -n "$curses_lib"; then
+	      TERMLIB="$curses_lib $terminfo_lib"
+	    else
+	      TERMLIB="$terminfo_lib"
+	    fi
+	    LIBS="$olibs $TERMLIB"
+	    AC_MSG_NOTICE([terminal libraries: $TERMLIB])
+	  fi ],
 	AC_MSG_ERROR(failed to compile test program.))
 else
   AC_MSG_RESULT(none found)
