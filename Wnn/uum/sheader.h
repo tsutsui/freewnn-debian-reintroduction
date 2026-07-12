@@ -42,6 +42,8 @@
 
 #include "etc.h"
 
+struct buf;
+
 typedef struct _WnnEnv
 {
   char *host_name;              /* server name */
@@ -56,22 +58,22 @@ WnnEnv;
 typedef struct _FunctionTable
 {
 /* functions depends on lang */
-  int (*print_out_function) ();
-  int (*input_function) ();
-  int (*call_t_redraw_move_function) ();
-  int (*call_t_redraw_move_1_function) ();
-  int (*call_t_redraw_move_2_function) ();
-  int (*call_t_print_l_function) ();
+  int (*print_out_function) (w_char *, w_char *, int);
+  int (*input_function) (unsigned int *, unsigned int *);
+  int (*call_t_redraw_move_function) (int, int, int, int, int);
+  int (*call_t_redraw_move_1_function) (int, int, int, int, int, int, int);
+  int (*call_t_redraw_move_2_function) (int, int, int, int, int, int, int);
+  int (*call_t_print_l_function) (int, int);
   int (*redraw_when_chmsig_function) ();
-  int (*char_len_function) ();
-  int (*char_q_len_function) ();
-  int (*t_redraw_move_function) ();
+  int (*char_len_function) (w_char);
+  int (*char_q_len_function) (w_char);
+  int (*t_redraw_move_function) (int, int, int, int);
   int (*t_print_l_function) ();
   int (*c_top_function) ();
   int (*c_end_function) ();
   int (*c_end_nobi_function) ();
-  int (*call_redraw_line_function) ();
-  int (*hani_settei_function) ();
+  int (*call_redraw_line_function) (int, int);
+  int (*hani_settei_function) (struct buf *);
   void (*errorkeyin_function) ();
   int (*call_jl_yomi_len_function) ();
 }
@@ -392,24 +394,24 @@ extern int set_cur_env (char);
 extern char env_state ();
 extern void get_new_env (int);
 
-extern int call_t_redraw_move_normal ();
+extern int call_t_redraw_move_normal (int, int, int, int, int);
 extern int call_t_redraw_move (int, int, int, int, int);
-extern int call_t_redraw_move_1_normal ();
+extern int call_t_redraw_move_1_normal (int, int, int, int, int, int, int);
 extern int call_t_redraw_move_1 (int, int, int, int, int, int, int);
-extern int call_t_redraw_move_2_normal ();
+extern int call_t_redraw_move_2_normal (int, int, int, int, int, int, int);
 extern int call_t_redraw_move_2 (int, int, int, int, int, int, int);
 extern int call_t_print_l_normal (int, int);
 extern int call_t_print_l (int, int);
 extern int c_top_normal (void);
 extern int c_end_normal (void);
 extern int c_end_nobi_normal ();
-extern int char_q_len_normal ();
-extern int char_len_normal ();
+extern int char_q_len_normal (w_char);
+extern int char_len_normal (w_char);
 extern int t_redraw_move_normal (int, int, int, int);
 extern int t_print_l_normal ();
-extern int call_redraw_line_normal ();
+extern int call_redraw_line_normal (int, int);
 extern int call_redraw_line (int, int);
-extern int hani_settei_normal ();
+extern int hani_settei_normal (struct buf *);
 extern void call_errorkeyin ();
 extern int call_jl_yomi_len ();
 /* extern int through (char *, char *, int);  */
@@ -435,22 +437,22 @@ extern int do_S_opt ();
 #endif /* JAPANESE */
 
 #ifdef CHINESE
-extern int call_t_redraw_move_yincod ();
-extern int call_t_redraw_move_1_yincod ();
-extern int call_t_redraw_move_2_yincod ();
-extern int call_t_print_l_yincod ();
-extern int input_yincod ();
+extern int call_t_redraw_move_yincod (int, int, int, int, int);
+extern int call_t_redraw_move_1_yincod (int, int, int, int, int, int, int);
+extern int call_t_redraw_move_2_yincod (int, int, int, int, int, int, int);
+extern int call_t_print_l_yincod (int, int);
+extern int input_yincod (unsigned int *, unsigned int *);
 extern int redraw_when_chmsig_yincod ();
 extern int c_top_yincod ();
 extern int c_end_yincod ();
 extern int c_end_nobi_yincod ();
-extern int print_out_yincod ();
-extern int char_q_len_yincod ();
-extern int char_len_yincod ();
-extern int t_redraw_move_yincod ();
+extern int print_out_yincod (w_char *, w_char *, int);
+extern int char_q_len_yincod (w_char);
+extern int char_len_yincod (w_char);
+extern int t_redraw_move_yincod (int, int, int, int);
 extern int t_print_l_yincod ();
-extern int call_redraw_line_yincod ();
-extern int hani_settei_yincod ();
+extern int call_redraw_line_yincod (int, int);
+extern int hani_settei_yincod (struct buf *);
 extern void errorkeyin_q ();
 extern int not_call_jl_yomi_len ();
 /* extern int cwnn_pzy_yincod ();  */ /* move to include/etc.h  */
