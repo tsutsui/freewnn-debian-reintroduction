@@ -1,0 +1,6 @@
+
+# Local Codex and build work
+.work/
+*.build
+*.buildinfo
+*.changes
