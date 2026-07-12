@@ -17,7 +17,7 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 dirs='Wnn/pubdicplus cWnn/cdic cWnn/tdic kWnn/kdic'
 
-build_and_measure()
+build_and_hash()
 {
     locale_name=$1
     output=$2
@@ -26,14 +26,18 @@ build_and_measure()
     done
     find $dirs -maxdepth 1 -type f \
         \( -name '*.dic' -o -name '*.fzk' -o -name '*.more' \) \
-        -printf '%p %s\n' | sort >"$output"
+        -printf '%p\n' | LC_ALL=C sort | while IFS= read -r path; do
+            hash=$(sha256sum "$path")
+            hash=${hash%% *}
+            printf '%s  %s\n' "$path" "$hash"
+        done >"$output"
     [ -s "$output" ] || {
         echo "ERROR: dictionary build produced no testable files" >&2
         exit 1
     }
 }
 
-build_and_measure C "$tmp/C.sizes"
-build_and_measure "$utf8_locale" "$tmp/UTF-8.sizes"
-diff -u "$tmp/C.sizes" "$tmp/UTF-8.sizes"
-echo "Dictionary output sizes match under C and $utf8_locale"
+build_and_hash C "$tmp/C.sha256"
+build_and_hash "$utf8_locale" "$tmp/UTF-8.sha256"
+diff -u "$tmp/C.sha256" "$tmp/UTF-8.sha256"
+echo "Dictionary paths and SHA-256 hashes match under C and $utf8_locale"

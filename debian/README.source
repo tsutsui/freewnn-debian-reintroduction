@@ -91,9 +91,9 @@ method functionality is unaffected.
 using the installed public `wnn/jllib.h` header and shared library.
 `debian/tests/dictionary-locales` rebuilds all four language dictionary
 directories under the C locale and an available UTF-8 locale, then compares
-the generated-file sets and sizes. Dictionary headers contain regenerated
-unique identifiers, so byte-for-byte hashes are not stable. Both scripts are
-deterministic CI helpers rather
+sorted manifests containing each generated file's relative pathname and
+SHA-256 content hash. Any pathname or content difference fails the test. Both
+scripts are deterministic CI helpers rather
 than autopkgtests: the dictionary check needs the configured build tree and
 build-only generators, while the library test is run explicitly after the
 locally built packages have been installed.
