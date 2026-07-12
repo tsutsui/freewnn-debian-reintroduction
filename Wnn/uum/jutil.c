@@ -373,7 +373,7 @@ select_one_dict1 (tbl)
 
 int
 print_msg1 (X)
-     char *X;
+     const char *X;
 {
   int ans;
   push_cursor ();
@@ -566,7 +566,7 @@ yes_or_no (string)
 
 int
 yes_or_no_or_newline (string)
-     char *string;
+     const char *string;
 {
   int x;
   throw_c (0);

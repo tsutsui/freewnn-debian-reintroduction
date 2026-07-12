@@ -380,7 +380,7 @@ extern int w_putchar (w_char);
 extern void w_sttost ();
 extern int wchartochar (w_char *, UCHAR *);
 extern int yes_or_no (const char *);
-extern int yes_or_no_or_newline (char *);
+extern int yes_or_no_or_newline (const char *);
 extern int zenkouho_dai_c (int, int);
 extern void find_yomi_for_kanji (w_char *, w_char *);
 extern int check_vst ();
@@ -418,7 +418,7 @@ extern int call_jl_yomi_len ();
 /* extern int through (char *, char *, int);  */
 extern int sStrcpy (UCHAR *, w_char *);
 extern int Sstrcpy (register w_char *, register UCHAR *);
-extern char *sStrncpy ();
+extern char *sStrncpy (UCHAR *, w_char *, int);
 extern w_char *Strcat (register w_char *, register w_char *);
 extern w_char *Strncat (register w_char *, register w_char *, register int);
 extern int Strncmp (register w_char *, register w_char *, register int);
