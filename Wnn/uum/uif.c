@@ -1256,7 +1256,7 @@ reconnect_jserver_body ()
   /*
      char *message = " 接続ホスト名 > ";
    */
-  w_char *kana_buf[1024];  /* w_char kana_buf[1024]; ?  */
+  w_char kana_buf[1024];
   char hostname[128];
 
   Sstrcpy (kana_buf, servername);
