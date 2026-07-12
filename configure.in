@@ -522,8 +522,8 @@ dnl
 olibs="$LIBS"
 CNVFILE_SUBDIR=bsd
 AC_MSG_CHECKING(--with-term-libs argument)
-AC_ARG_WITH(tlib,
-[  --with-term-libs=-lLIB  terminal library to be used ],)
+AC_ARG_WITH(term-libs,
+[  --with-term-libs=LIBS   terminal libraries to be used ],)
 if test -n "$with_term_libs"; then
   AC_MSG_RESULT($with_term_libs)
 dnl  LIBS="$LIBS $with_term_libs"
