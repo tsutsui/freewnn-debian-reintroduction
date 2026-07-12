@@ -644,11 +644,9 @@ convert_getterm (termname, flg)
   if (rsl != 1)
     {
       errdsp2 ("Can't get terminfo entry", termname);
-      /* このときresetterm()は必要か？ */
       return (1);
     }
   convert_getstrs (flg);
-  resetterm ();
   return (0);
 }
 #endif

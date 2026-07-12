@@ -183,7 +183,6 @@ openTermData ()
 void
 closeTermData ()
 {
-  resetterm ();
   reset_shell_mode ();
 }
 
