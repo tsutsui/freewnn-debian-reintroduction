@@ -112,7 +112,7 @@ ttyfdslot (int fd)
   register int slotnum;
   register struct ttyent *te;
   if ((fullnamp = ttyname (fd)) == NULL)
-    return NULL;
+    return 0;
   if ((ttynamp = rindex (fullnamp, '/')) == NULL)
     {
       ttynamp = fullnamp;
@@ -130,7 +130,7 @@ ttyfdslot (int fd)
         }
     }
   endttyent ();
-  return NULL;
+  return 0;
 }
 
 #endif /* defined(BSD43) && !defined(linux) */
