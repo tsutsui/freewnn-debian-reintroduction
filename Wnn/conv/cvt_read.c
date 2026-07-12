@@ -140,6 +140,11 @@
 
 #include "conv.h"
 
+#if defined(TERMCAP) && !defined(HAVE_TERMCAP_H)
+extern char *tgetstr FRWNN_PARAMS((const char *, char **));
+extern int tgetent FRWNN_PARAMS((char *, const char *));
+#endif
+
 #define ENTRY_LEN 10            /* コンバート表のエントリ名の最大長 */
 
 /*
@@ -452,7 +457,6 @@ static char *
 my_tgetstr (name, ptr)
      char *name, **ptr;
 {
-  extern char *tgetstr ();
   static char *del = "\177";
 
   if (strcmp (name, "!del") == 0)
@@ -611,7 +615,6 @@ convert_getterm (termname, flg)
      char *termname;
      int flg;
 {
-  extern int tgetent ();
   char tcaparea[AREASIZE];
 
   if (flg)

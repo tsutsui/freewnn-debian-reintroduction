@@ -55,8 +55,20 @@
 #if HAVE_TERM_H
 #  include <term.h>
 #endif
+#if HAVE_TERMCAP_H
+#  include <termcap.h>
+#endif
 
 #include "commonhd.h"
+#include "conv.h"
+
+#if !HAVE_TERMCAP_H && !HAVE_TERM_H && !HAVE_CURSES_H && !HAVE_NCURSES_H
+extern int tgetent FRWNN_PARAMS((char *, const char *));
+extern char *tgetstr FRWNN_PARAMS((const char *, char **));
+extern int tgetnum FRWNN_PARAMS((const char *));
+extern char *tgoto FRWNN_PARAMS((const char *, int, int));
+extern int tputs FRWNN_PARAMS((const char *, int, int (*) (int)));
+#endif
 
 #include "sdefine.h"
 #include "sheader.h"
@@ -108,13 +120,15 @@ int cursor_state;
 FILE *debugc;
 #endif
 
+char *sr_set FRWNN_PARAMS((char **, int, int));
+static void strascii FRWNN_PARAMS((unsigned char *, unsigned char *));
+static int decfline FRWNN_PARAMS((char *));
 
 int
 getTermData ()
 {
   char *name;
   char *pter;
-  char *sr_set ();
   char *j;
   extern char *get_kbd_env ();
 
@@ -256,9 +270,6 @@ remove (p, ob)
     };
   return (r);
 }
-
-static void strascii ();
-static int decfline ();
 
 int
 set_TERMCAP ()

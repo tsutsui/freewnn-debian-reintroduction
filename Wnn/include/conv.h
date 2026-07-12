@@ -39,8 +39,6 @@
 #endif	/* __STDC__ */
 
 extern int convert_key_setup FRWNN_PARAMS((char *, int));
-#ifdef TERMCAP
 extern int convert_getterm FRWNN_PARAMS((char *termname, int flg));
-#endif	/* TERMCAP  */
 
 #endif /* FRWNN_CONV_H  */

@@ -43,6 +43,7 @@
 #endif /* STDC_HEADERS */
 
 #include "commonhd.h"
+#include "conv.h"
 #include "sdefine.h"
 #include "sheader.h"
 
@@ -57,10 +58,6 @@
 #include <stdio.h>
 #include <curses.h>
 #include <term.h>
-#ifdef putchar
-#undef putchar
-#endif
-extern int putchar ();
 
 extern char Term_Name[];
 extern char *Term_UnderScoreStart;

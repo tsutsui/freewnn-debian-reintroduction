@@ -232,6 +232,7 @@ extern int  ttyfdslot (int fd);
 #if HAVE_TERMINFO
 /* termio.c */
 extern int openTermData (void);
+extern void closeTermData (void);
 #else
 /* termcap.c */
 extern int getTermData (void);
