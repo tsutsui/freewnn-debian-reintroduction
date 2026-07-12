@@ -37,12 +37,11 @@ python3 "$ROOT/debian/codex/tools/compare-patched-tree.py" \
 (
     cd "$TMP/candidate"
     autoreconf -fi
-)
 
-mkdir "$TMP/candidate/build-c23"
-(
-    cd "$TMP/candidate/build-c23"
-    LC_ALL=C ../configure CFLAGS="-O2 -g -std=gnu23"
+    # FreeWnn's generated Makefiles use source-tree-relative references
+    # to makerule.mk and do not support a separate VPATH build directory.
+    # Build in place inside the disposable temporary source copy.
+    LC_ALL=C ./configure CFLAGS="-O2 -g -std=gnu23"
     LC_ALL=C make -j2
 )
 
