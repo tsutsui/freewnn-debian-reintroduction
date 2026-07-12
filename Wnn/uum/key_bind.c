@@ -241,7 +241,7 @@ int key_binding (char [64]);
 int
 init_key_table ()
 {
-  FILE *fp, *fopen ();
+  FILE *fp;
   char file_name[PATHNAMELEN];
   int j, k;
 
@@ -300,7 +300,7 @@ key_binding (file_name)
      char file_name[64];
 {
   register int k, kk;
-  FILE *fp, *fopen ();
+  FILE *fp;
   char func_name[64];
   int com_cnt;
   int com_num;

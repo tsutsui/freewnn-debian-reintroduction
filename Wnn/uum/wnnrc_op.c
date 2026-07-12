@@ -59,7 +59,6 @@
 #include "sheader.h"
 #include "wnn_os.h"
 
-extern int conv_keyin ();
 extern int keyin2 ();
 
 

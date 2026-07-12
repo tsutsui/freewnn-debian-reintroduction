@@ -251,7 +251,6 @@ extern void clr_line ();
 extern void clr_line_all ();
 extern int connect_jserver (int);
 /* extern int convert_getterm (char *, int);  */ /* moved to include/conv.h  */
-extern int convert_key_setup ();
 extern int cur_ichi (int, int);
 extern void cursor_invisible_raw (void);
 extern void cursor_normal_raw (void);
@@ -456,9 +455,6 @@ extern int call_redraw_line_yincod (int, int);
 extern int hani_settei_yincod (struct buf *);
 extern void errorkeyin_q ();
 extern int not_call_jl_yomi_len ();
-/* extern int cwnn_pzy_yincod ();  */ /* move to include/etc.h  */
-extern int cwnn_yincod_pzy_str ();
-
 extern int do_b_opt ();
 extern int do_t_opt ();
 extern int do_B_opt ();
