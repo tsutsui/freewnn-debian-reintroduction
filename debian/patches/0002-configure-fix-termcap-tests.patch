@@ -1,0 +1,55 @@
+Description: Make the termcap and terminfo configure tests valid under C23.
+ Source commits: 73f4f2d54f7894f7448f10907392f0ee2b146110
+Origin: upstream
+Bug-Debian: https://bugs.debian.org/1065772
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/configure.in b/configure.in
+index 0f68e42..fa74d9c 100644
+--- a/configure.in
++++ b/configure.in
+@@ -546,10 +546,17 @@ else
+       dnl compile and run a test program to be sure
+       LIBS="${LIBS} -l${libname}"
+       AC_TRY_RUN([
++#ifdef HAVE_NCURSES_H
++# include <ncurses.h>
++#elif defined(HAVE_CURSES_H)
++# include <curses.h>
++#endif
+ #ifdef HAVE_TERMCAP_H
+ # include <termcap.h>
++#elif defined(HAVE_TERM_H)
++# include <term.h>
+ #endif
+-main() {char *s; s=(char *)tgoto("%p1%d", 0, 1); exit(0); }],
++int main(void) { return tgoto("%p1%d", 0, 1) == 0; }],
+ 	res="OK", res="FAIL", res="FAIL")
+       if test "$res" = "OK"; then
+ 	TERMLIB="${TERMLIB} -l${libname}"
+@@ -568,11 +575,22 @@ if test "x$TERMLIB" != "x"; then
+   LIBS="${LIBS} ${TERMLIB}"
+   AC_MSG_CHECKING(whether we talk terminfo)
+   AC_TRY_RUN([
++#include <string.h>
++#ifdef HAVE_NCURSES_H
++# include <ncurses.h>
++#elif defined(HAVE_CURSES_H)
++# include <curses.h>
++#endif
+ #ifdef HAVE_TERMCAP_H
+ # include <termcap.h>
++#elif defined(HAVE_TERM_H)
++# include <term.h>
+ #endif
+-main()
+-{char *s; s=(char *)tgoto("%p1%d", 0, 1); exit(!strcmp(s==0 ? "" : s, "1")); }],
++int main(void)
++{
++  const char *s = tgoto("%p1%d", 0, 1);
++  return strcmp(s == 0 ? "" : s, "1") == 0;
++}],
+ 	[ AC_MSG_RESULT([no -- we are in termcap land])
+ 	  CNVFILE_SUBDIR=bsd ],
+ 	[ AC_DEFINE(HAVE_TERMINFO, 1, [terminfo spoken here])

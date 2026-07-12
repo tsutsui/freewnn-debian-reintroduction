@@ -1,0 +1,70 @@
+FreeWnn source and patch provenance
+===================================
+
+This candidate no longer uses the Debian 1.1.1~a021+cvs20130302-8 source
+base. The upstream source is the FreeWnn 1.1.1-a023 tarball imported as
+1.1.1~a023 and recorded by reference/a023-base. The historical Debian
+packaging VCS through revision -5 is at reference/debian-packaging-2015;
+the imported -8 packaging is at debian/1.1.1_a021+cvs20130302-8. The GCC
+14/15 and C23 compatibility work is at reference/gcc15-main-20260711.
+
+Historical Debian patch disposition
+------------------------------------
+
+* newlayout was empty and is dropped.
+* makerules.mk.in is replaced by 1000-debian-filesystem-layout.patch.
+* man is split into 1001-fix-manpage-sections.patch and
+  1002-escape-hyphen-in-atod-manpage.patch.
+* hardening-flags is dropped because a023 propagates CPPFLAGS and LDFLAGS.
+* hurd_support.patch is refreshed as 0050-define-MAXPATHLEN-fallback.patch.
+* fix-parallel-build.patch is dropped because a023 has the fixed dependency.
+* egrep-a.patch is superseded by
+  0005-build-dictionaries-in-C-locale.patch.
+* implicit_functions.diff from -8 is replaced by the logical configure,
+  system-declaration, and prototype patches in this series.
+
+The patch-relevant -5 to -8 delta was: two DEP-3 fields added to
+egrep-a.patch; implicit_functions.diff added for Debian bug #1065772; and
+its series entry added. Other packaging changes are outside this task.
+
+Mixed source commit mapping
+---------------------------
+
+* a85b88729c2fa7d0a2ec542d737c5e19061c8a47: sort callbacks -> 0020;
+  jl_dic_add_e handlers -> 0022.
+* 17578cf34877cad67c465335afbf499b88cecce1: getopt -> 0011; redundant
+  bdic declarations -> 0012.
+* 915ecd5efe7a9ab09fc073c8131687184a45dfa4: internal sort interface ->
+  0020; direct qsort comparators -> 0021; jl_dic_add_e callbacks -> 0022;
+  other internal callbacks -> 0023; byte-buffer types -> 0025.
+* 9618769b8e758f537db180a9389c7ce10c536163: redundant declarations ->
+  0012; internal helpers -> 0023; signal handlers -> 0030; variadic out ->
+  0031.
+* 3cc4bf1f5fd9178741dd904612f2110a9470e86b: byte-buffer signedness ->
+  0025; the functional wnn_sStrncpy conversion-direction fix -> 0040.
+
+The GCC reference also removes redundant jutil declarations in
+4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78. They have the exact purpose of
+0012 and are recorded there to preserve the verified GCC reference tree.
+
+Generated configure policy
+--------------------------
+
+Only configure.in changes are carried. Generated configure is excluded,
+including d2ce32b7afd3d79e810c08051c937106cbdf1332 and the configure half of
+b8c95ad64da5de58857c72f4b3644d90c6e6e53c. Regenerate it with autoreconf.
+
+Testing
+-------
+
+Run `debian/codex/tools/verify-task01.sh` from a clean source tree. It checks
+the exact series, whitespace, generated-configure exclusion, quilt
+application, the detailed GCC-reference comparison, autoreconf, and a
+parallel GNU C23 build.
+
+Unresolved work
+---------------
+
+This task does not modernize general Debian packaging, complete copyright
+or policy review, establish an adopter or maintainer, or demonstrate upload
+readiness. Those require later human decisions and review.

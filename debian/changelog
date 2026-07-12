@@ -1,4 +1,4 @@
-freewnn (1.1.1~a021+cvs20130302-8) unstable; urgency=medium
+freewnn (1.1.1~a021+cvs20130302-8) UNRELEASED; urgency=medium
 
   * QA upload.
   * Run wrap-and-sort -ast.

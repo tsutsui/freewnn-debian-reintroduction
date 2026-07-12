@@ -1,0 +1,755 @@
+OK: exact approved patch series (25 patches)
+Applying patch debian/patches/0001-configure-check-standard-headers.patch
+patching file configure.in
+
+Applying patch debian/patches/0002-configure-fix-termcap-tests.patch
+patching file configure.in
+
+Applying patch debian/patches/0003-configure-fix-libwrap-test.patch
+patching file configure.in
+
+Applying patch debian/patches/0004-configure-use-default-source.patch
+patching file configure.in
+
+Applying patch debian/patches/0005-build-dictionaries-in-C-locale.patch
+patching file Wnn/pubdicplus/Makefile.in
+patching file cWnn/cdic/Makefile.in
+patching file cWnn/tdic/Makefile.in
+patching file kWnn/kdic/Makefile.in
+
+Applying patch debian/patches/0010-use-system-libc-declarations.patch
+patching file Wnn/jlib.V3/jlv3.c
+patching file Wnn/jlib/jl.c
+Hunk #1 succeeded at 2971 (offset -2 lines).
+Hunk #2 succeeded at 2987 (offset -2 lines).
+patching file Wnn/jlib/js.c
+patching file Wnn/jutil/wddel.c
+patching file Wnn/jutil/wdreg.c
+patching file Wnn/jutil/wnnstat.c
+patching file Wnn/uum/termcap.c
+patching file Wnn/uum/wnnrc_op.c
+patching file Wnn/etc/pwd.c
+
+Applying patch debian/patches/0011-fix-bundled-getopt-declarations.patch
+patching file Wnn/include/getopt.h
+patching file Wnn/etc/getopt.c
+
+Applying patch debian/patches/0012-remove-redundant-project-declarations.patch
+patching file Wnn/jutil/atorev.c
+patching file Wnn/etc/bdic.c
+patching file Wnn/jserver/daibn_kai.c
+patching file Wnn/jutil/atof.c
+patching file Wnn/jutil/dtoa.c
+patching file Wnn/jutil/ujisf.c
+patching file Wnn/jutil/wnnkill.c
+patching file Wnn/jutil/wnnstat.c
+patching file Wnn/jutil/wnntouch.c
+
+Applying patch debian/patches/0020-fix-sort-callback-interface.patch
+patching file Wnn/include/jutil.h
+patching file Wnn/jutil/atod.c
+patching file Wnn/jutil/ujisf.c
+Hunk #1 succeeded at 715 (offset -1 lines).
+Hunk #2 succeeded at 807 (offset -1 lines).
+Hunk #3 succeeded at 822 (offset -1 lines).
+Hunk #4 succeeded at 838 (offset -1 lines).
+Hunk #5 succeeded at 989 (offset -1 lines).
+
+Applying patch debian/patches/0021-fix-qsort-comparator-signatures.patch
+patching file PubdicPlus/pod.c
+patching file Wnn/jlib/jl.c
+patching file Wnn/jserver/jikouho.c
+patching file Wnn/jserver/jikouho_d.c
+patching file Wnn/jutil/atof.c
+Hunk #1 succeeded at 592 (offset -4 lines).
+Hunk #2 succeeded at 740 (offset -4 lines).
+Hunk #3 succeeded at 765 (offset -4 lines).
+
+Applying patch debian/patches/0022-fix-jlib-handler-callback-prototypes.patch
+patching file Wnn/include/jllib.h
+
+Applying patch debian/patches/0023-fix-internal-callback-prototypes.patch
+patching file PubdicPlus/pod.c
+patching file Wnn/etc/xutoj.c
+patching file Wnn/jserver/jikouho_d.c
+patching file Wnn/jserver/kaiseki.h
+
+Applying patch debian/patches/0024-fix-romkan-callback-prototypes.patch
+patching file Wnn/romkan/rk_fundecl.h
+patching file Wnn/romkan/rk_main.c
+patching file Wnn/romkan/rk_modread.c
+
+Applying patch debian/patches/0025-fix-byte-buffer-pointer-types.patch
+patching file Wnn/jserver/de_header.h
+patching file Wnn/jserver/snd_rcv.c
+patching file Wnn/etc/sstrings.c
+
+Applying patch debian/patches/0030-fix-signal-handler-signatures.patch
+patching file Wnn/jlib/js.c
+patching file Wnn/jserver/de.c
+patching file Wnn/jserver/de_header.h
+patching file Wnn/jserver/error.c
+
+Applying patch debian/patches/0031-make-jserver-out-variadic.patch
+patching file Wnn/jserver/error.c
+patching file Wnn/jserver/de_header.h
+
+Applying patch debian/patches/0032-make-atof-error-format-variadic.patch
+patching file Wnn/jutil/atof.c
+
+Applying patch debian/patches/0040-fix-wnn-sStrncpy-conversion.patch
+patching file Wnn/etc/sstrings.c
+
+Applying patch debian/patches/0041-fix-jishoop-ENDPTR-comparison.patch
+patching file Wnn/jserver/jishoop.c
+
+Applying patch debian/patches/0042-fix-b-index-result-comparison.patch
+patching file Wnn/jserver/b_index.c
+
+Applying patch debian/patches/0043-use-int-for-romkan-buffer-index.patch
+patching file Wnn/romkan/rk_main.c
+
+Applying patch debian/patches/0050-define-MAXPATHLEN-fallback.patch
+patching file Wnn/include/msg.h
+patching file Wnn/jserver/de_header.h
+
+Applying patch debian/patches/1000-debian-filesystem-layout.patch
+patching file makerule.mk.in
+
+Applying patch debian/patches/1001-fix-manpage-sections.patch
+patching file Wnn/man/2.env/dic/pubdic.man
+patching file Wnn/man/2.env/dic/usr_dic.man
+patching file Wnn/man/2.env/wnn/2a_ctrl.man
+patching file Wnn/man/2.env/wnn/2b_romkan.man
+patching file Wnn/man/2.env/wnn/cvt_key.man
+patching file Wnn/man/2.env/wnn/fzk.data.man
+patching file Wnn/man/2.env/wnn/fzk.u.man
+patching file Wnn/man/2.env/wnn/hinsi_dat.man
+patching file Wnn/man/2.env/wnn/jserverrc.man
+patching file Wnn/man/2.env/wnn/mode.man
+patching file Wnn/man/2.env/wnn/serverdef.man
+patching file Wnn/man/2.env/wnn/ujis_dic.man
+patching file Wnn/man/2.env/wnn/uumkey.man
+patching file Wnn/man/2.env/wnn/uumrc.man
+patching file Wnn/man/2.env/wnn/wnnenvrc.man
+patching file Wnn/man/3.libwnn/jl_lib/bun_suu.man
+patching file Wnn/man/3.libwnn/jl_lib/c_zenko.man
+patching file Wnn/man/3.libwnn/jl_lib/close.man
+patching file Wnn/man/3.libwnn/jl_lib/connect.man
+patching file Wnn/man/3.libwnn/jl_lib/connect_lang.man
+patching file Wnn/man/3.libwnn/jl_lib/dai_top.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_add.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_com_s.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_del.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_list.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_save.man
+patching file Wnn/man/3.libwnn/jl_lib/dic_use.man
+patching file Wnn/man/3.libwnn/jl_lib/disconn.man
+patching file Wnn/man/3.libwnn/jl_lib/env.man
+patching file Wnn/man/3.libwnn/jl_lib/env_set.man
+patching file Wnn/man/3.libwnn/jl_lib/env_stick.man
+patching file Wnn/man/3.libwnn/jl_lib/fuz_get.man
+patching file Wnn/man/3.libwnn/jl_lib/fuz_set.man
+patching file Wnn/man/3.libwnn/jl_lib/get_kanji.man
+patching file Wnn/man/3.libwnn/jl_lib/get_zen_k.man
+patching file Wnn/man/3.libwnn/jl_lib/hinsi_dct.man
+patching file Wnn/man/3.libwnn/jl_lib/hinsi_lst.man
+patching file Wnn/man/3.libwnn/jl_lib/hinsi_nm.man
+patching file Wnn/man/3.libwnn/jl_lib/hinsi_num.man
+patching file Wnn/man/3.libwnn/jl_lib/inspect.man
+patching file Wnn/man/3.libwnn/jl_lib/isconnect.man
+patching file Wnn/man/3.libwnn/jl_lib/jiri_len.man
+patching file Wnn/man/3.libwnn/jl_lib/kanji_len.man
+patching file Wnn/man/3.libwnn/jl_lib/kill.man
+patching file Wnn/man/3.libwnn/jl_lib/next.man
+patching file Wnn/man/3.libwnn/jl_lib/nobi_conv.man
+patching file Wnn/man/3.libwnn/jl_lib/open.man
+patching file Wnn/man/3.libwnn/jl_lib/open_lang.man
+patching file Wnn/man/3.libwnn/jl_lib/param_get.man
+patching file Wnn/man/3.libwnn/jl_lib/ren_conv.man
+patching file Wnn/man/3.libwnn/jl_lib/set_env_w.man
+patching file Wnn/man/3.libwnn/jl_lib/set_jikou.man
+patching file Wnn/man/3.libwnn/jl_lib/tan_conv.man
+patching file Wnn/man/3.libwnn/jl_lib/update_hd.man
+patching file Wnn/man/3.libwnn/jl_lib/word_add.man
+patching file Wnn/man/3.libwnn/jl_lib/word_cm_s.man
+patching file Wnn/man/3.libwnn/jl_lib/word_del.man
+patching file Wnn/man/3.libwnn/jl_lib/word_info.man
+patching file Wnn/man/3.libwnn/jl_lib/word_srch.man
+patching file Wnn/man/3.libwnn/jl_lib/word_use.man
+patching file Wnn/man/3.libwnn/jl_lib/zenko.man
+patching file Wnn/man/3.libwnn/jl_lib/zenko_bun.man
+patching file Wnn/man/3.libwnn/jl_lib/zenko_da.man
+patching file Wnn/man/3.libwnn/jl_lib/zenko_dap.man
+patching file Wnn/man/3.libwnn/jl_lib/zenko_suu.man
+patching file Wnn/man/3.libwnn/js_lib/access.man
+patching file Wnn/man/3.libwnn/js_lib/close.man
+patching file Wnn/man/3.libwnn/js_lib/connect.man
+patching file Wnn/man/3.libwnn/js_lib/dic_add.man
+patching file Wnn/man/3.libwnn/js_lib/dic_cr.man
+patching file Wnn/man/3.libwnn/js_lib/dic_cr_cl.man
+patching file Wnn/man/3.libwnn/js_lib/dic_del.man
+patching file Wnn/man/3.libwnn/js_lib/dic_info.man
+patching file Wnn/man/3.libwnn/js_lib/dic_lst.man
+patching file Wnn/man/3.libwnn/js_lib/dic_lst_a.man
+patching file Wnn/man/3.libwnn/js_lib/dic_use.man
+patching file Wnn/man/3.libwnn/js_lib/disconn.man
+patching file Wnn/man/3.libwnn/js_lib/env_exist.man
+patching file Wnn/man/3.libwnn/js_lib/env_list.man
+patching file Wnn/man/3.libwnn/js_lib/env_stick.man
+patching file Wnn/man/3.libwnn/js_lib/fl_com_s.man
+patching file Wnn/man/3.libwnn/js_lib/fl_disc.man
+patching file Wnn/man/3.libwnn/js_lib/fl_info.man
+patching file Wnn/man/3.libwnn/js_lib/fl_list.man
+patching file Wnn/man/3.libwnn/js_lib/fl_list_a.man
+patching file Wnn/man/3.libwnn/js_lib/fl_load.man
+patching file Wnn/man/3.libwnn/js_lib/fl_load_l.man
+patching file Wnn/man/3.libwnn/js_lib/fl_pswd_s.man
+patching file Wnn/man/3.libwnn/js_lib/fl_read.man
+patching file Wnn/man/3.libwnn/js_lib/fl_recv.man
+patching file Wnn/man/3.libwnn/js_lib/fl_rm.man
+patching file Wnn/man/3.libwnn/js_lib/fl_rm_cl.man
+patching file Wnn/man/3.libwnn/js_lib/fl_snd.man
+patching file Wnn/man/3.libwnn/js_lib/fl_stat.man
+patching file Wnn/man/3.libwnn/js_lib/fl_wrt.man
+patching file Wnn/man/3.libwnn/js_lib/fuz_get.man
+patching file Wnn/man/3.libwnn/js_lib/fuz_set.man
+patching file Wnn/man/3.libwnn/js_lib/hd_cr.man
+patching file Wnn/man/3.libwnn/js_lib/hd_cr_cl.man
+patching file Wnn/man/3.libwnn/js_lib/hindo_set.man
+patching file Wnn/man/3.libwnn/js_lib/hinsi_dct.man
+patching file Wnn/man/3.libwnn/js_lib/hinsi_lst.man
+patching file Wnn/man/3.libwnn/js_lib/hinsi_nm.man
+patching file Wnn/man/3.libwnn/js_lib/hinsi_num.man
+patching file Wnn/man/3.libwnn/js_lib/hinsi_t_s.man
+patching file Wnn/man/3.libwnn/js_lib/isconnect.man
+patching file Wnn/man/3.libwnn/js_lib/kanren.man
+patching file Wnn/man/3.libwnn/js_lib/kantan_d.man
+patching file Wnn/man/3.libwnn/js_lib/kantan_s.man
+patching file Wnn/man/3.libwnn/js_lib/kanzen_d.man
+patching file Wnn/man/3.libwnn/js_lib/kanzen_s.man
+patching file Wnn/man/3.libwnn/js_lib/kill.man
+patching file Wnn/man/3.libwnn/js_lib/mkdir.man
+patching file Wnn/man/3.libwnn/js_lib/open.man
+patching file Wnn/man/3.libwnn/js_lib/open_lang.man
+patching file Wnn/man/3.libwnn/js_lib/param_get.man
+patching file Wnn/man/3.libwnn/js_lib/set_lang.man
+patching file Wnn/man/3.libwnn/js_lib/version.man
+patching file Wnn/man/3.libwnn/js_lib/who.man
+patching file Wnn/man/3.libwnn/js_lib/word_add.man
+patching file Wnn/man/3.libwnn/js_lib/word_cm_s.man
+patching file Wnn/man/3.libwnn/js_lib/word_del.man
+patching file Wnn/man/3.libwnn/js_lib/word_info.man
+patching file Wnn/man/3.libwnn/js_lib/word_srch.man
+patching file Wnn/man/3.libwnn/misc_lib/msg_cl.man
+patching file Wnn/man/3.libwnn/misc_lib/msg_get.man
+patching file Wnn/man/3.libwnn/misc_lib/msg_open.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_clear.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_dspmd.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_getc.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_init.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_next.man
+patching file Wnn/man/3.libwnn/rk_lib/rk_ungetc.man
+patching file Wnn/man/4.cmd/jserver.man
+patching file Wnn/man/4.cmd/uum.man
+patching file Wnn/man/4.cmd/wnnkill.man
+patching file Wnn/man/4.cmd/wnnstat.man
+patching file Wnn/man/6.jutil/atod.man
+patching file Wnn/man/6.jutil/atof.man
+patching file Wnn/man/6.jutil/dtoa.man
+patching file Wnn/man/6.jutil/oldtonew.man
+patching file Wnn/man/6.jutil/wddel.man
+patching file Wnn/man/6.jutil/wdreg.man
+patching file Wnn/man/6.jutil/wnntouch.man
+patching file cWnn/man/1.intro/cst_end.man
+patching file cWnn/man/1.intro/cwnn.man
+patching file cWnn/man/2.env/cenv.man
+patching file cWnn/man/2.env/ckey.man
+patching file cWnn/man/4.cmd/cserver.man
+patching file cWnn/man/4.cmd/cuum.man
+patching file cWnn/man/4.cmd/cwnnkill.man
+patching file cWnn/man/4.cmd/cwnnstat.man
+patching file cWnn/man/6.jutil/catod.man
+patching file cWnn/man/6.jutil/catof.man
+patching file cWnn/man/6.jutil/cdicsort.man
+patching file cWnn/man/6.jutil/cdtoa.man
+patching file cWnn/man/6.jutil/cwddel.man
+patching file cWnn/man/6.jutil/cwdreg.man
+patching file cWnn/man/6.jutil/cwnntouch.man
+
+Applying patch debian/patches/1002-escape-hyphen-in-atod-manpage.patch
+patching file Wnn/man/6.jutil/atod.man
+
+Now at patch debian/patches/1002-escape-hyphen-in-atod-manpage.patch
+Allowed differences:
+  different: Wnn/include/msg.h
+  different: Wnn/jserver/de_header.h
+  different: Wnn/man/2.env/dic/pubdic.man
+  different: Wnn/man/2.env/dic/usr_dic.man
+  different: Wnn/man/2.env/wnn/2a_ctrl.man
+  different: Wnn/man/2.env/wnn/2b_romkan.man
+  different: Wnn/man/2.env/wnn/cvt_key.man
+  different: Wnn/man/2.env/wnn/fzk.data.man
+  different: Wnn/man/2.env/wnn/fzk.u.man
+  different: Wnn/man/2.env/wnn/hinsi_dat.man
+  different: Wnn/man/2.env/wnn/jserverrc.man
+  different: Wnn/man/2.env/wnn/mode.man
+  different: Wnn/man/2.env/wnn/serverdef.man
+  different: Wnn/man/2.env/wnn/ujis_dic.man
+  different: Wnn/man/2.env/wnn/uumkey.man
+  different: Wnn/man/2.env/wnn/uumrc.man
+  different: Wnn/man/2.env/wnn/wnnenvrc.man
+  different: Wnn/man/3.libwnn/jl_lib/bun_suu.man
+  different: Wnn/man/3.libwnn/jl_lib/c_zenko.man
+  different: Wnn/man/3.libwnn/jl_lib/close.man
+  different: Wnn/man/3.libwnn/jl_lib/connect.man
+  different: Wnn/man/3.libwnn/jl_lib/connect_lang.man
+  different: Wnn/man/3.libwnn/jl_lib/dai_top.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_add.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_com_s.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_del.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_list.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_save.man
+  different: Wnn/man/3.libwnn/jl_lib/dic_use.man
+  different: Wnn/man/3.libwnn/jl_lib/disconn.man
+  different: Wnn/man/3.libwnn/jl_lib/env.man
+  different: Wnn/man/3.libwnn/jl_lib/env_set.man
+  different: Wnn/man/3.libwnn/jl_lib/env_stick.man
+  different: Wnn/man/3.libwnn/jl_lib/fuz_get.man
+  different: Wnn/man/3.libwnn/jl_lib/fuz_set.man
+  different: Wnn/man/3.libwnn/jl_lib/get_kanji.man
+  different: Wnn/man/3.libwnn/jl_lib/get_zen_k.man
+  different: Wnn/man/3.libwnn/jl_lib/hinsi_dct.man
+  different: Wnn/man/3.libwnn/jl_lib/hinsi_lst.man
+  different: Wnn/man/3.libwnn/jl_lib/hinsi_nm.man
+  different: Wnn/man/3.libwnn/jl_lib/hinsi_num.man
+  different: Wnn/man/3.libwnn/jl_lib/inspect.man
+  different: Wnn/man/3.libwnn/jl_lib/isconnect.man
+  different: Wnn/man/3.libwnn/jl_lib/jiri_len.man
+  different: Wnn/man/3.libwnn/jl_lib/kanji_len.man
+  different: Wnn/man/3.libwnn/jl_lib/kill.man
+  different: Wnn/man/3.libwnn/jl_lib/next.man
+  different: Wnn/man/3.libwnn/jl_lib/nobi_conv.man
+  different: Wnn/man/3.libwnn/jl_lib/open.man
+  different: Wnn/man/3.libwnn/jl_lib/open_lang.man
+  different: Wnn/man/3.libwnn/jl_lib/param_get.man
+  different: Wnn/man/3.libwnn/jl_lib/ren_conv.man
+  different: Wnn/man/3.libwnn/jl_lib/set_env_w.man
+  different: Wnn/man/3.libwnn/jl_lib/set_jikou.man
+  different: Wnn/man/3.libwnn/jl_lib/tan_conv.man
+  different: Wnn/man/3.libwnn/jl_lib/update_hd.man
+  different: Wnn/man/3.libwnn/jl_lib/word_add.man
+  different: Wnn/man/3.libwnn/jl_lib/word_cm_s.man
+  different: Wnn/man/3.libwnn/jl_lib/word_del.man
+  different: Wnn/man/3.libwnn/jl_lib/word_info.man
+  different: Wnn/man/3.libwnn/jl_lib/word_srch.man
+  different: Wnn/man/3.libwnn/jl_lib/word_use.man
+  different: Wnn/man/3.libwnn/jl_lib/zenko.man
+  different: Wnn/man/3.libwnn/jl_lib/zenko_bun.man
+  different: Wnn/man/3.libwnn/jl_lib/zenko_da.man
+  different: Wnn/man/3.libwnn/jl_lib/zenko_dap.man
+  different: Wnn/man/3.libwnn/jl_lib/zenko_suu.man
+  different: Wnn/man/3.libwnn/js_lib/access.man
+  different: Wnn/man/3.libwnn/js_lib/close.man
+  different: Wnn/man/3.libwnn/js_lib/connect.man
+  different: Wnn/man/3.libwnn/js_lib/dic_add.man
+  different: Wnn/man/3.libwnn/js_lib/dic_cr.man
+  different: Wnn/man/3.libwnn/js_lib/dic_cr_cl.man
+  different: Wnn/man/3.libwnn/js_lib/dic_del.man
+  different: Wnn/man/3.libwnn/js_lib/dic_info.man
+  different: Wnn/man/3.libwnn/js_lib/dic_lst.man
+  different: Wnn/man/3.libwnn/js_lib/dic_lst_a.man
+  different: Wnn/man/3.libwnn/js_lib/dic_use.man
+  different: Wnn/man/3.libwnn/js_lib/disconn.man
+  different: Wnn/man/3.libwnn/js_lib/env_exist.man
+  different: Wnn/man/3.libwnn/js_lib/env_list.man
+  different: Wnn/man/3.libwnn/js_lib/env_stick.man
+  different: Wnn/man/3.libwnn/js_lib/fl_com_s.man
+  different: Wnn/man/3.libwnn/js_lib/fl_disc.man
+  different: Wnn/man/3.libwnn/js_lib/fl_info.man
+  different: Wnn/man/3.libwnn/js_lib/fl_list.man
+  different: Wnn/man/3.libwnn/js_lib/fl_list_a.man
+  different: Wnn/man/3.libwnn/js_lib/fl_load.man
+  different: Wnn/man/3.libwnn/js_lib/fl_load_l.man
+  different: Wnn/man/3.libwnn/js_lib/fl_pswd_s.man
+  different: Wnn/man/3.libwnn/js_lib/fl_read.man
+  different: Wnn/man/3.libwnn/js_lib/fl_recv.man
+  different: Wnn/man/3.libwnn/js_lib/fl_rm.man
+  different: Wnn/man/3.libwnn/js_lib/fl_rm_cl.man
+  different: Wnn/man/3.libwnn/js_lib/fl_snd.man
+  different: Wnn/man/3.libwnn/js_lib/fl_stat.man
+  different: Wnn/man/3.libwnn/js_lib/fl_wrt.man
+  different: Wnn/man/3.libwnn/js_lib/fuz_get.man
+  different: Wnn/man/3.libwnn/js_lib/fuz_set.man
+  different: Wnn/man/3.libwnn/js_lib/hd_cr.man
+  different: Wnn/man/3.libwnn/js_lib/hd_cr_cl.man
+  different: Wnn/man/3.libwnn/js_lib/hindo_set.man
+  different: Wnn/man/3.libwnn/js_lib/hinsi_dct.man
+  different: Wnn/man/3.libwnn/js_lib/hinsi_lst.man
+  different: Wnn/man/3.libwnn/js_lib/hinsi_nm.man
+  different: Wnn/man/3.libwnn/js_lib/hinsi_num.man
+  different: Wnn/man/3.libwnn/js_lib/hinsi_t_s.man
+  different: Wnn/man/3.libwnn/js_lib/isconnect.man
+  different: Wnn/man/3.libwnn/js_lib/kanren.man
+  different: Wnn/man/3.libwnn/js_lib/kantan_d.man
+  different: Wnn/man/3.libwnn/js_lib/kantan_s.man
+  different: Wnn/man/3.libwnn/js_lib/kanzen_d.man
+  different: Wnn/man/3.libwnn/js_lib/kanzen_s.man
+  different: Wnn/man/3.libwnn/js_lib/kill.man
+  different: Wnn/man/3.libwnn/js_lib/mkdir.man
+  different: Wnn/man/3.libwnn/js_lib/open.man
+  different: Wnn/man/3.libwnn/js_lib/open_lang.man
+  different: Wnn/man/3.libwnn/js_lib/param_get.man
+  different: Wnn/man/3.libwnn/js_lib/set_lang.man
+  different: Wnn/man/3.libwnn/js_lib/version.man
+  different: Wnn/man/3.libwnn/js_lib/who.man
+  different: Wnn/man/3.libwnn/js_lib/word_add.man
+  different: Wnn/man/3.libwnn/js_lib/word_cm_s.man
+  different: Wnn/man/3.libwnn/js_lib/word_del.man
+  different: Wnn/man/3.libwnn/js_lib/word_info.man
+  different: Wnn/man/3.libwnn/js_lib/word_srch.man
+  different: Wnn/man/3.libwnn/misc_lib/msg_cl.man
+  different: Wnn/man/3.libwnn/misc_lib/msg_get.man
+  different: Wnn/man/3.libwnn/misc_lib/msg_open.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_clear.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_dspmd.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_getc.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_init.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_next.man
+  different: Wnn/man/3.libwnn/rk_lib/rk_ungetc.man
+  different: Wnn/man/4.cmd/jserver.man
+  different: Wnn/man/4.cmd/uum.man
+  different: Wnn/man/4.cmd/wnnkill.man
+  different: Wnn/man/4.cmd/wnnstat.man
+  different: Wnn/man/6.jutil/atod.man
+  different: Wnn/man/6.jutil/atof.man
+  different: Wnn/man/6.jutil/dtoa.man
+  different: Wnn/man/6.jutil/oldtonew.man
+  different: Wnn/man/6.jutil/wddel.man
+  different: Wnn/man/6.jutil/wdreg.man
+  different: Wnn/man/6.jutil/wnntouch.man
+  different: cWnn/man/1.intro/cst_end.man
+  different: cWnn/man/1.intro/cwnn.man
+  different: cWnn/man/2.env/cenv.man
+  different: cWnn/man/2.env/ckey.man
+  different: cWnn/man/4.cmd/cserver.man
+  different: cWnn/man/4.cmd/cuum.man
+  different: cWnn/man/4.cmd/cwnnkill.man
+  different: cWnn/man/4.cmd/cwnnstat.man
+  different: cWnn/man/6.jutil/catod.man
+  different: cWnn/man/6.jutil/catof.man
+  different: cWnn/man/6.jutil/cdicsort.man
+  different: cWnn/man/6.jutil/cdtoa.man
+  different: cWnn/man/6.jutil/cwddel.man
+  different: cWnn/man/6.jutil/cwdreg.man
+  different: cWnn/man/6.jutil/cwnntouch.man
+  different: makerule.mk.in
+OK: no unexpected difference from GCC compatibility reference
+autoreconf: warning: autoconf input should be named 'configure.ac', not 'configure.in'
+aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
+libtoolize: putting auxiliary files in '.'.
+libtoolize: copying file './ltmain.sh'
+libtoolize: Consider adding 'AC_CONFIG_MACRO_DIRS([m4])' to configure.in,
+libtoolize: and rerunning libtoolize and aclocal.
+libtoolize: Consider adding '-I m4' to ACLOCAL_AMFLAGS in Makefile.am.
+aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
+configure.in:41: warning: The macro 'AC_CONFIG_HEADER' is obsolete.
+configure.in:41: You should run autoupdate.
+./lib/autoconf/status.m4:719: AC_CONFIG_HEADER is expanded from...
+configure.in:41: the top level
+configure.in:114: warning: The macro 'AC_ERROR' is obsolete.
+configure.in:114: You should run autoupdate.
+./lib/autoconf/oldnames.m4:34: AC_ERROR is expanded from...
+lib/m4sugar/m4sh.m4:697: AS_IF is expanded from...
+./lib/autoconf/general.m4:1534: AC_ARG_ENABLE is expanded from...
+configure.in:114: the top level
+configure.in:484: warning: The macro 'AC_PROG_LIBTOOL' is obsolete.
+configure.in:484: You should run autoupdate.
+aclocal.m4:114: AC_PROG_LIBTOOL is expanded from...
+configure.in:484: the top level
+configure.in:507: warning: The macro 'AC_HEADER_STDC' is obsolete.
+configure.in:507: You should run autoupdate.
+./lib/autoconf/headers.m4:663: AC_HEADER_STDC is expanded from...
+configure.in:507: the top level
+configure.in:509: warning: The macro 'AC_HEADER_TIME' is obsolete.
+configure.in:509: You should run autoupdate.
+./lib/autoconf/headers.m4:702: AC_HEADER_TIME is expanded from...
+configure.in:509: the top level
+configure.in:543: warning: The macro 'AC_TRY_RUN' is obsolete.
+configure.in:543: You should run autoupdate.
+./lib/autoconf/general.m4:2995: AC_TRY_RUN is expanded from...
+lib/m4sugar/m4sh.m4:697: AS_IF is expanded from...
+./lib/autoconf/libs.m4:100: AC_CHECK_LIB is expanded from...
+configure.in:543: the top level
+configure.in:577: warning: The macro 'AC_TRY_RUN' is obsolete.
+configure.in:577: You should run autoupdate.
+./lib/autoconf/general.m4:2995: AC_TRY_RUN is expanded from...
+configure.in:577: the top level
+configure.in:611: warning: The macro 'AC_HEADER_TIME' is obsolete.
+configure.in:611: You should run autoupdate.
+./lib/autoconf/headers.m4:702: AC_HEADER_TIME is expanded from...
+configure.in:611: the top level
+configure.in:639: warning: The macro 'AC_PROG_GCC_TRADITIONAL' is obsolete.
+configure.in:639: You should run autoupdate.
+./lib/autoconf/c.m4:1676: AC_PROG_GCC_TRADITIONAL is expanded from...
+configure.in:639: the top level
+configure.in:642: warning: The macro 'AC_TYPE_SIGNAL' is obsolete.
+configure.in:642: You should run autoupdate.
+./lib/autoconf/types.m4:805: AC_TYPE_SIGNAL is expanded from...
+configure.in:642: the top level
+configure.in:885: warning: The macro 'AC_TRY_LINK' is obsolete.
+configure.in:885: You should run autoupdate.
+./lib/autoconf/general.m4:2918: AC_TRY_LINK is expanded from...
+configure.in:885: the top level
+configure.in:978: warning: AC_OUTPUT should be used without arguments.
+configure.in:978: You should run autoupdate.
+autoheader: warning: autoconf input should be named 'configure.ac', not 'configure.in'
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking if we use traditional layout... yes
+checking if we install binaries on $(bindir)/Wnn4 (etc.)... yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+Set CDEBUGFLAGS and CCOPTIONS to following:
+  CDEBUGFLAGS=""
+    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_DEFAULT_SOURCE"
+checking how to run the C preprocessor... gcc -E
+checking cpp for text processing... gcc -E -traditional-cpp
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... yes
+checking how to print strings... printf
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for file... file
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for ranlib... ranlib
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for gawk... no
+checking for mawk... mawk
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for sys/time.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking for library containing crypt... -lcrypt
+checking for connect in -lsocket... no
+checking for getservbyname in -lbind... no
+checking for library containing gethostbyname... none required
+checking for openpty in -lutil... yes
+checking for egrep... (cached) /usr/bin/grep -E
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for fcntl.h... yes
+checking for syslog.h... yes
+checking for unistd.h... (cached) yes
+checking for utmp.h... yes
+checking for utmpx.h... yes
+checking for sys/file.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/time.h... (cached) yes
+checking for sys/types.h... (cached) yes
+checking for sys/param.h... yes
+checking for malloc.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for strings.h... (cached) yes
+checking for memory.h... yes
+checking for curses.h... yes
+checking for ncurses.h... yes
+checking for sgtty.h... yes
+checking for term.h... yes
+checking for termio.h... yes
+checking for termios.h... yes
+checking for termcap.h... yes
+checking for sys/termio.h... no
+checking for libutil.h... no
+checking --with-term-libs argument... automatic terminal library selection
+checking for tgetent in -lncurses... yes
+checking whether we talk terminfo... yes -- terminfo spoken here
+checking for mode_t... yes
+checking for socklen_t... yes
+checking for struct utmp.ut_user... yes
+checking for struct utmp.ut_name... yes
+checking for struct utmp.ut_id... yes
+checking return type of signal handlers... void
+checking for working memcmp... yes
+checking for getpgid... yes
+checking for getpgrp... yes
+checking for setpgrp... yes
+checking for wait3... yes
+checking whether getpgrp requires zero arguments... yes
+checking whether setpgrp requires zero arguments... yes
+checking for random... yes
+checking for drand48... yes
+checking for fchmod... yes
+checking for getopt... yes
+checking for killpg... yes
+checking for FD_SET... no
+checking for gethostname... yes
+checking for select... yes
+checking for socket... yes
+checking for closesocket... no
+checking for setsockopt... yes
+checking for send... yes
+checking for recv... yes
+checking for getdtablesize... yes
+checking for getrlimit... yes
+checking for syslog... yes
+checking for vsyslog... yes
+checking for setenv... yes
+checking for snprintf... yes
+checking for ptsname... yes
+checking for posix_openpt... yes
+checking for openpty... yes
+checking for pututxline... yes
+checking for pututline... yes
+checking for setsid... yes
+checking for bcopy... yes
+checking for bzero... yes
+checking for bcmp... yes
+checking for index... yes
+checking for rindex... yes
+checking for memcpy... yes
+checking for memmove... yes
+checking for memset... yes
+checking for strchr... yes
+checking for strrchr... yes
+checking for mkdir... yes
+checking for vasprintf... yes
+checking for /dev/ptmx... yes
+checking whether to use libwrap... try to find
+checking for tcpd.h... yes
+checking libwrap is working... yes
+creating Contrib/dic/gerodic ...
+configure: creating ./config.status
+config.status: creating makerule.mk
+config.status: WARNING:  '../makerule.mk.in' seems to ignore the --datarootdir setting
+config.status: creating Makefile
+config.status: creating Wnn/Makefile
+config.status: creating Wnn/conv/Makefile
+config.status: creating Wnn/include/Makefile
+config.status: creating Wnn/jd/Makefile
+config.status: creating Wnn/jd/rk/Makefile
+config.status: creating Wnn/jd/rk.vi/Makefile
+config.status: creating Wnn/jlib/Makefile
+config.status: creating Wnn/jlib.V3/Makefile
+config.status: creating Wnn/jserver/Makefile
+config.status: creating Wnn/jutil/Makefile
+config.status: creating Wnn/ld/Makefile
+config.status: creating Wnn/ld/rk/Makefile
+config.status: creating Wnn/romkan/Makefile
+config.status: creating Wnn/uum/Makefile
+config.status: creating Wnn/man/Makefile
+config.status: creating Wnn/man/2.env/Makefile
+config.status: creating Wnn/man/3.libwnn/Makefile
+config.status: creating Wnn/man/4.cmd/Makefile
+config.status: creating Wnn/man/6.jutil/Makefile
+config.status: creating Wnn/man/2.env/dic/Makefile
+config.status: creating Wnn/man/2.env/wnn/Makefile
+config.status: creating Wnn/man/3.libwnn/jl_lib/Makefile
+config.status: creating Wnn/man/3.libwnn/js_lib/Makefile
+config.status: creating Wnn/man/3.libwnn/misc_lib/Makefile
+config.status: creating Wnn/man/3.libwnn/rk_lib/Makefile
+config.status: creating Contrib/dic/gerodic/Makefile
+config.status: creating Wnn/pubdicplus/Makefile
+config.status: creating Wnn/wnncons/Makefile
+config.status: creating Wnn/wnncons/dic/Makefile
+config.status: creating cWnn/Makefile
+config.status: creating cWnn/conv/Makefile
+config.status: creating cWnn/etc/Makefile
+config.status: creating cWnn/cd/Makefile
+config.status: creating cWnn/cd/rk/Makefile
+config.status: creating cWnn/cd/rk_p/Makefile
+config.status: creating cWnn/cd/rk_z/Makefile
+config.status: creating cWnn/td/Makefile
+config.status: creating cWnn/td/rk/Makefile
+config.status: creating cWnn/td/rk_z/Makefile
+config.status: creating cWnn/td/rk_p/Makefile
+config.status: creating cWnn/include/Makefile
+config.status: creating cWnn/jlib/Makefile
+config.status: creating cWnn/jserver/Makefile
+config.status: creating cWnn/jutil/Makefile
+config.status: creating cWnn/man/Makefile
+config.status: creating cWnn/man/1.intro/Makefile
+config.status: creating cWnn/man/2.env/Makefile
+config.status: creating cWnn/man/4.cmd/Makefile
+config.status: creating cWnn/man/6.jutil/Makefile
+config.status: creating cWnn/romkan/Makefile
+config.status: creating cWnn/uum/Makefile
+config.status: creating cWnn/cdic/Makefile
+config.status: creating cWnn/tdic/Makefile
+config.status: creating kWnn/Makefile
+config.status: creating kWnn/conv/Makefile
+config.status: creating kWnn/etc/Makefile
+config.status: creating kWnn/include/Makefile
+config.status: creating kWnn/jlib/Makefile
+config.status: creating kWnn/jutil/Makefile
+config.status: creating kWnn/jserver/Makefile
+config.status: creating kWnn/kd/Makefile
+config.status: creating kWnn/kd/rk/Makefile
+config.status: creating kWnn/romkan/Makefile
+config.status: creating kWnn/uum/Makefile
+config.status: creating kWnn/kdic/Makefile
+config.status: creating config.h
+config.status: executing libtool commands
+making all in /tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn...
+make[1]: Entering directory '/tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn'
+make[1]: warning: -j2 forced in submake: resetting jobserver mode.
+making all in /tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn/jd...
+make[2]: Entering directory '/tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn/jd'
+make[2]: warning: -j2 forced in submake: resetting jobserver mode.
+Makefile:32: ../../../makerule.mk: No such file or directory
+make[2]: *** No rule to make target '../../../makerule.mk'.  Stop.
+make[2]: Leaving directory '/tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn/jd'
+make[1]: *** [../makerule.mk:282: all] Error 1
+make[1]: Leaving directory '/tmp/tmp.YLIXTRXAwL/candidate/build-c23/Wnn'
+make: *** [makerule.mk:282: all] Error 1
