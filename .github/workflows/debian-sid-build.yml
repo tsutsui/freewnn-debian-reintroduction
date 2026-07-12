@@ -1,0 +1,50 @@
+name: Debian sid build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: debian:sid
+    steps:
+      - name: Install checkout prerequisites
+        run: apt-get update && apt-get install -y git ca-certificates
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install build and test dependencies from debian/control
+        run: |
+          apt-get update
+          apt-get install -y build-essential devscripts equivs quilt lintian blhc locales
+          mk-build-deps --install --remove --tool 'apt-get -y --no-install-recommends' debian/control
+      - name: Reject generated configure patches and quilt fuzz
+        run: |
+          if grep -R -n -E '^(---|\+\+\+) (a/|b/)?configure([[:space:]]|$)' debian/patches/*.patch; then
+            exit 1
+          fi
+          QUILT_PATCHES=debian/patches quilt push -a --fuzz=0
+          QUILT_PATCHES=debian/patches quilt pop -a
+      - name: Build source and binary packages (including autoreconf)
+        run: |
+          git archive --format=tar.gz --prefix=freewnn-1.1.1~a023/ \
+            upstream/1.1.1_a023 >../freewnn_1.1.1~a023.orig.tar.gz
+          dpkg-buildpackage -us -uc -S
+          if ! dpkg-buildpackage -us -uc -b >../build.log 2>&1; then
+            cat ../build.log
+            exit 1
+          fi
+          cat ../build.log
+      - name: Run package checks
+        run: |
+          lintian ../freewnn_*.changes
+          blhc ../build.log
+      - name: Install Wnn packages and run public-header smoke test
+        run: |
+          printf '#!/bin/sh\nexit 101\n' >/usr/sbin/policy-rc.d
+          chmod 755 /usr/sbin/policy-rc.d
+          apt-get install -y ../freewnn-common_*.deb ../libwnn0t64_*.deb ../libwnn-dev_*.deb
+          debian/tests/libwnn-smoke
+      - name: Check dictionary generation in C and UTF-8 locales
+        run: debian/tests/dictionary-locales

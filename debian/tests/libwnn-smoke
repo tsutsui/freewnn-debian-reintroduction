@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+
+cat >"$tmp/smoke.c" <<'EOF'
+#include <wnn/jllib.h>
+
+int
+main(void)
+{
+  void (*volatile close_function)(struct wnn_buf *) = jl_close;
+  return close_function == 0;
+}
+EOF
+
+${CC:-cc} ${CPPFLAGS:-} ${CFLAGS:--O2 -Wall -Wextra} \
+  "$tmp/smoke.c" ${LDFLAGS:-} -lwnn -o "$tmp/smoke"
+"$tmp/smoke"

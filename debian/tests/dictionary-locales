@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+utf8_locale=
+for candidate in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8; do
+    if locale -a | grep -Fx "$candidate" >/dev/null; then
+        utf8_locale=$candidate
+        break
+    fi
+done
+[ -n "$utf8_locale" ] || {
+    echo "ERROR: no UTF-8 locale is available" >&2
+    exit 1
+}
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+dirs='Wnn/pubdicplus cWnn/cdic cWnn/tdic kWnn/kdic'
+
+build_and_measure()
+{
+    locale_name=$1
+    output=$2
+    for dir in $dirs; do
+        LC_ALL="$locale_name" make -C "$dir" clean all
+    done
+    find $dirs -maxdepth 1 -type f \
+        \( -name '*.dic' -o -name '*.fzk' -o -name '*.more' \) \
+        -printf '%p %s\n' | sort >"$output"
+    [ -s "$output" ] || {
+        echo "ERROR: dictionary build produced no testable files" >&2
+        exit 1
+    }
+}
+
+build_and_measure C "$tmp/C.sizes"
+build_and_measure "$utf8_locale" "$tmp/UTF-8.sizes"
+diff -u "$tmp/C.sizes" "$tmp/UTF-8.sizes"
+echo "Dictionary output sizes match under C and $utf8_locale"

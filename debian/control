@@ -4,9 +4,11 @@ Priority: optional
 Maintainer: Debian QA Group <packages@qa.debian.org>
 Build-Depends:
  debhelper-compat (= 13),
+ dh-autoreconf,
  dpkg-dev (>= 1.22.5),
  libncurses-dev,
-Standards-Version: 3.9.4
+Rules-Requires-Root: no
+Standards-Version: 4.7.2
 Homepage: https://osdn.net/projects/freewnn/
 
 Package: freewnn-common
@@ -134,7 +136,6 @@ Pre-Depends:
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
-Rules-Requires-Root: no
 Description: FreeWnn library for kWnn (FreeWnn kserver)
  FreeWnn kserver (kWnn) is an integrated Korean input system running
  on Unix workstation. It supports a wide range of input methods,

@@ -1,4 +1,26 @@
-freewnn (1.1.1~a021+cvs20130302-8) UNRELEASED; urgency=medium
+freewnn (1.1.1~a023-1) UNRELEASED; urgency=medium
+
+  * Reintroduction candidate based on upstream 1.1.1-a023.
+  * Preserve the binary package layout and the time_t transition package
+    names from 1.1.1~a021+cvs20130302-8.
+  * Replace the historical patch collection with a provenance-documented,
+    logically split quilt series for current C compilers.
+  * Regenerate the Autoconf output during the Debian build rather than
+    patching generated configure.
+  * Keep diagnostics enabled but non-fatal for legacy client message formats,
+    undeclared cross-file helpers, and callback pointer types pending broader
+    client and message-catalog audits.
+  * Avoid privileged ownership changes in the package staging directory so
+    Rules-Requires-Root remains accurate.
+  * Disable the obsolete uum utmp/setgid installation mode; terminal input
+    functionality remains enabled without privileged login accounting.
+  * Add deterministic installed-library and locale dictionary checks, plus
+    Debian sid continuous integration.
+  * Document the work still requiring an adopter and Debian review.
+
+ -- Debian QA Group <packages@qa.debian.org>  Sun, 12 Jul 2026 00:00:00 +0000
+
+freewnn (1.1.1~a021+cvs20130302-8) unstable; urgency=medium
 
   * QA upload.
   * Run wrap-and-sort -ast.

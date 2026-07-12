@@ -1,4 +1,6 @@
-Description: Run dictionary text filtering in the C locale.
+Description: Make dictionary generation locale-stable and pass build flags.
+ Run dictionary text filtering in the C locale. Pass CPPFLAGS to dictionary
+ preprocessing and LDFLAGS when linking its build helper, as required by blhc.
  Source commits: 1195a7660cd0ff31dbe0daec09210338126fa1bf
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/797242
@@ -9,6 +11,18 @@ diff --git a/Wnn/pubdicplus/Makefile.in b/Wnn/pubdicplus/Makefile.in
 index 001a22c..7d4e068 100644
 --- a/Wnn/pubdicplus/Makefile.in
 +++ b/Wnn/pubdicplus/Makefile.in
+@@ -329 +329 @@ std.fsrc: fzk.master-.c $(FZK_SRC)
+-	$(FZK_PP) fzk.master-.c > $@
++	$(FZK_PP) $(CPPFLAGS) fzk.master-.c > $@
+@@ -332 +332 @@ full.fsrc: fzk.master-.c $(FZK_SRC)
+-	$(FZK_PP) -DKANSAI fzk.master-.c > $@
++	$(FZK_PP) $(CPPFLAGS) -DKANSAI fzk.master-.c > $@
+@@ -335 +335 @@ kougo.fsrc: fzk.master-.c $(FZK_SRC)
+-	$(FZK_PP) -DKOUGO fzk.master-.c > $@
++	$(FZK_PP) $(CPPFLAGS) -DKOUGO fzk.master-.c > $@
+@@ -342 +342 @@ pod: pod.o
+-	$(CC) $(CFLAGS) -o $@ pod.o
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ pod.o
 @@ -353,7 +353,7 @@ $(WNNDICS): pod $(PUBDICPLUSSRC)/pubdic.p
  	$(ATOD) -h $(HINSI) $@ < $<
  
@@ -27,11 +41,11 @@ index 41bfcab..c5c7c1e 100644
  
  $(FULL):: $(FZK_SRCS) con.master-.c
 -	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.master-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
-+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
++	$(FZK_PP) $(CPPFLAGS) -I$(srcdir) $(FZK_FLAG) con.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
  
  $(FULLR):: $(FZK_SRCS) con.masterR-.c
 -	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
-+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
++	$(FZK_PP) $(CPPFLAGS) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
  
  # To avoid circular dependency, we don't use 'con.master?.c'
  con.master-.c: con.master
@@ -44,11 +58,11 @@ index 29327f7..1e4a713 100644
  
  $(FULL):: $(FZK_SRCS) con.master-.c
 -	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.master-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
-+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
++	$(FZK_PP) $(CPPFLAGS) -I$(srcdir) $(FZK_FLAG) con.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
  
  $(FULLR):: $(FZK_SRCS) con.masterR-.c
 -	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
-+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
++	$(FZK_PP) $(CPPFLAGS) -I$(srcdir) $(FZK_FLAG) con.masterR-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
  
  # To avoid circular dependency, we don't use 'con.master?.c'
  con.master-.c: con.master
@@ -61,7 +75,7 @@ index e326fdb..cf23ebd 100644
  
  $(FULL):: $(FZK_SRCS) fzk.master-.c
 -	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) fzk.master-.c | egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
-+	$(FZK_PP) -I$(srcdir) $(FZK_FLAG) fzk.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
++	$(FZK_PP) $(CPPFLAGS) -I$(srcdir) $(FZK_FLAG) fzk.master-.c | LC_ALL=C egrep -v '^(# |#line |#pragma |$$)' | $(ATOF) -h $(HINSI) $@
  
  # To avoid circular dependency, we don't use 'fzk.master.c'
  fzk.master-.c: fzk.master

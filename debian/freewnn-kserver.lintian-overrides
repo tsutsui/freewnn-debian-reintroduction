@@ -1,0 +1,7 @@
+# Service integration is an explicit adopter decision and upload blocker.
+freewnn-kserver: missing-systemd-service-for-init.d-script
+freewnn-kserver: init.d-script-does-not-source-init-functions
+# Preserve historical Korean encoding, tools, and mutable dictionaries.
+freewnn-kserver: national-encoding
+freewnn-kserver: no-manual-page
+freewnn-kserver: recursive-privilege-change

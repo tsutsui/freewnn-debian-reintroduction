@@ -1,0 +1,8 @@
+# Service integration is an explicit adopter decision and upload blocker.
+freewnn-jserver: missing-systemd-service-for-init.d-script
+freewnn-jserver: init.d-script-does-not-source-init-functions
+# Preserve historical Japanese manuals, encoding, and mutable dictionaries.
+freewnn-jserver: groff-message
+freewnn-jserver: national-encoding
+freewnn-jserver: no-english-manual-page
+freewnn-jserver: recursive-privilege-change
