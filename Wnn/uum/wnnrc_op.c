@@ -59,9 +59,6 @@
 #include "sheader.h"
 #include "wnn_os.h"
 
-extern int keyin2 ();
-
-
 void
 getfname (file, path)
      char *path, *file;

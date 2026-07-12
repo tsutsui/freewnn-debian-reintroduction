@@ -57,7 +57,6 @@ letter onescan FRWNN_PARAMS((letter**,letter*)),
 char *ename FRWNN_PARAMS((char*));
 
 extern letter *ltrgrow FRWNN_PARAMS((letter*,letter*)),
-  *ltrend FRWNN_PARAMS((letter*)),
   letterpick FRWNN_PARAMS((uns_chr**)),
   *ltr1cut FRWNN_PARAMS((letter*));
 extern char *chrcat FRWNN_PARAMS((char*,char)),
