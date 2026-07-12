@@ -75,7 +75,15 @@
 #  define SIGCHLD SIGCLD
 #endif
 
-typedef RETSIGTYPE (*intfnptr) ();
+#ifndef FRWNN_PARAMS
+# if __STDC__
+#  define FRWNN_PARAMS(paramlist)	paramlist
+# else
+#  define FRWNN_PARAMS(paramlist)	()
+# endif
+#endif
+
+typedef RETSIGTYPE (*intfnptr) FRWNN_PARAMS((int));
 
 /* Temporally place the number of filedescripters hack here. */
 #if HAVE_GETDTABLESIZE
