@@ -78,10 +78,13 @@ b8c95ad64da5de58857c72f4b3644d90c6e6e53c,
 Testing
 -------
 
-Run `debian/codex/tools/verify-task01-v2.sh` from the Task 1 checkout. It checks
-the exact series, whitespace, generated-configure exclusion, fuzz-free quilt
-application, comparison with the pinned full-client reference, autoreconf, and
-four parallel GNU C23 build profiles using the system default GCC.
+Run `tools/verify-task01-v2.sh` from the separately distributed v2 workbook.
+The workbook operates on the configured Task 1 checkout and checks the exact
+series, whitespace, generated-configure exclusion, fuzz-free quilt application,
+comparison with the pinned full-client reference, autoreconf, and four GNU C23
+build profiles using the system default GCC.  The verifier is deliberately not
+copied into the Debian source branch because it depends on the workbook's
+shared scripts and expected-data files.
 
 Unresolved work
 ---------------
