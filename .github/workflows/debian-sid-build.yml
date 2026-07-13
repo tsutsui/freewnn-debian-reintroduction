@@ -64,4 +64,8 @@ jobs:
           apt-get install -y ../freewnn-common_*.deb ../libwnn0t64_*.deb ../libwnn-dev_*.deb
           debian/tests/libwnn-smoke
       - name: Check dictionary generation in C and UTF-8 locales
-        run: debian/tests/dictionary-locales
+        run: |
+          QUILT_PATCHES=debian/patches quilt push -a --fuzz=0
+          grep -Fq 'static int kindcompar (const void *k1, const void *k2);' PubdicPlus/pod.c
+          grep -Fq 'SOURCE_DATE_EPOCH' Wnn/etc/bdic.c
+          debian/tests/dictionary-locales
