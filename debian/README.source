@@ -1,0 +1,91 @@
+FreeWnn source and patch provenance
+===================================
+
+This candidate no longer uses the Debian 1.1.1~a021+cvs20130302-8 source
+base. The upstream source is the FreeWnn 1.1.1-a023 tarball imported as
+1.1.1~a023 and recorded by reference/a023-base. The historical Debian
+packaging VCS through revision -5 is at reference/debian-packaging-2015;
+the imported -8 packaging is at debian/1.1.1_a021+cvs20130302-8. The GCC
+14/15 and C23 compatibility work is at reference/gcc15-main-20260711.
+
+Historical Debian patch disposition
+------------------------------------
+
+* newlayout was empty and is dropped.
+* makerules.mk.in is replaced by 1000-debian-filesystem-layout.patch.
+* man is split into 1001-fix-manpage-sections.patch and
+  1002-escape-hyphen-in-atod-manpage.patch.
+* hardening-flags is dropped because a023 propagates CPPFLAGS and LDFLAGS.
+* hurd_support.patch is refreshed as 0050-define-MAXPATHLEN-fallback.patch.
+* fix-parallel-build.patch is dropped because a023 has the fixed dependency.
+* egrep-a.patch is superseded by
+  0005-build-dictionaries-in-C-locale.patch.
+* implicit_functions.diff from -8 is replaced by the logical configure,
+  system-declaration, and prototype patches in this series.
+
+The patch-relevant -5 to -8 delta was: two DEP-3 fields added to
+egrep-a.patch; implicit_functions.diff added for Debian bug #1065772; and
+its series entry added. Other packaging changes are outside this task.
+
+Mixed source commit mapping
+---------------------------
+
+* a85b88729c2fa7d0a2ec542d737c5e19061c8a47: sort callbacks -> 0020;
+  jl_dic_add_e handlers -> 0022.
+* 17578cf34877cad67c465335afbf499b88cecce1: getopt -> 0011; redundant
+  bdic declarations -> 0012.
+* 915ecd5efe7a9ab09fc073c8131687184a45dfa4: internal sort interface ->
+  0020; direct qsort comparators -> 0021; jl_dic_add_e callbacks -> 0022;
+  other internal callbacks -> 0023; byte-buffer types -> 0025.
+* 9618769b8e758f537db180a9389c7ce10c536163: redundant declarations ->
+  0012; internal helpers -> 0023; signal handlers -> 0030; variadic out ->
+  0031.
+* 3cc4bf1f5fd9178741dd904612f2110a9470e86b: byte-buffer signedness ->
+  0025; the functional wnn_sStrncpy conversion-direction fix -> 0040.
+
+The GCC reference also removes redundant declarations in
+4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78,
+2666caef98cd982a09cf76a7c0504c005e38499e, and
+2ad54de02c15b48ded23805fb6f399cf9f2a37a2. They have the exact purpose of
+0012 and are recorded there to preserve the verified GCC reference tree.
+
+Full-client commit mapping
+--------------------------
+
+* 60984c64cdc7433d412392785117e7e1b11d3842 -> 0026.
+* 3c7a6ad4f424fd490eca1087cea9b2ae2243e1c9 -> 0027.
+* e509485a8e846206fbb162d08efdad153700953d -> 0028.
+* 0d441d336400bd11d602dd355a508eb0f674ec0f -> 0029.
+* 34d9736900e465fe0c6b00aaaf4d005a3eb76885 -> 0030.
+* ad810991e442e440d1f00fcabf30bc0c7be47de5 -> 0033.
+* d2da3d32c9e0ff56d9705b6d3e9bca66ee9a7a7d -> 0044.
+* 2666caef98cd982a09cf76a7c0504c005e38499e and
+  2ad54de02c15b48ded23805fb6f399cf9f2a37a2 -> 0012.
+* 26722b82bb7cbc1141a0621ba1d870e8f0c26e27 -> 0034.
+* f8e06ee3e8565c6d5508fd2bed614441fa39b7e8 -> 0045.
+* 0315820b4cd870617aa1b96252effb983f363fcb -> 0006 (`configure.in` only).
+* 597e838fc31b3a863a353a823fdd10132681e2e9 -> 0007 (`configure.in` only).
+
+Generated configure policy
+--------------------------
+
+Only configure.in changes are carried. Generated configure is excluded,
+including d2ce32b7afd3d79e810c08051c937106cbdf1332 and the configure halves of
+b8c95ad64da5de58857c72f4b3644d90c6e6e53c,
+0315820b4cd870617aa1b96252effb983f363fcb, and
+597e838fc31b3a863a353a823fdd10132681e2e9. Regenerate it with autoreconf.
+
+Testing
+-------
+
+Run `debian/codex/tools/verify-task01-v2.sh` from the Task 1 checkout. It checks
+the exact series, whitespace, generated-configure exclusion, fuzz-free quilt
+application, comparison with the pinned full-client reference, autoreconf, and
+four parallel GNU C23 build profiles using the system default GCC.
+
+Unresolved work
+---------------
+
+This task does not modernize general Debian packaging, complete copyright
+or policy review, establish an adopter or maintainer, or demonstrate upload
+readiness. Those require later human decisions and review.

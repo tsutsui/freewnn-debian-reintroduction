@@ -1,0 +1,202 @@
+Description: Give the internal sorting interface const-correct callback types.
+ Source commits: a85b88729c2fa7d0a2ec542d737c5e19061c8a47; 915ecd5efe7a9ab09fc073c8131687184a45dfa4
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/Wnn/include/jutil.h b/Wnn/include/jutil.h
+index f137c37..4e12ff2 100644
+--- a/Wnn/include/jutil.h
++++ b/Wnn/include/jutil.h
+@@ -40,6 +40,8 @@
+ #define FRWNN_PARAMS(paramlist)	()
+ #endif	/* __STDC__ */
+ 
++typedef int (*WNN_CompareFunc) FRWNN_PARAMS((const void *, const void *));
++
+ /* -- macro  -- */
+ /* ujisf.c  */
+ #define WNN_HINSI_LEN 4096
+@@ -86,17 +88,17 @@ extern void output_ujis FRWNN_PARAMS((register FILE *, int, int));
+ extern int init_heap FRWNN_PARAMS((int, int, int, int, FILE *));
+ extern void init_jeary FRWNN_PARAMS((void));
+ extern void exit1 FRWNN_PARAMS((void));
+-extern int sort_func_je FRWNN_PARAMS((char *, char *));
+-extern int sort_func_je_kanji FRWNN_PARAMS((char *, char *));
+-extern int sort_func FRWNN_PARAMS((register char *, register char *, int));
++extern int sort_func_je FRWNN_PARAMS((const void *, const void *));
++extern int sort_func_je_kanji FRWNN_PARAMS((const void *, const void *));
++extern int sort_func FRWNN_PARAMS((const void *, const void *, int));
+ extern void sort FRWNN_PARAMS((void));
+ extern void sort_if_not_sorted FRWNN_PARAMS((void));
+ extern void sort_kanji FRWNN_PARAMS((void));
+-extern void uniq_je FRWNN_PARAMS((int (*) ()));
++extern void uniq_je FRWNN_PARAMS((WNN_CompareFunc));
+ #ifdef nodef
+ extern int make_kanji_str FRWNN_PARAMS((register UCHAR *, register UCHAR *));
+ #endif	/* nodef  */
+-extern int Sorted FRWNN_PARAMS((register char *, register int, int, int (*) ()));
++extern int Sorted FRWNN_PARAMS((const void *, register int, int, WNN_CompareFunc));
+ extern int is_katakana FRWNN_PARAMS((register char *, register char *));
+ 
+ /* dic_head.c */
+diff --git a/Wnn/jutil/atod.c b/Wnn/jutil/atod.c
+index 2fb5025..96f70b5 100644
+--- a/Wnn/jutil/atod.c
++++ b/Wnn/jutil/atod.c
+@@ -76,7 +76,7 @@ static char *rcs_id = "$Id: atod.c,v 1.14 2013/09/02 11:01:39 itisango Exp $";
+ extern int wnn_loadhinsi FRWNN_PARAMS((unsigned char*)),
+   init_heap FRWNN_PARAMS((int,int,int,int,FILE*)),
+   little_endian FRWNN_PARAMS(()),
+-  Sorted FRWNN_PARAMS((register char*,register int,int,int (*sort_fun)(char*,char*))),
++  Sorted FRWNN_PARAMS((const void*,register int,int,WNN_CompareFunc)),
+   asshuku FRWNN_PARAMS((int)),
+   revdic FRWNN_PARAMS((struct JT *,int));
+ #ifdef CHINESE
+@@ -87,7 +87,7 @@ extern void ujis_header FRWNN_PARAMS((void));
+ extern void read_ujis FRWNN_PARAMS((int,int,int)),
+   reverse_yomi FRWNN_PARAMS((void)),
+   create_rev_dict FRWNN_PARAMS((void)),
+-  uniq_je FRWNN_PARAMS((int(*func)(char*,char*))),
++  uniq_je FRWNN_PARAMS((WNN_CompareFunc)),
+   sort_if_not_sorted FRWNN_PARAMS((void)),
+   output_header FRWNN_PARAMS((FILE*,struct JT*,struct wnn_file_head*)),
+   udytoS FRWNN_PARAMS((w_char*,int,char*,struct uind1*)),
+@@ -97,8 +97,8 @@ extern void read_ujis FRWNN_PARAMS((int,int,int)),
+   rev_short_fun FRWNN_PARAMS((w_char*)),
+   rev_w_char FRWNN_PARAMS((w_char*,int));
+ 
+-extern int sort_func_sdic FRWNN_PARAMS((char*,char*));
+-extern int sort_func_je FRWNN_PARAMS((char*,char*));
++extern int sort_func_sdic FRWNN_PARAMS((const void*,const void*));
++extern int sort_func_je FRWNN_PARAMS((const void*,const void*));
+ extern void set_cswidth FRWNN_PARAMS((register unsigned int));
+ 
+ static void ujistoud FRWNN_PARAMS((void)),
+@@ -573,12 +573,12 @@ yStrcmp (w_char* a, w_char*b)
+ }
+ 
+ int
+-sort_func_sdic (char* a, char* b)
++sort_func_sdic (const void* a, const void* b)
+ {
+   int tmp;
+   struct je *pa, *pb;
+-  pa = *((struct je **) a);
+-  pb = *((struct je **) b);
++  pa = *((struct je * const *) a);
++  pb = *((struct je * const *) b);
+   tmp = yStrcmp (pa->yomi, pb->yomi);
+   if (tmp)
+     return (tmp);
+@@ -595,9 +595,9 @@ sort_func_sdic (char* a, char* b)
+ static void
+ sdic_sort (void)
+ {
+-  if (!Sorted ((char *) jeary, (int) jt.maxserial, sizeof (struct je *), sort_func_sdic))
++  if (!Sorted (jeary, (int) jt.maxserial, sizeof (struct je *), sort_func_sdic))
+     {
+-      qsort ((char *) jeary, (int) jt.maxserial, sizeof (struct je *), sort_func_sdic);
++      qsort (jeary, (int) jt.maxserial, sizeof (struct je *), sort_func_sdic);
+     }
+ }
+ 
+diff --git a/Wnn/jutil/ujisf.c b/Wnn/jutil/ujisf.c
+index e3c4311..bf19ee1 100644
+--- a/Wnn/jutil/ujisf.c
++++ b/Wnn/jutil/ujisf.c
+@@ -716,27 +716,27 @@ sisheng_num (a, p)
+ 
+ int
+ sort_func_je (a, b)
+-     char *a, *b;
++     const void *a, *b;
+ {
+   return (sort_func (a, b, D_YOMI));
+ }
+ 
+ int
+ sort_func_je_kanji (a, b)
+-     char *a, *b;
++     const void *a, *b;
+ {
+   return (sort_func (a, b, D_KANJI));
+ }
+ 
+ int
+ sort_func (a, b, which)
+-     register char *a, *b;
++     const void *a, *b;
+      int which;
+ {
+   register int tmp;
+   register struct je *pa, *pb;
+-  pa = *((struct je **) a);
+-  pb = *((struct je **) b);
++  pa = *((struct je * const *) a);
++  pb = *((struct je * const *) b);
+   if (pa->hinsi == SAKUJO_HINSI)
+     {
+       if (pb->hinsi == SAKUJO_HINSI)
+@@ -808,13 +808,13 @@ sort_func (a, b, which)
+ void
+ sort ()
+ {
+-  qsort ((char *) jeary, jt.maxserial, sizeof (struct je *), sort_func_je);
++  qsort (jeary, jt.maxserial, sizeof (struct je *), sort_func_je);
+ }
+ 
+ void
+ sort_if_not_sorted ()
+ {
+-  if (!Sorted ((char *) jeary, jt.maxserial, sizeof (struct je *), sort_func_je))
++  if (!Sorted (jeary, jt.maxserial, sizeof (struct je *), sort_func_je))
+     {
+       sort ();
+     }
+@@ -823,12 +823,12 @@ sort_if_not_sorted ()
+ void
+ sort_kanji ()
+ {
+-  qsort ((char *) jeary, jt.maxserial, sizeof (struct je *), sort_func_je_kanji);
++  qsort (jeary, jt.maxserial, sizeof (struct je *), sort_func_je_kanji);
+ }
+ 
+ void
+ uniq_je (func)
+-     int (*func) ();
++     WNN_CompareFunc func;
+ {
+   int k;
+   struct je **prev, **jep;
+@@ -839,7 +839,7 @@ uniq_je (func)
+   for (k = 1; k < jt.maxserial; k++)
+     {
+       jep = &jeary[k];
+-      if (func ((char *) jep, (char *) prev) == 0)
++      if (func (jep, prev) == 0)
+         {
+           w_char tmp[LENGTHYOMI];
+           char tmp1[LENGTHYOMI];
+@@ -990,15 +990,16 @@ read_kanji_str_w (c, o)
+ 
+ int
+ Sorted (st, lc, size, sort_fun)
+-     register char *st;
++     const void *st;
+      register int lc;
+      int size;
+-     int (*sort_fun) ();
++     WNN_CompareFunc sort_fun;
+ {
+-  char *dst = st + size;
+-  for (lc--; lc > 0; lc--, st = dst, dst += size)
++  const char *src = st;
++  const char *dst = st + size;
++  for (lc--; lc > 0; lc--, src = dst, dst += size)
+     {
+-      if (sort_fun (st, dst) > 0)
++      if (sort_fun (src, dst) > 0)
+         {
+           return (0);
+         }

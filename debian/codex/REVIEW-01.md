@@ -1,18 +1,19 @@
-Review the current Task 1 branch against `debian/codex/PATCH-DESIGN.md`.
+# Task 1 v2 read-only review
 
-Do not edit files.
+Review the current Task 1 v2 branch without editing files. Inspect the exact
+35-patch series, DEP-3 metadata, current versus superseded SHAs, logical split,
+generated-configure exclusion, upstream-tree equality, unapplied source base,
+all four build profiles, verifier evidence, `.work/` tracking, and unchanged
+Maintainer/adopter stance.
 
-Inspect:
+Separate findings into Artifact findings and Procedure findings. Every
+unresolved Critical, High, Medium, or Low finding makes that category FAIL.
+Non-actionable observations belong under Notes.
 
-- every patch name and order
-- DEP-3 metadata
-- split mixed commits
-- generated configure exclusion
-- variadic patch separation
-- historical Debian patch disposition
-- fully patched tree comparison
-- deterministic verification log under `.work/logs/verify-task01.log`
+The final three non-empty lines must be exactly:
 
-Report findings by severity with exact file and patch references.
-State whether the branch is mechanically reviewable, but do not approve
-semantic correctness, licensing, maintainer adoption, or Debian upload.
+TASK1 ARTIFACT RESULT: PASS|FAIL — Critical=N High=N Medium=N Low=N
+TASK1 PROCEDURE RESULT: PASS|FAIL — Critical=N High=N Medium=N Low=N
+FINAL RESULT: PASS|FAIL
+
+FINAL PASS is allowed only when both category lines are PASS with all counts zero.

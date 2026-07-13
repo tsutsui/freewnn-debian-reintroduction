@@ -1,0 +1,48 @@
+Description: Define MAXPATHLEN where the platform does not provide it.
+ Use limits.h and PATH_MAX when available, with the historical 1024-byte
+ fallback. This refreshes the old Debian hurd_support.patch.
+ Historical packaging reference: 82eaf4f6daf49601c2f23cda13c0f868ac458fe3.
+ Source commits: no upstream source commit.
+Author: Hideki Yamane <henrich@debian.org>
+Origin: vendor
+Forwarded: no
+Last-Update: 2026-07-12
+
+--- a/Wnn/include/msg.h
++++ b/Wnn/include/msg.h
+@@ -41,6 +41,16 @@
+ #include <sys/param.h>
+ #endif
+ 
++#include <limits.h>
++
++#ifndef MAXPATHLEN
++#ifdef PATH_MAX
++#define MAXPATHLEN PATH_MAX
++#else
++#define MAXPATHLEN 1024
++#endif
++#endif
++
+ struct msg_bd
+ {
+   int msg_id;
+--- a/Wnn/jserver/de_header.h
++++ b/Wnn/jserver/de_header.h
+@@ -63,6 +63,16 @@
+ #include "etc.h"
+ #include "kaiseki.h"
+ 
++#include <limits.h>
++
++#ifndef MAXPATHLEN
++#ifdef PATH_MAX
++#define MAXPATHLEN PATH_MAX
++#else
++#define MAXPATHLEN 1024
++#endif
++#endif
++
+ #define FILENAME 128
+ #define SUCCESS 1
+ #define FAILURE NULL

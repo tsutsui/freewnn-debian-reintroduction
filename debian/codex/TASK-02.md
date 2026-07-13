@@ -1,114 +1,42 @@
-# Task 2 — prepare the Debian unstable reintroduction candidate
+# Task 2 v2 — prepare the Debian unstable reintroduction candidate
 
-Work on the branch already checked out. It is stacked on Task 1.
-Do not create, switch, push, or rewrite branches.
+Work only on the checked-out Task 2 v2 branch stacked on the reviewed Task 1
+commit. Do not create, switch, commit, push, merge, or rewrite branches.
 
-Read and obey:
+## Hard phase boundary
 
-- `/AGENTS.md`
-- `debian/codex/PATCH-DESIGN.md`
-- `debian/README.source`
+Task 2 must not modify `debian/patches/`, generated `configure`, or any upstream
+source outside `debian/`. If a build exposes an upstream or Task 1 defect, stop
+and end with `BLOCKED: UPSTREAM_OR_TASK1`; do not repair it here.
 
-## Goal
+Requirements: version `1.1.1~a023-1`, `UNRELEASED`, existing t64 names/package
+split, autoreconf during Debian builds, Debian QA Group Maintainer pending an
+adopter, and explicit service/adoption/upload blockers.
 
-Prepare a buildable, reviewable technical candidate for Debian unstable.
-This is not an upload, ITP, RFP submission, or maintainer commitment.
+## Compiler-mode boundary
 
-## Packaging requirements
+GNU C23 forcing belongs only to the external upstream and Task 1 portability
+verification. Debian source/binary package builds, GitHub Actions package
+builds, and `libwnn-smoke` must use the distribution default C language mode.
+Do not add `-std=gnu23`, `-std=gnu2x`, `-std=c23`, or `-std=c2x` to
+`debian/rules`, `DEB_CFLAGS_*`, workflow environment/commands, or test helpers.
+Do not inherit the workbook's `C_STD_FLAG` into package builds. This boundary is
+required so the source package remains backportable to distributions whose
+compiler default is older than GNU C23.
 
-- Version: `1.1.1~a023-1`
-- Distribution: `UNRELEASED`
-- Preserve t64 binary package names and the `-8` transition state.
-- Modernize only what current Debian unstable needs to build.
-- Run autoreconf during Debian build.
-- Do not patch generated `configure`.
-- Retain existing language functionality.
-- Do not redesign package split without a documented blocker.
-- Do not set the repository owner as Maintainer.
-- Mark Maintainer/adopter selection as an upload blocker.
-- Do not guess about init/systemd policy; record a blocker if a choice is
-  required.
+Create a Debian sid workflow triggered by pull requests/pushes and by
+`workflow_dispatch`, whose step names exactly match `TASK02-ACTIONS-STEPS-v2.txt`. It must execute source build, binary build,
+lintian, blhc, package extraction/installation, public-header compile/link/run,
+and substantive C-versus-UTF-8 dictionary comparison.
 
-## CI and testing
+Create executable helpers:
 
-Create `.github/workflows/debian-sid-build.yml` using a Debian sid
-environment.
+- `debian/tests/libwnn-smoke ROOT CC`: compile, link, and execute against the extracted package root;
+- `debian/tests/dictionary-locales`: perform clean C and UTF-8 builds and compare substantive output content, not names/sizes alone. Use canonical text or narrowly documented normalization if volatile binary metadata exists.
 
-It must:
+Do not claim any test passed unless it ran in the final successful execution.
+Update normal Debian documentation and adoption/RFP drafts. Before completion,
+remove root `AGENTS.md` and tracked `debian/codex/`; never add `.work/`.
 
-- install build dependencies from `debian/control`
-- apply the quilt series without fuzz
-- run autoreconf through the package build
-- build source and binary packages
-- run lintian
-- run blhc
-- install generated Wnn runtime/development packages as needed
-- compile, link, and execute a public-header `libwnn-dev` smoke test
-- run dictionary generation under available C and UTF-8 locales
-- fail if a quilt patch changes generated `configure`
-
-Add deterministic local helper scripts under `debian/tests/` or
-`debian/scripts/` where appropriate. Do not add an autopkgtest that is
-not actually deterministic.
-
-A jserver runtime test is optional only when it can avoid privileged
-ports, external network access, and persistent system state. Otherwise
-document why it remains missing.
-
-Do not claim Mule 1.1 testing unless it was really performed.
-
-## Documentation
-
-Create or update:
-
-- `debian/README.source`
-- `debian/ADOPTION.md`
-- `debian/RFP-draft.txt`
-
-`ADOPTION.md` must state:
-
-- completed technical work
-- exact tests
-- remaining Debian maintainer work
-- expected low but nonzero maintenance burden
-- repository owner may assist with upstream C portability and Mule
-  compatibility
-- repository owner does not commit to Debian maintenance or uploads
-
-`RFP-draft.txt` is only a draft and must not be submitted.
-
-## Cleanup
-
-Before completion:
-
-- remove root `AGENTS.md`
-- remove `debian/codex/`
-- preserve durable information in normal Debian documentation
-- never add `.work/` or credentials
-
-The task prompt has already been loaded, so removing these temporary files
-at the end is expected.
-
-## Verification
-
-Use the normal build and test commands available in the repository.
-The wrapper will later install the updated build dependencies and run the
-external deterministic Task 2 verifier.
-
-## Output
-
-Write a draft stacked PR body to:
-
-```text
-.work/reports/task02-pr.md
-```
-
-Include:
-
-- packaging changes
-- CI design
-- commands run
-- tests passed
-- tests failed/skipped
-- remaining human decisions
-- explicit no-maintainer/no-upload statement
+Write `.work/reports/task02-v2-pr.md` with exact passed/failed/skipped checks and
+no-maintainer/no-upload statement. Do not commit or push.

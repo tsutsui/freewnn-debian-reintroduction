@@ -1,0 +1,73 @@
+Description: Use valid declarations and system headers in bundled getopt.
+ Source commits: b59c2fc9bf5d301c8dce484f637ec506ac36fb7c; 17578cf34877cad67c465335afbf499b88cecce1
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/Wnn/include/getopt.h b/Wnn/include/getopt.h
+index cb5feba..30e4edb 100644
+--- a/Wnn/include/getopt.h
++++ b/Wnn/include/getopt.h
+@@ -112,7 +112,7 @@ struct option
+ extern int getopt (int argc, char *const *argv, const char *shortopts);
+ #else /* not __GNU_LIBRARY__ */
+ # if !defined (HAVE_DECL_GETOPT)
+-extern int getopt ();
++extern int getopt (int argc, char *const *argv, const char *shortopts);
+ # endif
+ #endif /* __GNU_LIBRARY__ */
+ extern int getopt_long (int argc, char *const *argv, const char *shortopts,
+diff --git a/Wnn/etc/getopt.c b/Wnn/etc/getopt.c
+index 2402a39..5377810 100644
+--- a/Wnn/etc/getopt.c
++++ b/Wnn/etc/getopt.c
+@@ -62,15 +62,12 @@
+ 
+ #ifndef ELIDE_CODE
+ 
+-
+-/* This needs to come after some library #include
+-   to get __GNU_LIBRARY__ defined.  */
+-#ifdef	__GNU_LIBRARY__
+-/* Don't include stdlib.h for non-GNU C libraries because some of them
+-   contain conflicting prototypes for getopt.  */
++#ifdef HAVE_STDLIB_H
+ # include <stdlib.h>
++#endif
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+-#endif	/* GNU C library.  */
++#endif
+ 
+ #ifdef VMS
+ # include <unixlib.h>
+@@ -212,10 +209,6 @@ static char *posixly_correct;
+ /* Avoid depending on library functions or files
+    whose names are inconsistent.  */
+ 
+-#ifndef getenv
+-extern char *getenv ();
+-#endif
+-
+ static char *
+ my_index (str, chr)
+      const char *str;
+@@ -230,18 +223,6 @@ my_index (str, chr)
+   return 0;
+ }
+ 
+-/* If using GCC, we can safely declare strlen this way.
+-   If not using GCC, it is ok not to declare it.  */
+-#ifdef __GNUC__
+-/* Note that Motorola Delta 68k R3V7 comes with GCC but not stddef.h.
+-   That was relevant to code that was here before.  */
+-# if (!defined __STDC__ || !__STDC__) && !defined strlen
+-/* gcc with -traditional declares the built-in strlen to return int,
+-   and has done so at least since version 2.4.5. -- rms.  */
+-extern int strlen (const char *);
+-# endif /* not __STDC__ */
+-#endif /* __GNUC__ */
+-
+ #endif /* not __GNU_LIBRARY__ */
+ 
+ /* Handle permutation of arguments.  */

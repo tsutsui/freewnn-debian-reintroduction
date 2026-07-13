@@ -1,0 +1,50 @@
+Description: Add prototypes for uum utility callbacks.
+ Source commits: ad810991e442e440d1f00fcabf30bc0c7be47de5
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-13
+
+diff --git a/Wnn/uum/jutil.c b/Wnn/uum/jutil.c
+index cb90efb..1117ad5 100644
+--- a/Wnn/uum/jutil.c
++++ b/Wnn/uum/jutil.c
+@@ -373,7 +373,7 @@ select_one_dict1 (tbl)
+ 
+ int
+ print_msg1 (X)
+-     char *X;
++     const char *X;
+ {
+   int ans;
+   push_cursor ();
+@@ -566,7 +566,7 @@ yes_or_no (string)
+ 
+ int
+ yes_or_no_or_newline (string)
+-     char *string;
++     const char *string;
+ {
+   int x;
+   throw_c (0);
+diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
+index 560e429..de5636c 100644
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -380,7 +380,7 @@ extern int w_putchar (w_char);
+ extern void w_sttost ();
+ extern int wchartochar (w_char *, UCHAR *);
+ extern int yes_or_no (const char *);
+-extern int yes_or_no_or_newline (char *);
++extern int yes_or_no_or_newline (const char *);
+ extern int zenkouho_dai_c (int, int);
+ extern void find_yomi_for_kanji (w_char *, w_char *);
+ extern int check_vst ();
+@@ -418,7 +418,7 @@ extern int call_jl_yomi_len ();
+ /* extern int through (char *, char *, int);  */
+ extern int sStrcpy (UCHAR *, w_char *);
+ extern int Sstrcpy (register w_char *, register UCHAR *);
+-extern char *sStrncpy ();
++extern char *sStrncpy (UCHAR *, w_char *, int);
+ extern w_char *Strcat (register w_char *, register w_char *);
+ extern w_char *Strncat (register w_char *, register w_char *, register int);
+ extern int Strncmp (register w_char *, register w_char *, register int);

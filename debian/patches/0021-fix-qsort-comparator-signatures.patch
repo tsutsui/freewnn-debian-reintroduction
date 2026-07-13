@@ -1,0 +1,282 @@
+Description: Use the standard qsort comparator signature at direct call sites.
+ Source commits: 915ecd5efe7a9ab09fc073c8131687184a45dfa4
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/PubdicPlus/pod.c b/PubdicPlus/pod.c
+index 009daa7..9b4c43f 100644
+--- a/PubdicPlus/pod.c
++++ b/PubdicPlus/pod.c
+@@ -154,7 +154,7 @@ static struct descpack *searchdesc (Wchar *hin);
+ static void store_description (void);
+ static long internkind (Wchar *s);
+ static void listkinds (void);
+-static int kindcompar (struct kindpack *k1, struct kindpack *k2);
++static int kindcompar (const void *k1, const void *k2);
+ static void sortkind (void);
+ static struct dicpack *intern (int key, Wchar *yomi, Wchar *kouho, Wchar *hinshi, int hindo, long kind, int *stat, long flags);
+ static void storepd (FILE *file);
+@@ -163,8 +163,8 @@ static void canna_output (FILE *cf, struct dicpack *p, Wchar *h, int n);
+ static void entry_out (FILE *cf, struct dicpack *p, Wchar *h, int n, Wchar *ex);
+ static void printentry (FILE *cf, struct dicpack *p);
+ static void showentry (struct dicpack **pd, int n);
+-static int diccompar (struct dicpack **p1, struct dicpack **p2);
+-static int dichindocompar (struct dicpack **p1, struct dicpack **p2);
++static int diccompar (const void *p1, const void *p2);
++static int dichindocompar (const void *p1, const void *p2);
+ void shrinkargs (char **argv, int n, int count);
+ static void parseargs (int argc, char *argv[]);
+ #endif
+@@ -823,9 +823,11 @@ listkinds ()
+ 
+ static int
+ kindcompar (k1, k2)
+-     struct kindpack *k1, *k2;
++     const void *k1, *k2;
+ {
+-  return Wscmp (k1->kind, k2->kind);
++  const struct kindpack *kp1 = k1;
++  const struct kindpack *kp2 = k2;
++  return Wscmp (kp1->kind, kp2->kind);
+ }
+ 
+ static void
+@@ -1365,18 +1367,20 @@ showentry (pd, n)
+ 
+ static int
+ diccompar (p1, p2)
+-     struct dicpack **p1, **p2;
++     const void *p1, *p2;
+ {
+   int n;
+-  if (n = Wscmp ((*p1)->yomi, (*p2)->yomi))
++  const struct dicpack * const *dp1 = p1;
++  const struct dicpack * const *dp2 = p2;
++  if (n = Wscmp ((*dp1)->yomi, (*dp2)->yomi))
+     {
+       return n;
+     }
+-  else if (n = Wscmp ((*p1)->tango, (*p2)->tango))
++  else if (n = Wscmp ((*dp1)->tango, (*dp2)->tango))
+     {
+       return n;
+     }
+-  else if (n = Wscmp ((*p1)->hinshi->hinshi, (*p2)->hinshi->hinshi))
++  else if (n = Wscmp ((*dp1)->hinshi->hinshi, (*dp2)->hinshi->hinshi))
+     {
+       return n;
+     }
+@@ -1388,22 +1392,24 @@ diccompar (p1, p2)
+ 
+ static int
+ dichindocompar (p1, p2)
+-     struct dicpack **p1, **p2;
++     const void *p1, *p2;
+ {
+   int n;
+-  if (n = Wscmp ((*p1)->yomi, (*p2)->yomi))
++  const struct dicpack * const *dp1 = p1;
++  const struct dicpack * const *dp2 = p2;
++  if (n = Wscmp ((*dp1)->yomi, (*dp2)->yomi))
+     {
+       return n;
+     }
+-  else if (n = ((*p2)->hindo - (*p1)->hindo))
++  else if (n = ((*dp2)->hindo - (*dp1)->hindo))
+     {
+       return n;
+     }
+-  else if (n = Wscmp ((*p1)->tango, (*p2)->tango))
++  else if (n = Wscmp ((*dp1)->tango, (*dp2)->tango))
+     {
+       return n;
+     }
+-  else if (n = Wscmp ((*p1)->hinshi->hinshi, (*p2)->hinshi->hinshi))
++  else if (n = Wscmp ((*dp1)->hinshi->hinshi, (*dp2)->hinshi->hinshi))
+     {
+       return n;
+     }
+diff --git a/Wnn/jlib/jl.c b/Wnn/jlib/jl.c
+index c761671..73e9528 100644
+--- a/Wnn/jlib/jl.c
++++ b/Wnn/jlib/jl.c
+@@ -2623,17 +2623,19 @@ jl_dic_list_e (env, dicinfo)
+ 
+ static int
+ sort_func_ws (a, b)
+-     register char *a, *b;
++     const void *a, *b;
+ {
+   int ah, bh, ai, bi, iah, ibh, iai, ibi;
+-  ah = ((struct wnn_jdata *) a)->hindo;
+-  bh = ((struct wnn_jdata *) b)->hindo;
+-  iah = ((struct wnn_jdata *) a)->int_hindo;
+-  ibh = ((struct wnn_jdata *) b)->int_hindo;
+-  ai = ((struct wnn_jdata *) a)->ima;
+-  bi = ((struct wnn_jdata *) b)->ima;
+-  iai = ((struct wnn_jdata *) a)->int_ima;
+-  ibi = ((struct wnn_jdata *) b)->int_ima;
++  const struct wnn_jdata *ja = a;
++  const struct wnn_jdata *jb = b;
++  ah = ja->hindo;
++  bh = jb->hindo;
++  iah = ja->int_hindo;
++  ibh = jb->int_hindo;
++  ai = ja->ima;
++  bi = jb->ima;
++  iai = ja->int_ima;
++  ibi = jb->int_ima;
+ 
+   if (ai == WNN_IMA_OFF && ah == WNN_ENTRY_NO_USE)
+     return (1);
+@@ -2677,7 +2679,7 @@ jl_word_search_e (env, dic_no, yomi, jdp)
+     if_dead_disconnect (env, -1);
+   jd = (struct wnn_jdata *) wordrb.buf;
+ /*    for(cnt = 0 ; jd[cnt].dic_no != -1; cnt++); */
+-  qsort ((char *) jd, cnt, sizeof (struct wnn_jdata), sort_func_ws);
++  qsort (jd, cnt, sizeof (struct wnn_jdata), sort_func_ws);
+   *jdp = jd;
+   return (cnt);
+ }
+@@ -2696,7 +2698,7 @@ jl_word_search_by_env_e (env, yomi, jdp)
+     if_dead_disconnect (env, -1);
+   jd = (struct wnn_jdata *) wordrb.buf;
+ /*    for(cnt = 0 ; jd[cnt].dic_no != -1; cnt++); */
+-  qsort ((char *) jd, cnt, sizeof (struct wnn_jdata), sort_func_ws);
++  qsort (jd, cnt, sizeof (struct wnn_jdata), sort_func_ws);
+   *jdp = jd;
+   return (cnt);
+ }
+diff --git a/Wnn/jserver/jikouho.c b/Wnn/jserver/jikouho.c
+index 6dd27f4..74bc2ac 100644
+--- a/Wnn/jserver/jikouho.c
++++ b/Wnn/jserver/jikouho.c
+@@ -49,7 +49,7 @@
+ #include        "kaiseki.h"
+ 
+ static struct JKT_SBN *find_jktsbn (struct JKT_SBN **, struct JKT_SONE *, int, int j_c);
+-static int cmp_dsd_sbn (struct DSD_SBN *, struct DSD_SBN *);
++static int cmp_dsd_sbn (const void *, const void *);
+ static int cnt_jkt_sbn (register struct JKT_SBN *sbn);
+ static int get_suuji_kouho (register struct JKT_SBN *);
+ static int get_eisuu_kouho (struct JKT_SBN *);
+@@ -471,16 +471,18 @@ jkt_get_syo (yomi_sno, yomi_eno, beginvect, fzkchar, endvect, endvect1, dsd_sbn)
+       freejktsbn (jktsbn);
+       jktsbn = next_sbn;
+     }
+-  qsort ((char *) *dsd_sbn, cnt, sizeof (struct DSD_SBN), cmp_dsd_sbn);
++  qsort (*dsd_sbn, cnt, sizeof (struct DSD_SBN), cmp_dsd_sbn);
+   return (cnt);
+ }
+ 
+ static int
+ cmp_dsd_sbn (sbn1, sbn2)
+-     struct DSD_SBN *sbn1;
+-     struct DSD_SBN *sbn2;
++     const void *sbn1;
++     const void *sbn2;
+ {
+-  return (sbn2->v_jc - sbn1->v_jc);
++  const struct DSD_SBN *p1 = sbn1;
++  const struct DSD_SBN *p2 = sbn2;
++  return (p2->v_jc - p1->v_jc);
+ }
+ 
+ static int
+diff --git a/Wnn/jserver/jikouho_d.c b/Wnn/jserver/jikouho_d.c
+index 12c04dc..7979c1e 100644
+--- a/Wnn/jserver/jikouho_d.c
++++ b/Wnn/jserver/jikouho_d.c
+@@ -60,7 +60,7 @@ static void sons_set (register struct JKT_DBN *, register struct JKT_SONE *, reg
+ static void dsd_hyouka (struct DSD_DBN *);
+ static void cnt_sbn (register struct JKT_SBN *, register int *, register int *);
+ static void cnt_dbn (register struct JKT_DBN *, register int *dbn_cnt, register int *sbn_cnt);
+-static int cmp_dsd_dbn (struct DSD_DBN *, struct DSD_DBN *);
++static int cmp_dsd_dbn (const void *, const void *);
+ static int jkt_dbn (int, int, int,
+ #ifndef NO_FZK
+ 		    w_char *,
+@@ -136,16 +136,18 @@ jkt_get_dai (yomi_sno, yomi_eno, beginvect, fzkchar, endvect, endvect1, nmax, ds
+         dbn->v_jc = DIVID_HYOUKA (dbn->v_jc, divid);
+     }
+   /* SORT */
+-  qsort ((char *) *dsd_dbn, cnt, sizeof (struct DSD_DBN), cmp_dsd_dbn);
++  qsort (*dsd_dbn, cnt, sizeof (struct DSD_DBN), cmp_dsd_dbn);
+   return (cnt);
+ }
+ 
+ static int
+ cmp_dsd_dbn (dbn1, dbn2)
+-     struct DSD_DBN *dbn1;
+-     struct DSD_DBN *dbn2;
++     const void *dbn1;
++     const void *dbn2;
+ {
+-  return (dbn2->v_jc - dbn1->v_jc);
++  const struct DSD_DBN *p1 = dbn1;
++  const struct DSD_DBN *p2 = dbn2;
++  return (p2->v_jc - p1->v_jc);
+ }
+ 
+ static void
+diff --git a/Wnn/jutil/atof.c b/Wnn/jutil/atof.c
+index 7e1aba4..22ac6ca 100644
+--- a/Wnn/jutil/atof.c
++++ b/Wnn/jutil/atof.c
+@@ -596,15 +596,18 @@ read_id ()
+ 
+ static int
+ sort_func_id (a, b)
+-     char *a, *b;
++     const void *a, *b;
+ {
+-  return (strcmp (((struct id_struct *) a)->str, ((struct id_struct *) b)->str));
++  const struct id_struct *ia = a;
++  const struct id_struct *ib = b;
++
++  return (strcmp (ia->str, ib->str));
+ }
+ 
+ static void
+ sort_id ()
+ {
+-  qsort ((char *) &id[0], id_num, sizeof (struct id_struct), sort_func_id);
++  qsort (&id[0], id_num, sizeof (struct id_struct), sort_func_id);
+ }
+ 
+ #ifdef nodef
+@@ -741,17 +744,20 @@ bsch (c, st, end)
+ #ifndef NO_FZK
+ static int
+ sort_func_fz (a, b)
+-     char *a, *b;
++     const void *a, *b;
+ {
+   int c;
++  /* XXX may cause -Wcast-qual but wnn_Strcmp() should be fixed to take const */
++  struct fuzokugo *fa = (struct fuzokugo *)a;
++  struct fuzokugo *fb = (struct fuzokugo *)b;
+ 
+-  if ((c = wnn_Strcmp (((struct fuzokugo *) a)->y, ((struct fuzokugo *) b)->y)) == 0)
++  if ((c = wnn_Strcmp (fa->y, fb->y)) == 0)
+     {
+-      if (((struct fuzokugo *) a)->hinsi > ((struct fuzokugo *) b)->hinsi)
++      if (fa->hinsi > fb->hinsi)
+         {
+           return (1);
+         }
+-      else if (((struct fuzokugo *) a)->hinsi < ((struct fuzokugo *) b)->hinsi)
++      else if (fa->hinsi < fb->hinsi)
+         {
+           return (-1);
+         }
+@@ -763,7 +769,7 @@ sort_func_fz (a, b)
+ static void
+ sort ()
+ {
+-  qsort ((char *) &fz[0], fz_num, sizeof (struct fuzokugo), sort_func_fz);
++  qsort (&fz[0], fz_num, sizeof (struct fuzokugo), sort_func_fz);
+ }
+ #endif /* NO_FZK */
+ 

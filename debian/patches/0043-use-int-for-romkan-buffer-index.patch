@@ -1,0 +1,19 @@
+Description: Use int for the romkan buffer index used to subscript character data.
+ Source commits: dc4ae760fa346a6e2cadf81fbb0bb70896dd5ab4
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/Wnn/romkan/rk_main.c b/Wnn/romkan/rk_main.c
+index 8691af1..e1d65ad 100644
+--- a/Wnn/romkan/rk_main.c
++++ b/Wnn/romkan/rk_main.c
+@@ -88,7 +88,7 @@ char eofflg;                    /* romkan_next()
+                                    処理中はeofflgは2。 */
+ 
+ letter evalbuf[2][2][OUTSIZ];
+-char ebf_sw = 0;
++int ebf_sw = 0;
+ letter saishu_out[OUTSIZ];
+ letter delchr, delchr2 = EOLTTR, nisedl;        /* DELのキャラクタは二個まで持てる */
+ 

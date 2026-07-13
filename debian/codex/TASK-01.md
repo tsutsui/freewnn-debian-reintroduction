@@ -1,83 +1,35 @@
-# Task 1 — rebuild the logical quilt patch series
+# Task 1 v2 — rebuild the logical quilt series from pinned tip 597e838f
 
-Work on the branch already checked out. Do not create, switch, push, or
-rewrite branches.
+Work only on the checked-out Task 1 v2 branch. Do not create, switch, commit,
+push, merge, or rewrite branches.
 
-Read and obey:
+Read and obey `/AGENTS.md`, `debian/codex/PATCH-DESIGN.md`, `SERIES-v2.txt`,
+`UPSTREAM-PATCHES-v2.txt`, `NEW-UPSTREAM-COMMITS-v2.txt`,
+`SUPERSEDED-UPSTREAM-COMMITS-v2.txt`, and `debian/README.source`.
 
-- `/AGENTS.md`
-- `debian/codex/PATCH-DESIGN.md`
+Inputs:
 
-## Goal
+- base `reference/a023-base`
+- authoritative upstream tip `reference/gcc15-full-client-597e838f`
+- previous Task 1 branch only as evidence/seed
 
-Replace the imported historical Debian patch series with the exact logical
-series specified in `PATCH-DESIGN.md`.
+Rebuild `debian/patches/series` using exactly the 35 names in `SERIES-v2.txt`.
+Preserve approved v1 logical boundaries, replace rewritten source SHAs, and
+incorporate all thirteen commits listed in `NEW-UPSTREAM-COMMITS-v2.txt`.
 
-Do not modernize general Debian packaging in this task.
+Required properties:
 
-## Audit before edits
+- `UPSTREAM-PATCHES-v2.txt` applied to a023 equals the authoritative tip except generated `configure`;
+- generated `configure` is absent from quilt;
+- all four build profiles pass with the system default `gcc` in GNU C23 mode (`-std=gnu23`);
+- all DEP-3 fields and source attribution are accurate and use current SHAs;
+- the working upstream source remains unapplied a023;
+- no Task 2 packaging work is mixed into Task 1.
 
-1. Display current branch and HEAD.
-2. Verify all three `reference/*` tags.
-3. Compare imported `-8` patch files with
-   `reference/debian-packaging-2015`.
-4. Record every `-5` versus `-8` packaging difference relevant to patches.
-5. Verify every source commit named in the design.
-6. Verify the non-`debian/` tree is the a023 import before applying patches.
+Do not invent fixes not present in the pinned upstream reference. Do not
+restore obsolete `resetterm()` calls, use stale rewritten SHAs, or work around
+terminal-library selection with Debian-only linker flags.
 
-Stop and report rather than downloading or inventing replacement content
-if an authoritative ref or expected source hunk is absent.
-
-## Implementation
-
-- Rebuild `debian/patches/series` exactly as specified.
-- Construct one logical patch per approved purpose.
-- Split mixed commits according to the mapping.
-- Exclude generated `configure`.
-- Preserve all approved GCC/C23 source changes.
-- Apply the old Debian patch dispositions exactly.
-- Add useful DEP-3 headers.
-- Keep the changelog at `UNRELEASED`.
-- Do not change `Maintainer`.
-
-Update `debian/README.source` with:
-
-- removed Debian `-8` base
-- a023 tarball/import
-- historical packaging VCS
-- GCC compatibility reference
-- old patch disposition
-- split-commit mapping
-- generated-configure policy
-- test procedure
-- unresolved work
-
-## Required verification
-
-Run the repository deterministic tool:
-
-```sh
-debian/codex/tools/verify-task01.sh
-```
-
-Also inspect its detailed comparison output. Do not mark the task complete
-with unexplained source differences.
-
-## Output
-
-Write a draft PR body to:
-
-```text
-.work/reports/task01-pr.md
-```
-
-It must include:
-
-- old patch disposition table
-- final series
-- mixed-commit split table
-- commands run
-- passed checks
-- failed/skipped checks
-- blockers and human decisions
-- explicit statement that this is not upload-ready and has no adopter
+Write a draft PR body to `.work/reports/task01-v2-pr.md`, including exact patch
+series, new commit mapping, four build profiles, and explicit limitations. Do
+not commit or push. The external verifier is authoritative.

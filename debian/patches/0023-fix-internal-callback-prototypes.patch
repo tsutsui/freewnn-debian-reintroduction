@@ -1,0 +1,88 @@
+Description: Provide prototypes for internal helper and callback functions.
+ Source commits: 742ad8cfc4700dbe5b972b48c31cf99ca771bafa; ce301deef6b0a1be7178ea46b6e8690e7d61bad9; 9618769b8e758f537db180a9389c7ce10c536163
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+diff --git a/PubdicPlus/pod.c b/PubdicPlus/pod.c
+index 9b4c43f..315b96d 100644
+--- a/PubdicPlus/pod.c
++++ b/PubdicPlus/pod.c
+@@ -157,6 +157,7 @@ static void listkinds (void);
+ static int kindcompar (const void *k1, const void *k2);
+ static void sortkind (void);
+ static struct dicpack *intern (int key, Wchar *yomi, Wchar *kouho, Wchar *hinshi, int hindo, long kind, int *stat, long flags);
++static void for_all_interned (void (*fn)(struct dicpack *));
+ static void storepd (FILE *file);
+ static void comparepd (FILE *file);
+ static void canna_output (FILE *cf, struct dicpack *p, Wchar *h, int n);
+@@ -980,8 +981,7 @@ intern (key, yomi, kouho, hinshi, hindo, kind, stat, flags)
+ /* 登録されているエントリに対して fn を実行する */
+ 
+ static void
+-for_all_interned (fn)
+-     void (*fn) ();
++for_all_interned (void (*fn)(struct dicpack *))
+ {
+   int i;
+   struct dicpack *p;
+diff --git a/Wnn/etc/xutoj.c b/Wnn/etc/xutoj.c
+index 823b131..8fdd1aa 100644
+--- a/Wnn/etc/xutoj.c
++++ b/Wnn/etc/xutoj.c
+@@ -765,13 +765,13 @@ putsjw (x)
+ }
+ 
+ static int oj_mode = ASCII;     /* 出力時のｊｉｓコードのモード */
+-static int jtosj ();
+-extern int eujis_to_iujis ();
++static int jtosj FRWNN_PARAMS((unsigned int, unsigned int));
++static int sjtoj FRWNN_PARAMS((unsigned int, unsigned int));
+ 
+ /* convert JIS code to shift-JIS code */
+ static int
+ jtosj (high, low)
+-     unsigned high, low;
++     unsigned int high, low;
+ {
+   if (high & 1)
+     low += 0x1f;
+@@ -788,7 +788,7 @@ jtosj (high, low)
+ /* convert shift-JIS to JIS code */
+ static int
+ sjtoj (high, low)
+-     register unsigned high, low;
++     register unsigned int high, low;
+ {
+   high -= (high <= 0x9f) ? 0x71 : 0xb1;
+   high = high * 2;
+diff --git a/Wnn/jserver/jikouho_d.c b/Wnn/jserver/jikouho_d.c
+index 7979c1e..6be109e 100644
+--- a/Wnn/jserver/jikouho_d.c
++++ b/Wnn/jserver/jikouho_d.c
+@@ -482,10 +482,6 @@ zen_sbn (yomi_sno, yomi_eno, endvect, endvect1, tjktsbn, bnst_num, parent
+   int *vector1;
+ #endif
+ 
+-#ifndef NO_KATA
+-  struct JKT_SBN *get_kata_kouho ();
+-#endif
+-  struct JKT_SBN *get_hira_kouho ();
+   struct SYO_BNSETSU *giji_sbn;
+   struct SYO_BNSETSU *getsbnsp ();
+ 
+diff --git a/Wnn/jserver/kaiseki.h b/Wnn/jserver/kaiseki.h
+index 2e17970..9585a83 100644
+--- a/Wnn/jserver/kaiseki.h
++++ b/Wnn/jserver/kaiseki.h
+@@ -62,8 +62,8 @@
+ 
+ #define _DIVID(val, div)        (((int)(val) > (int)0) ? ((val) / (div)) : ((val) * (div)))
+ 
+-extern struct fzkkouho *getfzkoh_body ();
+-extern struct fzkkouho *getfzkoh1_body ();
++extern struct fzkkouho *getfzkoh_body (struct ICHBNP *, int);
++extern struct fzkkouho *getfzkoh1_body (struct ICHBNP *, int);
+ 
+ #define getfzkoh(ichbnp_p,no) \
+         (((int)(no) < (int)FZKIBNO) ? &((ichbnp_p)->fzkib[no]) : getfzkoh_body(ichbnp_p,no))

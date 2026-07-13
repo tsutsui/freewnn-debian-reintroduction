@@ -1,0 +1,13 @@
+60984c64cdc7433d412392785117e7e1b11d3842 Wnn/uum: normalize key command callback prototypes
+3c7a6ad4f424fd490eca1087cea9b2ae2243e1c9 Wnn/uum: use consistent types for code conversion callbacks for C23
+e509485a8e846206fbb162d08efdad153700953d Wnn/uum: add prototypes for language callback tables
+0d441d336400bd11d602dd355a508eb0f674ec0f Wnn/uum: add prototypes for terminal conversion helpers
+34d9736900e465fe0c6b00aaaf4d005a3eb76885 Wnn/include: use proper arg for a signal handler functions
+ad810991e442e440d1f00fcabf30bc0c7be47de5 Wnn/uum: add prototypes for utility callbacks
+d2da3d32c9e0ff56d9705b6d3e9bca66ee9a7a7d Wnn/uum: fix the reconnect input buffer type
+2666caef98cd982a09cf76a7c0504c005e38499e Wnn/uum: remove unnecessary local function declarations
+2ad54de02c15b48ded23805fb6f399cf9f2a37a2 Wnn/*: remove unused local function declarations
+26722b82bb7cbc1141a0621ba1d870e8f0c26e27 Wnn/*: remove unnecessary and non-standard resetterm() calls
+f8e06ee3e8565c6d5508fd2bed614441fa39b7e8 Wnn/uum: fix incorrect return types of ttyfdslot() for BSD
+0315820b4cd870617aa1b96252effb983f363fcb configure*: fix --with-term-libs handling
+597e838fc31b3a863a353a823fdd10132681e2e9 configure*: select proper curses/terminfo libraries required by uum

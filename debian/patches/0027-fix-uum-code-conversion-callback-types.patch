@@ -1,0 +1,181 @@
+Description: Use consistent types for uum code conversion callbacks.
+ Source commits: 3c7a6ad4f424fd490eca1087cea9b2ae2243e1c9
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-13
+
+diff --git a/Wnn/include/etc.h b/Wnn/include/etc.h
+index 7aa3c03..eb7b5e3 100644
+--- a/Wnn/include/etc.h
++++ b/Wnn/include/etc.h
+@@ -74,6 +74,7 @@ extern int iujis_to_jis FRWNN_PARAMS((unsigned char *, w_char *, int));
+ extern int eujis_to_jis FRWNN_PARAMS((unsigned char *, unsigned char *, int));
+ extern int sjis_to_jis FRWNN_PARAMS((unsigned char *, unsigned char *, int));
+ #endif	/* JIS7  */
++extern int iujis_to_eujis FRWNN_PARAMS((unsigned char *, w_char *, int));
+ extern int eujis_to_jis8 FRWNN_PARAMS((unsigned char *, unsigned char *, int));
+ extern int iujis_to_jis8 FRWNN_PARAMS((unsigned char *, w_char *, int));
+ extern int jis_to_eujis FRWNN_PARAMS((unsigned char *, unsigned char *, int));
+diff --git a/Wnn/uum/header.c b/Wnn/uum/header.c
+index b28f02f..10837a9 100644
+--- a/Wnn/uum/header.c
++++ b/Wnn/uum/header.c
+@@ -124,7 +124,7 @@ int dic_list_size;
+ short internal_code;
+ short file_code;
+ 
+-int (**code_trans) ();
++WNN_CodeTransFunc *code_trans;
+ 
+ struct msg_cat *cd;
+ 
+@@ -143,10 +143,10 @@ FuncDataBase function_db[] = {
+     errorkeyin, call_jl_yomi_len},
+    TTY_KCODE, PTY_KCODE, J_IUJIS, J_EUJIS,
+    {
+-    through, iujis_to_eujis, iujis_to_jis8, iujis_to_sjis,
+-    eujis_to_iujis, through, eujis_to_jis8, eujis_to_sjis,
+-    jis_to_iujis, jis_to_eujis, through, jis_to_sjis,
+-    sjis_to_iujis, sjis_to_eujis, sjis_to_jis8, through},
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iujis_to_eujis, (WNN_CodeTransFunc) iujis_to_jis8, (WNN_CodeTransFunc) iujis_to_sjis,
++    (WNN_CodeTransFunc) eujis_to_iujis, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) eujis_to_jis8, (WNN_CodeTransFunc) eujis_to_sjis,
++    (WNN_CodeTransFunc) jis_to_iujis, (WNN_CodeTransFunc) jis_to_eujis, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) jis_to_sjis,
++    (WNN_CodeTransFunc) sjis_to_iujis, (WNN_CodeTransFunc) sjis_to_eujis, (WNN_CodeTransFunc) sjis_to_jis8, (WNN_CodeTransFunc) through},
+    "ujsUJS",
+    "ujsUJS",
+    {
+@@ -164,10 +164,10 @@ FuncDataBase function_db[] = {
+     not_call_jl_yomi_len},
+    TTY_CCODE, PTY_CCODE, C_IUGB, C_EUGB,
+    {
+-    through, iugb_to_eugb, through, through,
+-    eugb_to_iugb, through, through, through,
+-    through, through, through, through,
+-    through, through, through, through},
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iugb_to_eugb, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) eugb_to_iugb, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
+    "",
+    "",
+    {
+@@ -183,10 +183,10 @@ FuncDataBase function_db[] = {
+     not_call_jl_yomi_len},
+    TTY_TCODE, PTY_TCODE, C_ICNS11643, C_ECNS11643,
+    {
+-    through, icns_to_ecns, icns_to_big5, through,
+-    ecns_to_icns, through, ecns_to_big5, through,
+-    big5_to_icns, big5_to_ecns, through, through,
+-    through, through, through, through},
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) icns_to_ecns, (WNN_CodeTransFunc) icns_to_big5, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) ecns_to_icns, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) ecns_to_big5, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) big5_to_icns, (WNN_CodeTransFunc) big5_to_ecns, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
+    "btBT",
+    "btBT",
+    {
+@@ -203,10 +203,10 @@ FuncDataBase function_db[] = {
+     errorkeyin, call_jl_yomi_len},
+    TTY_HCODE, PTY_HCODE, K_IUKSC, K_EUKSC,
+    {
+-    through, iuksc_to_euksc, through, through,
+-    euksc_to_iuksc, through, through, through,
+-    through, through, through, through,
+-    through, through, through, through},
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) iuksc_to_euksc, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) euksc_to_iuksc, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through,
++    (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through},
+    "uU",
+    "uU",
+    {
+@@ -226,6 +226,6 @@ FuncDataBase function_db[] = {
+    }
+ };
+ 
+-int (*default_code_trans[]) () =
++WNN_CodeTransFunc default_code_trans[] =
+ {
+-through, through, through, through, through, through, through, through, through, through, through, through, through, through, through, through};
++(WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through, (WNN_CodeTransFunc) through};
+diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
+index 3ad8804..540d12b 100644
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -77,12 +77,16 @@ typedef struct _FunctionTable
+ }
+ FunctionTable;
+ 
++/* 出力先、入力元、長さを受け取る文字コード変換関数。
++   バッファの具体的な型は変換方式ごとに異なる。 */
++typedef int (*WNN_CodeTransFunc) (void *, void *, int);
++
+ typedef struct _FuncDadaBase
+ {
+   char *lang;
+   FunctionTable f_table;
+   short tty_code, pty_code, internal_code, file_code;
+-  int (*code_trans[16]) ();
++  WNN_CodeTransFunc code_trans[16];
+   char *ostr;
+   char *getoptstr;
+   int (*do_opt[6]) ();
+@@ -186,7 +190,7 @@ extern int touroku_comment;
+ extern short internal_code;
+ extern short file_code;
+ 
+-extern int (**code_trans) ();
++extern WNN_CodeTransFunc *code_trans;
+ 
+ extern struct msg_cat *cd;
+ 
+@@ -196,7 +200,7 @@ extern FunctionTable *f_table;
+ 
+ extern FuncDataBase function_db[];
+ 
+-extern int (*default_code_trans[]) ();
++extern WNN_CodeTransFunc default_code_trans[];
+ 
+ /* ============================================================
+  *   extern function prototypes
+@@ -422,18 +426,6 @@ extern void conv_ltr_to_ieuc (register unsigned int *);
+ extern int conv_keyin (char *);
+ 
+ #ifdef  JAPANESE
+-extern int eujis_to_iujis ();
+-extern int jis_to_iujis ();
+-extern int sjis_to_iujis ();
+-extern int iujis_to_eujis ();
+-extern int jis_to_eujis ();
+-extern int sjis_to_eujis ();
+-extern int iujis_to_jis8 ();
+-extern int eujis_to_jis8 ();
+-extern int sjis_to_jis8 ();
+-extern int iujis_to_sjis ();
+-extern int eujis_to_sjis ();
+-extern int jis_to_sjis ();
+ extern int do_u_opt ();
+ extern int do_j_opt ();
+ extern int do_s_opt ();
+@@ -455,8 +455,0 @@
+-extern int icns_to_ecns ();
+-extern int icns_to_big5 ();
+-extern int ecns_to_icns ();
+-extern int ecns_to_big5 ();
+-extern int big5_to_icns ();
+-extern int big5_to_ecns ();
+-extern int iugb_to_eugb ();
+-extern int eugb_to_iugb ();
+@@ -479,12 +463,6 @@ extern int do_T_opt ();
+ #endif /* CHINESE */
+ 
+ #ifdef  KOREAN
+-extern int iuksc_to_ksc ();
+-extern int euksc_to_ksc ();
+-extern int iuksc_to_euksc ();
+-extern int ksc_to_euksc ();
+-extern int ksc_to_iuksc ();
+-extern int euksc_to_iuksc ();
+ extern int do_u_opt ();
+ extern int do_U_opt ();
+ #endif /* KOREAN */

@@ -29,7 +29,3 @@
 0043-use-int-for-romkan-buffer-index.patch
 0044-fix-uum-reconnect-buffer-type.patch
 0045-fix-uum-ttyfdslot-return-type.patch
-0050-define-MAXPATHLEN-fallback.patch
-1000-debian-filesystem-layout.patch
-1001-fix-manpage-sections.patch
-1002-escape-hyphen-in-atod-manpage.patch

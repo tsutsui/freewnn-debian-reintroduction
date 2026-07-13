@@ -1,0 +1,39 @@
+Description: Implement the jserver debug out function as truly variadic.
+ Source commits: 9618769b8e758f537db180a9389c7ce10c536163
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-12
+
+--- a/Wnn/jserver/error.c
++++ b/Wnn/jserver/error.c
+@@ -270,13 +270,15 @@ exit_hand ()
+ 
+ /* Replace with log_debug()? */
+ void
+-out (x, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12)
+-     char *x;
+-     int y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12;
++out (char *x, ...)
+ {
++  va_list ap;
++
+   if (!noisy)
+     return;
+-  fprintf (stderr, x, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12);
++  va_start (ap, x);
++  vfprintf (stderr, x, ap);
++  va_end (ap);
+   fflush (stderr);
+ }
+ 
+--- a/Wnn/jserver/de_header.h
++++ b/Wnn/jserver/de_header.h
+@@ -383,7 +383,7 @@ extern RETSIGTYPE signal_hand (int);
+ extern RETSIGTYPE terminate_hand (int);
+ /* error1() - For compatiblity */
+ #define error1 log_debug
+-extern void out ();
++extern void out (char *, ...);
+ #ifdef DEBUG
+ #ifdef  putwchar
+ #undef  putwchar

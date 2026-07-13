@@ -1,19 +1,19 @@
-Review the current Task 2 stacked branch without editing files.
+# Task 2 v2 read-only review
 
-Compare it to its Task 1 base and inspect:
+Review without editing. Inspect changelog/version, t64 package split,
+Maintainer/adopter stance, autoreconf, phase-boundary integrity, source/binary
+builds, absence of a Debian-package `-std=gnu23`/`-std=gnu2x` override,
+source+binary lintian, blhc, extracted-package public-header smoke,
+substantive dictionary comparison, exact-head GitHub Actions required steps,
+temporary-file cleanup, local/GitHub evidence, and PR claims.
 
-- changelog version/distribution
-- preservation of t64 packages
-- Maintainer stance
-- autoreconf integration
-- Debian sid GitHub Actions
-- lintian/blhc invocation
-- libwnn-dev compile/link smoke test
-- dictionary locale tests
-- ADOPTION.md and RFP draft
-- removal of temporary Codex instruction files
-- deterministic verification log under `.work/logs/verify-task02.log`
+Separate Artifact and Procedure findings. Every unresolved finding of any
+severity makes that category FAIL. Notes are non-actionable only.
 
-Report findings by severity with exact paths.
-Do not claim licensing approval, adopter commitment, Debian policy
-acceptance, or upload readiness.
+The final four non-empty lines must be exactly:
+TASK2 ARTIFACT RESULT: PASS|FAIL — Critical=N High=N Medium=N Low=N
+TASK2 PROCEDURE RESULT: PASS|FAIL — Critical=N High=N Medium=N Low=N
+GITHUB ACTIONS RESULT: PASS|FAIL
+FINAL RESULT: PASS|FAIL
+
+FINAL PASS is allowed only when all three preceding lines are PASS.

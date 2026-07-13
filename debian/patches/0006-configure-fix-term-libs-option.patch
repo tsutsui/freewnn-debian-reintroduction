@@ -1,0 +1,21 @@
+Description: Honor the value supplied to --with-term-libs.
+ Source commits: 0315820b4cd870617aa1b96252effb983f363fcb
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-13
+
+diff --git a/configure.in b/configure.in
+index 033281e..4bf8c2d 100644
+--- a/configure.in
++++ b/configure.in
+@@ -522,8 +522,8 @@ dnl
+ olibs="$LIBS"
+ CNVFILE_SUBDIR=bsd
+ AC_MSG_CHECKING(--with-term-libs argument)
+-AC_ARG_WITH(tlib,
+-[  --with-term-libs=-lLIB  terminal library to be used ],)
++AC_ARG_WITH(term-libs,
++[  --with-term-libs=LIBS   terminal libraries to be used ],)
+ if test -n "$with_term_libs"; then
+   AC_MSG_RESULT($with_term_libs)
+ dnl  LIBS="$LIBS $with_term_libs"
