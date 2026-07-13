@@ -33,3 +33,4 @@
 1000-debian-filesystem-layout.patch
 1001-fix-manpage-sections.patch
 1002-escape-hyphen-in-atod-manpage.patch
+1003-debian-package-build-reproducibility.patch

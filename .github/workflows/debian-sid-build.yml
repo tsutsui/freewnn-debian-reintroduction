@@ -1,0 +1,67 @@
+name: Debian sid build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: debian:sid
+    steps:
+      - name: Install checkout prerequisites
+        run: apt-get update && apt-get install -y git ca-certificates
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Trust the container-mounted checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Install build and test dependencies from debian/control
+        run: |
+          apt-get update
+          apt-get install -y build-essential devscripts equivs quilt lintian blhc locales rsync
+          mk-build-deps --install --remove --tool 'apt-get -y --no-install-recommends' debian/control
+      - name: Reject generated configure patches and quilt fuzz
+        run: |
+          if grep -R -n -E '^(---|\+\+\+) (a/|b/)?configure([[:space:]]|$)' debian/patches/*.patch; then
+            exit 1
+          fi
+          QUILT_PATCHES=debian/patches quilt push -a --fuzz=0
+          QUILT_PATCHES=debian/patches quilt pop -a
+      - name: Build source package
+        run: |
+          test "$(git rev-parse upstream/1.1.1_a023^{commit})" = a83d107424a3ae041111da454cb2e8679ff2f697
+          git archive --format=tar.gz --prefix=freewnn-1.1.1~a023/ \
+            upstream/1.1.1_a023 >../freewnn_1.1.1~a023.orig.tar.gz
+          env -u CC -u CFLAGS -u CPPFLAGS -u LDFLAGS dpkg-buildpackage -us -uc -S
+      - name: Build binary packages
+        run: |
+          if ! env -u CC -u CFLAGS -u CPPFLAGS -u LDFLAGS \
+            dpkg-buildpackage -us -uc -b >../build.log 2>&1; then
+            cat ../build.log
+            exit 1
+          fi
+          cat ../build.log
+          if grep -nE -- '-std=(gnu|c)(23|2x)([^[:alnum:]_]|$)' ../build.log; then
+            exit 1
+          fi
+      - name: Run lintian
+        run: |
+          source_changes=$(find .. -maxdepth 1 -name 'freewnn_*_source.changes' -print -quit)
+          binary_changes=$(find .. -maxdepth 1 -name 'freewnn_*.changes' ! -name '*_source.changes' -print -quit)
+          test -n "$source_changes"
+          test -n "$binary_changes"
+          lintian "$source_changes"
+          lintian "$binary_changes"
+      - name: Run blhc
+        run: blhc ../build.log
+      - name: Install Wnn packages and run public-header smoke test
+        run: |
+          printf '#!/bin/sh\nexit 101\n' >/usr/sbin/policy-rc.d
+          chmod 755 /usr/sbin/policy-rc.d
+          apt-get install -y ../freewnn-common_*.deb ../libwnn0t64_*.deb ../libwnn-dev_*.deb
+          debian/tests/libwnn-smoke
+      - name: Check dictionary generation in C and UTF-8 locales
+        run: debian/tests/dictionary-locales

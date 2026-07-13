@@ -1,0 +1,3 @@
+# Historical Japanese manual macros and language data are intentionally retained.
+freewnn-common: groff-message
+freewnn-common: national-encoding

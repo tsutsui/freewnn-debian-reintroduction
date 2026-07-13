@@ -1,56 +1,121 @@
 FreeWnn source and patch provenance
 ===================================
 
-This Debian reintroduction candidate uses the FreeWnn 1.1.1-a023 source
-recorded by upstream commit fa30218caa2fe0a90a81b71b85f27814906166f4.
-The upstream portability reference is pinned by commit
-597e838fc31b3a863a353a823fdd10132681e2e9.
+This candidate no longer uses the Debian 1.1.1~a021+cvs20130302-8 source
+base. The upstream source is the FreeWnn 1.1.1-a023 tarball imported as
+1.1.1~a023 and recorded by reference/a023-base. The historical Debian
+packaging VCS through revision -5 is at reference/debian-packaging-2015;
+the imported -8 packaging is at debian/1.1.1_a021+cvs20130302-8. The GCC
+14/15 and C23 compatibility work is at reference/gcc15-main-20260711.
 
-Patch organization
-------------------
+Historical Debian patch disposition
+------------------------------------
 
-The active quilt series contains 35 logical patches.  The first 31 patches are
-upstream-derived portability changes.  Applying those 31 patches to the a023
-base reproduces the pinned upstream reference exactly, apart from generated
-configure.  The remaining four patches are Debian-specific supplements:
+* newlayout was empty and is dropped.
+* makerules.mk.in is replaced by 1000-debian-filesystem-layout.patch.
+* man is split into 1001-fix-manpage-sections.patch and
+  1002-escape-hyphen-in-atod-manpage.patch.
+* hardening-flags is dropped because a023 propagates CPPFLAGS and LDFLAGS.
+* hurd_support.patch is refreshed as 0050-define-MAXPATHLEN-fallback.patch.
+* fix-parallel-build.patch is dropped because a023 has the fixed dependency.
+* egrep-a.patch is superseded by
+  0005-build-dictionaries-in-C-locale.patch.
+* implicit_functions.diff from -8 is replaced by the logical configure,
+  system-declaration, and prototype patches in this series.
 
-* 0050 defines MAXPATHLEN on systems that do not provide it;
-* 1000 selects Debian filesystem locations;
-* 1001 corrects manual-page sections;
-* 1002 escapes the atod -s option in roff input.
+The patch-relevant -5 to -8 delta was: two DEP-3 fields added to
+egrep-a.patch; implicit_functions.diff added for Debian bug #1065772; and
+its series entry added. Other packaging changes are outside this task.
 
-Historical Debian patches that are empty, obsolete, already included upstream,
-or superseded by this logical series are not retained as inactive files.
+Mixed source commit mapping
+---------------------------
+
+* a85b88729c2fa7d0a2ec542d737c5e19061c8a47: sort callbacks -> 0020;
+  jl_dic_add_e handlers -> 0022.
+* 17578cf34877cad67c465335afbf499b88cecce1: getopt -> 0011; redundant
+  bdic declarations -> 0012.
+* 915ecd5efe7a9ab09fc073c8131687184a45dfa4: internal sort interface ->
+  0020; direct qsort comparators -> 0021; jl_dic_add_e callbacks -> 0022;
+  other internal callbacks -> 0023; byte-buffer types -> 0025.
+* 9618769b8e758f537db180a9389c7ce10c536163: redundant declarations ->
+  0012; internal helpers -> 0023; signal handlers -> 0030; variadic out ->
+  0031.
+* 3cc4bf1f5fd9178741dd904612f2110a9470e86b: byte-buffer signedness ->
+  0025; the functional wnn_sStrncpy conversion-direction fix -> 0040.
+
+The GCC reference also removes redundant jutil declarations in
+4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78. They have the exact purpose of
+0012 and are recorded there to preserve the verified GCC reference tree.
 
 Generated configure policy
 --------------------------
 
-Quilt patches modify configure.in where required and never carry generated
-configure.  Debian packaging must regenerate configure with autoreconf.
+Only configure.in changes are carried. Generated configure is excluded,
+including d2ce32b7afd3d79e810c08051c937106cbdf1332 and the configure half of
+b8c95ad64da5de58857c72f4b3644d90c6e6e53c. Regenerate it with autoreconf.
 
-Task 1 verification
--------------------
+Testing
+-------
 
-The external Task 1 v3.1 verifier checks:
+The Debian build runs autoreconf through dh-autoreconf before configure.
+Generated `configure` is deliberately absent from the quilt series.
 
-* the exact patch directory and series;
-* DEP-3 syntax, exact upstream commit attribution, and rewritten-SHA exclusion;
-* the exact 37-commit range from a023 to the pinned upstream tip;
-* fuzz-zero application of both the upstream subset and complete series;
-* source-tree equality with the pinned upstream tip, excluding generated
-  configure;
-* patch-header and resulting-source whitespace;
-* four separate builds using Debian 13's default gcc with -std=gnu23,
-  including full-client and explicit pkg-config terminal-library profiles.
+The upstream clients use translated message-catalog entries as format
+strings. Debian's format-security diagnostics remain enabled, but
+`-Wno-error=format-security` keeps those legacy uses non-fatal. Converting
+them safely requires auditing each catalog entry and all language variants;
+it is documented as maintainer work rather than folded into the fixed C
+portability patch series.
 
-The -std=gnu23 option is a portability-test condition only.  It is not a Debian
-package build flag and must not be added to debian/rules or package CI, so the
-source package remains backportable to distributions with older compiler
-defaults.
+The full client build also retains a few implicit cross-file helper calls and
+old callback pointer types outside the server/library portability scope of the
+fixed patch series. Their diagnostics remain visible but non-fatal via
+`-Wno-error=implicit-function-declaration` and
+`-Wno-error=incompatible-pointer-types`. This preserves the historical client
+functionality while making the remaining audit explicit.
 
-Scope
------
+The configured installation owner remains `root`. During the rootless Debian
+staging install, `debian/rules` overrides `WNNOWNER` with the invoking build
+user so upstream install rules do not attempt a privileged `chown`; dpkg's
+package assembly records the shipped files with normal root ownership.
+Some dictionaries are installed read-only before upstream `wnntouch` updates
+their internal identifier. `debian/scripts/wnntouch-staging` grants owner
+write access only for that update and restores the read-only mode afterward.
 
-Task 1 only establishes the source patch series.  It does not assert Debian
-acceptance, licensing approval, adopter or maintainer commitment, policy
-completion, or upload readiness.
+The `uum` client remains built, but its obsolete utmp writer and setgid mode
+are disabled. This permits an accurate rootless build and avoids granting a
+legacy terminal client privileges solely for login-accounting records; input
+method functionality is unaffected.
+
+`debian/tests/libwnn-smoke` compiles, links, and executes a small program
+using the installed public `wnn/jllib.h` header and shared library.
+`debian/tests/dictionary-locales` rebuilds all four language dictionary
+directories under the C locale and an available UTF-8 locale, then compares
+sorted manifests containing each generated file's relative pathname and
+SHA-256 content hash. Any pathname or content difference fails the test. Both
+scripts are deterministic CI helpers rather
+than autopkgtests: the dictionary check needs the configured build tree and
+build-only generators, while the library test is run explicitly after the
+locally built packages have been installed.
+
+Unresolved work
+---------------
+
+An adopter must select an appropriate Maintainer, complete copyright and
+policy review, and decide how the existing init scripts should relate to
+current init/systemd policy. These are upload blockers. The packaging does
+not guess at that service-policy decision.
+
+A jserver runtime test is not included. Installing and starting the current
+server package creates system users, mutable dictionaries, init integration,
+and persistent state; a test isolated from privileged ports and system state
+needs a maintainer-approved service design first. Mule 1.1 compatibility has
+not been tested.
+
+Task 2 packaging supplement
+---------------------------
+
+`1003-debian-package-build-reproducibility.patch` is a Debian vendor patch added after the reviewed Task 1
+series. It contains only package-build reproducibility, build-flag propagation,
+and Debian filesystem-layout substitutions recovered from the earlier packaging
+candidate. The original 35 Task 1 patch files remain unchanged.

@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+root=${1:-}
+cc=${2:-${CC:-cc}}
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+
+cat >"$tmp/smoke.c" <<'SRC'
+#include <wnn/jllib.h>
+
+int
+main(void)
+{
+  void (*volatile close_function)(struct wnn_buf *) = jl_close;
+  return close_function == 0;
+}
+SRC
+
+if [ -n "$root" ]; then
+    multiarch=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
+    libdir=$root/usr/lib/$multiarch
+    test -f "$root/usr/include/wnn/jllib.h"
+    test -e "$libdir/libwnn.so"
+    "$cc" -O2 -Wall -Wextra -I"$root/usr/include" \
+      "$tmp/smoke.c" -L"$libdir" -Wl,-rpath-link,"$libdir" \
+      -lwnn -o "$tmp/smoke"
+    LD_LIBRARY_PATH="$libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" "$tmp/smoke"
+else
+    "$cc" -O2 -Wall -Wextra "$tmp/smoke.c" -lwnn -o "$tmp/smoke"
+    "$tmp/smoke"
+fi

@@ -1,0 +1,2 @@
+# The public Chinese headers retain their historical source encoding.
+libcwnn-dev: national-encoding
