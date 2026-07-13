@@ -1,0 +1,56 @@
+Description: Use byte-buffer pointer types compatible with their callers.
+ Source commits: 915ecd5efe7a9ab09fc073c8131687184a45dfa4;
+  3cc4bf1f5fd9178741dd904612f2110a9470e86b
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/jserver/de_header.h b/Wnn/jserver/de_header.h
+index 975a06d..6db176b 100644
+--- a/Wnn/jserver/de_header.h
++++ b/Wnn/jserver/de_header.h
+@@ -546,7 +546,7 @@ extern unsigned int diff_sisheng (int, int);
+ /* snd_rcv.c */
+ extern int fopen_read_cur (char *);
+ extern int fopen_write_cur (char *);
+-extern int fread_cur (char *, register int, register int);
++extern int fread_cur (void *, register int, register int);
+ extern int xgetc_cur ();
+ extern void xungetc_cur (int);
+ extern void fwrite_cur (unsigned char *, int, int);
+diff --git a/Wnn/jserver/snd_rcv.c b/Wnn/jserver/snd_rcv.c
+index 23c7fee..b191df2 100644
+--- a/Wnn/jserver/snd_rcv.c
++++ b/Wnn/jserver/snd_rcv.c
+@@ -54,15 +54,16 @@ fopen_write_cur (fn)
+ /* JS_FILE_SEND (server recieves) */
+ int
+ fread_cur (p, size, nitems)
+-     char *p;
++     void *p;
+      register int size, nitems;
+ {
++  char *cp = p;
+   register int i, j, xx;
+   for (i = 0; i < nitems; i++)
+     {
+       for (j = 0; j < size; j++)
+         {
+-          *p++ = xx = xgetc_cur ();
++          *cp++ = xx = xgetc_cur ();
+           if (xx == -1)
+             return i;
+         }
+diff --git a/Wnn/etc/sstrings.c b/Wnn/etc/sstrings.c
+index 28b75c4..094ec85 100644
+--- a/Wnn/etc/sstrings.c
++++ b/Wnn/etc/sstrings.c
+@@ -54,7 +54,7 @@ wnn_sStrcpy (c, w)
+ {
+   register int ret;
+ 
+-  ret = ieuc_to_eeuc (c, w, -1);
++  ret = ieuc_to_eeuc ((unsigned char *) c, w, -1);
+   c[ret] = '\0';
+   return (ret);
+ }

@@ -1,0 +1,20 @@
+Description: Check for standard C library headers in configure.
+ Source commits: adefb67746514c2cf16fa19e41275d29e7b280bf
+Origin: upstream
+Bug-Debian: https://bugs.debian.org/1065772
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/configure.in b/configure.in
+index dab23f5..0f68e42 100644
+--- a/configure.in
++++ b/configure.in
+@@ -509,7 +509,7 @@ AC_HEADER_SYS_WAIT
+ AC_HEADER_TIME
+ AC_CHECK_HEADERS(fcntl.h syslog.h unistd.h utmp.h utmpx.h \
+ 	sys/file.h sys/ioctl.h sys/time.h sys/types.h sys/param.h \
+-	malloc.h strings.h memory.h \
++	malloc.h stdlib.h string.h strings.h memory.h \
+ 	curses.h ncurses.h sgtty.h term.h termio.h termios.h \
+ 	termcap.h sys/termio.h libutil.h\
+ )

@@ -1,0 +1,90 @@
+Description: Give signal handlers the required integer argument.
+ Source commits: 96a117bd46478eb890f1e9f8e6f0a1a979f1fcb7;
+  9618769b8e758f537db180a9389c7ce10c536163;
+  34d9736900e465fe0c6b00aaaf4d005a3eb76885
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+--- a/Wnn/jlib/js.c
++++ b/Wnn/jlib/js.c
+@@ -130,7 +130,7 @@ static int rbc = -1;
+ # endif /* defined(EWOULDBLOCK) */
+ #endif /* defined(EAGAIN) */
+
+-static void connect_timeout ();
++static void connect_timeout FRWNN_PARAMS((int));
+ static int _get_server_name FRWNN_PARAMS((const char *, char *));
+ static int writen FRWNN_PARAMS((int));
+ static char *get_unixdomain_of_serv_defs FRWNN_PARAMS((const char *lang));
+@@ -395,8 +395,10 @@ cd_open_in (server, lang, timeout)
+ }
+
+ static void
+-connect_timeout ()
++connect_timeout (sig)
++     int sig;
+ {
++  (void) sig;
+ }
+
+ /* get server name and return serverNo */
+--- a/Wnn/jserver/de.c
++++ b/Wnn/jserver/de.c
+@@ -1321,7 +1321,7 @@ js_kill (void)
+     {
+       put4_cur (0);
+       putc_purge ();
+-      terminate_hand ();
++      terminate_hand (0);
+     }
+   else
+     {
+--- a/Wnn/jserver/de_header.h
++++ b/Wnn/jserver/de_header.h
+@@ -379,8 +379,8 @@ extern void error_exit ();
+ #endif
+ extern void log_err (const char *, ...);
+ extern void log_debug (const char *, ...);
+-extern RETSIGTYPE signal_hand ();
+-extern RETSIGTYPE terminate_hand ();
++extern RETSIGTYPE signal_hand (int);
++extern RETSIGTYPE terminate_hand (int);
+ /* error1() - For compatiblity */
+ #define error1 log_debug
+ extern void out ();
+--- a/Wnn/jserver/error.c
++++ b/Wnn/jserver/error.c
+@@ -244,8 +244,10 @@ signal_hand (x)
+ }
+
+ RETSIGTYPE
+-terminate_hand ()
++terminate_hand (x)
++     int x;
+ {
++  (void) x;
+   daemon_fin ();
+   exit (0);
+
+diff --git a/Wnn/include/wnn_os.h b/Wnn/include/wnn_os.h
+index 7edaee4..c0e03a5 100644
+--- a/Wnn/include/wnn_os.h
++++ b/Wnn/include/wnn_os.h
+@@ -75,7 +75,15 @@
+ #  define SIGCHLD SIGCLD
+ #endif
+
+-typedef RETSIGTYPE (*intfnptr) ();
++#ifndef FRWNN_PARAMS
++# if __STDC__
++#  define FRWNN_PARAMS(paramlist)	paramlist
++# else
++#  define FRWNN_PARAMS(paramlist)	()
++# endif
++#endif
++
++typedef RETSIGTYPE (*intfnptr) FRWNN_PARAMS((int));
+
+ /* Temporally place the number of filedescripters hack here. */
+ #if HAVE_GETDTABLESIZE

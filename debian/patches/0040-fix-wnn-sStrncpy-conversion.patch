@@ -1,0 +1,19 @@
+Description: Fix wnn_sStrncpy to convert internal w_char text to external EUC.
+ Source commits: 3cc4bf1f5fd9178741dd904612f2110a9470e86b
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/etc/sstrings.c b/Wnn/etc/sstrings.c
+index 28b75c4..094ec85 100644
+--- a/Wnn/etc/sstrings.c
++++ b/Wnn/etc/sstrings.c
+@@ -100,7 +100,7 @@ wnn_sStrncpy (s1, s2, n)
+      register w_char *s2;
+      register int n;
+ {
+-  eeuc_to_ieuc (s1, s2, n / sizeof (w_char));
++  ieuc_to_eeuc ((unsigned char *) s1, s2, n);
+   return s1;
+ }
+ 

@@ -1,0 +1,138 @@
+Description: Add prototypes for uum terminal conversion helpers.
+ Source commits: 0d441d336400bd11d602dd355a508eb0f674ec0f
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/conv/cvt_read.c b/Wnn/conv/cvt_read.c
+index 9b118cc..6ad3255 100644
+--- a/Wnn/conv/cvt_read.c
++++ b/Wnn/conv/cvt_read.c
+@@ -140,6 +140,11 @@
+ 
+ #include "conv.h"
+ 
++#if defined(TERMCAP) && !defined(HAVE_TERMCAP_H)
++extern char *tgetstr FRWNN_PARAMS((const char *, char **));
++extern int tgetent FRWNN_PARAMS((char *, const char *));
++#endif
++
+ #define ENTRY_LEN 10            /* コンバート表のエントリ名の最大長 */
+ 
+ /*
+@@ -452,7 +457,6 @@ static char *
+ my_tgetstr (name, ptr)
+      char *name, **ptr;
+ {
+-  extern char *tgetstr ();
+   static char *del = "\177";
+ 
+   if (strcmp (name, "!del") == 0)
+@@ -611,7 +615,6 @@ convert_getterm (termname, flg)
+      char *termname;
+      int flg;
+ {
+-  extern int tgetent ();
+   char tcaparea[AREASIZE];
+ 
+   if (flg)
+diff --git a/Wnn/include/conv.h b/Wnn/include/conv.h
+index d35b009..10f10d2 100644
+--- a/Wnn/include/conv.h
++++ b/Wnn/include/conv.h
+@@ -39,8 +39,6 @@
+ #endif	/* __STDC__ */
+ 
+ extern int convert_key_setup FRWNN_PARAMS((char *, int));
+-#ifdef TERMCAP
+ extern int convert_getterm FRWNN_PARAMS((char *termname, int flg));
+-#endif	/* TERMCAP  */
+ 
+ #endif /* FRWNN_CONV_H  */
+diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
+index b0a8a64..560e429 100644
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -232,6 +232,7 @@ extern int  ttyfdslot (int fd);
+ #if HAVE_TERMINFO
+ /* termio.c */
+ extern int openTermData (void);
++extern void closeTermData (void);
+ #else
+ /* termcap.c */
+ extern int getTermData (void);
+diff --git a/Wnn/uum/termcap.c b/Wnn/uum/termcap.c
+index 755217a..7867ed8 100644
+--- a/Wnn/uum/termcap.c
++++ b/Wnn/uum/termcap.c
+@@ -55,8 +55,20 @@
+ #if HAVE_TERM_H
+ #  include <term.h>
+ #endif
++#if HAVE_TERMCAP_H
++#  include <termcap.h>
++#endif
+ 
+ #include "commonhd.h"
++#include "conv.h"
++
++#if !HAVE_TERMCAP_H && !HAVE_TERM_H && !HAVE_CURSES_H && !HAVE_NCURSES_H
++extern int tgetent FRWNN_PARAMS((char *, const char *));
++extern char *tgetstr FRWNN_PARAMS((const char *, char **));
++extern int tgetnum FRWNN_PARAMS((const char *));
++extern char *tgoto FRWNN_PARAMS((const char *, int, int));
++extern int tputs FRWNN_PARAMS((const char *, int, int (*) (int)));
++#endif
+ 
+ #include "sdefine.h"
+ #include "sheader.h"
+@@ -108,13 +120,15 @@ int cursor_state;
+ FILE *debugc;
+ #endif
+ 
++char *sr_set FRWNN_PARAMS((char **, int, int));
++static void strascii FRWNN_PARAMS((unsigned char *, unsigned char *));
++static int decfline FRWNN_PARAMS((char *));
+ 
+ int
+ getTermData ()
+ {
+   char *name;
+   char *pter;
+-  char *sr_set ();
+   char *j;
+   extern char *get_kbd_env ();
+ 
+@@ -257,9 +271,6 @@ remove (p, ob)
+   return (r);
+ }
+ 
+-static void strascii ();
+-static int decfline ();
+-
+ int
+ set_TERMCAP ()
+ {
+diff --git a/Wnn/uum/termio.c b/Wnn/uum/termio.c
+index d92bdb2..cf23998 100644
+--- a/Wnn/uum/termio.c
++++ b/Wnn/uum/termio.c
+@@ -43,6 +43,7 @@
+ #endif /* STDC_HEADERS */
+ 
+ #include "commonhd.h"
++#include "conv.h"
+ #include "sdefine.h"
+ #include "sheader.h"
+ 
+@@ -57,10 +58,6 @@
+ #include <stdio.h>
+ #include <curses.h>
+ #include <term.h>
+-#ifdef putchar
+-#undef putchar
+-#endif
+-extern int putchar ();
+ 
+ extern char Term_Name[];
+ extern char *Term_UnderScoreStart;

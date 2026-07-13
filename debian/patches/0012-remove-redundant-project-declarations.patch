@@ -1,0 +1,234 @@
+Description: Remove redundant old-style declarations from function bodies.
+ Source commits: 13d0d075a91eebf18e16615a732abcaae2b349b0;
+  17578cf34877cad67c465335afbf499b88cecce1;
+  4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78;
+  9618769b8e758f537db180a9389c7ce10c536163;
+  2666caef98cd982a09cf76a7c0504c005e38499e;
+  2ad54de02c15b48ded23805fb6f399cf9f2a37a2
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+--- a/Wnn/jutil/atorev.c
++++ b/Wnn/jutil/atorev.c
+@@ -58,15 +58,11 @@
+ extern int kanjicount;
+ extern struct JT jt;
+
+-static void set_rpter1 ();
+ static void r_alloc FRWNN_PARAMS((void));
+ static void make_ri2 FRWNN_PARAMS((void));
+ static void make_ri1 FRWNN_PARAMS((int));
+ static void set_rpter1 FRWNN_PARAMS((int));
+
+-extern int sort_func_je ();
+-extern void sort_kanji ();
+-
+ struct je **ptmp;
+
+ void
+--- a/Wnn/etc/bdic.c
++++ b/Wnn/etc/bdic.c
+@@ -857,7 +857,6 @@ get_kanji_str (UCHAR* kptr, w_char* kanj
+   w_char *tmpy;
+   w_char *tmpk;
+   w_char *tmpc;
+-  extern void Get_kanji_str_r ();
+
+   Get_kanji_str_r (kptr, &tmpk, &tmpy, &tmpc);
+
+@@ -1306,7 +1305,6 @@ Print_entry (
+   char *k;
+   char buf[32];
+   static w_char revy[LENGTHKANJI];
+-  extern void kanji_esc_str ();
+
+   if (serial != -1)
+     {
+--- a/Wnn/jserver/daibn_kai.c
++++ b/Wnn/jserver/daibn_kai.c
+@@ -310,7 +310,6 @@ zentan_able (v, hinsi, fzkchar)
+   w_char *fzk_buf;
+   int fzkcnt;
+   int fzklen;
+-  w_char *rev_fzk ();
+ #endif /* NO_FZK */
+
+   if (hinsi == WNN_ALL_HINSI)
+--- a/Wnn/jutil/atof.c
++++ b/Wnn/jutil/atof.c
+@@ -289,8 +289,6 @@ static void set_id FRWNN_PARAMS((int, in
+ static void pre_clear_jiritugo_v FRWNN_PARAMS((int));
+ static void init FRWNN_PARAMS((int, char **));
+
+-extern int wnn_loadhinsi (), create_file_header ();
+-
+ static void
+ error_format (s, d1, d2, d3, d4, d5)
+      char *s;
+@@ -522,8 +520,6 @@ read_attr ()
+     }
+ }
+
+-extern char *wnn_get_hinsi_name ();
+-
+ static void
+ read_id ()
+ {
+--- a/Wnn/jutil/dtoa.c
++++ b/Wnn/jutil/dtoa.c
+@@ -87,9 +87,6 @@ int input_comment FRWNN_PARAMS((register
+ int input_hinsi_list FRWNN_PARAMS((register FILE *));
+ void input_dic FRWNN_PARAMS((FILE *));
+
+-extern void sort (), output_ujis (), exit1 (), init_jeary (), get_kanji_str ();
+-extern int input_header (), little_endian (), revdic (), wnn_loadhinsi (), init_heap (), w_stradd (), input_hindo_header (), motoni2 ();
+-
+ #ifdef CONVERT_with_SiSheng
+ int input_sisheng FRWNN_PARAMS((register FILE *ifpter));
+ #endif	/* CONVERT_with_SiSheng  */
+--- a/Wnn/jutil/ujisf.c
++++ b/Wnn/jutil/ujisf.c
+@@ -76,7 +76,6 @@ extern unsigned char kanjiaddr (unsigned
+ extern void Print_entry (w_char* yomi, w_char* kstr, w_char* cstr,
+ 		int hindo, int ima, int hinsi, int serial,
+ 		FILE* ofpter, int esc_exp);
+-extern int  w_stradd ();
+
+ static void Kanjistradd FRWNN_PARAMS((w_char *, w_char *, w_char *, register UCHAR **));
+ static void bunpou_num FRWNN_PARAMS((register char *, register int *));
+--- a/Wnn/jutil/wnnkill.c
++++ b/Wnn/jutil/wnnkill.c
+@@ -88,7 +88,6 @@ main (int argc, char** argv)
+   static char lang[64] = { 0 };
+   char *server_env = NULL;
+   char *prog = argv[0];
+-  extern char *_wnn_get_machine_of_serv_defs (), *get_server_env ();
+
+ /*
+   char* p;
+@@ -215,13 +214,6 @@ main (int argc, char** argv)
+   exit (0);
+ }
+
+-#ifdef JAPANESE
+-extern int eujis_to_jis8 (), eujis_to_sjis ();
+-#endif
+-#ifdef CHINESE
+-extern int ecns_to_big5 ();
+-#endif
+-
+ static void
+ out (const char* format, ...)
+ {
+--- a/Wnn/jutil/wnnstat.c
++++ b/Wnn/jutil/wnnstat.c
+@@ -80,12 +80,6 @@ struct wnn_ret_buf rb = { 0, NULL };
+ extern int optind;
+ extern char *optarg;
+
+-#ifdef JAPANESE
+-extern int eujis_to_jis8 (), eujis_to_sjis ();
+-#endif
+-#ifdef CHINESE
+-extern int ecns_to_big5 ();
+-#endif
+ static void  err (), usage (), dic (), dic_all (), file_all ();
+ static void printall FRWNN_PARAMS((WNN_ENV_INFO *, int));
+ static void printpat FRWNN_PARAMS((WNN_ENV_INFO *, int));
+@@ -128,7 +122,6 @@ main (argc, argv)
+ */
+   char *server_env = NULL;
+   char *prog = argv[0];
+-  extern char *get_server_env ();
+
+ /*
+     if ((p = getenv("LANG")) != NULL) {
+--- a/Wnn/jutil/wnntouch.c
++++ b/Wnn/jutil/wnntouch.c
+@@ -54,7 +54,6 @@ static char *rcs_id = "$Id: wnntouch.c,v
+
+ #include "etc.h"
+
+-extern int input_file_header (), check_inode (), change_file_uniq ();
+ static void usage (void);
+
+ char *com_name;
+diff --git a/Wnn/uum/key_bind.c b/Wnn/uum/key_bind.c
+index 03a3fde..080a42d 100644
+--- a/Wnn/uum/key_bind.c
++++ b/Wnn/uum/key_bind.c
+@@ -241,7 +241,7 @@ int key_binding (char [64]);
+ int
+ init_key_table ()
+ {
+-  FILE *fp, *fopen ();
++  FILE *fp;
+   char file_name[PATHNAMELEN];
+   int j, k;
+
+@@ -300,7 +300,7 @@ key_binding (file_name)
+      char file_name[64];
+ {
+   register int k, kk;
+-  FILE *fp, *fopen ();
++  FILE *fp;
+   char func_name[64];
+   int com_cnt;
+   int com_num;
+diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
+index de5636c..b93864e 100644
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -251,7 +251,6 @@ extern void clr_line ();
+ extern void clr_line_all ();
+ extern int connect_jserver (int);
+ /* extern int convert_getterm (char *, int);  */ /* moved to include/conv.h  */
+-extern int convert_key_setup ();
+ extern int cur_ichi (int, int);
+ extern void cursor_invisible_raw (void);
+ extern void cursor_normal_raw (void);
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -461,3 +461,0 @@
+-/* extern int cwnn_pzy_yincod ();  */ /* move to include/etc.h  */
+-extern int cwnn_yincod_pzy_str ();
+-
+diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
+index bdac27c..1049db4 100644
+--- a/Wnn/uum/wnnrc_op.c
++++ b/Wnn/uum/wnnrc_op.c
+@@ -59,7 +59,6 @@
+ #include "sheader.h"
+ #include "wnn_os.h"
+
+-extern int conv_keyin ();
+ extern int keyin2 ();
+
+
+diff --git a/Wnn/romkan/rk_read.c b/Wnn/romkan/rk_read.c
+index b81c553..8d2fba2 100644
+--- a/Wnn/romkan/rk_read.c
++++ b/Wnn/romkan/rk_read.c
+@@ -57,7 +57,6 @@ letter onescan FRWNN_PARAMS((letter**,letter*)),
+ char *ename FRWNN_PARAMS((char*));
+
+ extern letter *ltrgrow FRWNN_PARAMS((letter*,letter*)),
+-  *ltrend FRWNN_PARAMS((letter*)),
+   letterpick FRWNN_PARAMS((uns_chr**)),
+   *ltr1cut FRWNN_PARAMS((letter*));
+ extern char *chrcat FRWNN_PARAMS((char*,char)),
+diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
+index 1049db4..94fcee3 100644
+--- a/Wnn/uum/wnnrc_op.c
++++ b/Wnn/uum/wnnrc_op.c
+@@ -59,9 +59,6 @@
+ #include "sheader.h"
+ #include "wnn_os.h"
+
+-extern int keyin2 ();
+-
+-
+ void
+ getfname (file, path)
+      char *path, *file;

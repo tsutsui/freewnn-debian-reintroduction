@@ -1,0 +1,19 @@
+Description: Compare the b_index result with its integer failure sentinel.
+ Source commits: 49963ccc1986b5c8e17c4fa65d38cd0faf1523ab
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/jserver/b_index.c b/Wnn/jserver/b_index.c
+index 134e8f0..76b080e 100644
+--- a/Wnn/jserver/b_index.c
++++ b/Wnn/jserver/b_index.c
+@@ -314,7 +314,7 @@ bnode_alloc (struct JT *jt)
+       return (i);
+     }
+   if (b_cnt++ >= jt->bufsize_bnode)     /* Use new  b_nodes */
+-    if (rd_realloc_bind (jt) == NULL)	/* realloc jt->bind */
++    if (rd_realloc_bind (jt) == 0)	/* realloc jt->bind */
+       return (-1);
+   return (jt->bufsize_bnode = b_cnt);   /* Not re-alloc */
+ }

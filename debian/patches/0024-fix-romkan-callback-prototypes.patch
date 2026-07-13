@@ -1,0 +1,125 @@
+Description: Give romkan internal callbacks complete prototypes.
+ Source commits: ec458640d9069c4c5bba1a8c63c48fd64e67e62d
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/romkan/rk_fundecl.h b/Wnn/romkan/rk_fundecl.h
+index 3925d0d..19b43f9 100644
+--- a/Wnn/romkan/rk_fundecl.h
++++ b/Wnn/romkan/rk_fundecl.h
+@@ -46,9 +46,9 @@ extern letter *ltrncpy FRWNN_PARAMS((letter*,letter*,int));
+ extern int ltrcmp FRWNN_PARAMS((letter*,letter*)),
+   ltrncmp FRWNN_PARAMS((letter*,letter*,int));
+ 
+-extern int romkan_init FRWNN_PARAMS((char*,letter,char,letter(*keyinfn)(),int(*bytcntfn)())),
+-  romkan_init2 FRWNN_PARAMS((char*,letter,char,letter(*keyinfn)(),int(*bytcntfn)(),char,char,char)),
+-  romkan_init3 FRWNN_PARAMS((char*,letter,letter,letter,letter(*keyinfn)(),int(*bytcntfn)(),int(*kbytcntfn)(),char,int));
++extern int romkan_init FRWNN_PARAMS((char*,letter,char,letter(*keyinfn) (void),int(*bytcntfn) (uns_chr *))),
++  romkan_init2 FRWNN_PARAMS((char*,letter,char,letter(*keyinfn) (void),int(*bytcntfn) (uns_chr *),char,char,char)),
++  romkan_init3 FRWNN_PARAMS((char*,letter,letter,letter,letter(*keyinfn) (void),int(*bytcntfn) (uns_chr *),int(*kbytcntfn) (uns_chr *),char,int));
+ extern letter romkan_getc FRWNN_PARAMS((void)),
+   *romkan_henkan FRWNN_PARAMS((letter)),
+   romkan_next FRWNN_PARAMS((void));
+diff --git a/Wnn/romkan/rk_main.c b/Wnn/romkan/rk_main.c
+index e1d65ad..d57abc0 100644
+--- a/Wnn/romkan/rk_main.c
++++ b/Wnn/romkan/rk_main.c
+@@ -68,9 +68,9 @@ letter *codeout, *remainkbf;
+ letter ungetc_buf = EOLTTR;     /* romkan_ungetcが一文字退避しておくバッファ */
+ letter unnext_buf = EOLTTR;     /* romkan_unnextが            〃             */
+ 
+-letter (*keyin_method) ();      /* キーイン関数のアドレス */
+-int (*bytcnt_method) ();        /* バイトカウント関数のアドレス */
+-int (*kbytcnt_method) ();       /* キー入力解釈用バイトカウント関数のアドレス */
++letter (*keyin_method) FRWNN_PARAMS((void));     /* キーイン関数のアドレス */
++int (*bytcnt_method) FRWNN_PARAMS((uns_chr *));  /* バイトカウント関数のアドレス */
++int (*kbytcnt_method) FRWNN_PARAMS((uns_chr *)); /* キー入力解釈用バイトカウント関数のアドレス */
+ char prv_modfnm[REALFN] = "\0"; /* モード表名（又はそのパス名）を保存 */
+             /* 初期設定がいい加減! */
+ 
+@@ -132,8 +132,8 @@ extern void readdata FRWNN_PARAMS((letter*,struct dat*,letter**,char*)),
+   handakuadd FRWNN_PARAMS((letter,letter**)),
+   allchgmod FRWNN_PARAMS((modetyp));
+ extern int ltov FRWNN_PARAMS((letter));
+-int romkan_init2 FRWNN_PARAMS((char*,letter,char,letter(*keyinfn)(),int(*bytcntfn)(),char,char,char));
+-int romkan_init3 FRWNN_PARAMS((char*,letter,letter,letter,letter(*keyinfn)(),int(*bytcntfn)(),int(*kbytcntfn)(),char,int));
++int romkan_init2 FRWNN_PARAMS((char*,letter,char,letter(*keyinfn) (void),int(*bytcntfn) (uns_chr *),char,char,char));
++int romkan_init3 FRWNN_PARAMS((char*,letter,letter,letter,letter(*keyinfn) (void),int(*bytcntfn) (uns_chr *),int(*kbytcntfn) (uns_chr *),char,int));
+ 
+ static letter *
+ ltrcpy (lp1, lp2)
+@@ -457,8 +457,8 @@ int
+ romkan_init (modhyo, delchr_, chmoutf, keyinfn, bytcntfn)
+      char *modhyo, chmoutf;
+      letter delchr_;
+-letter (*keyinfn) ();
+-     int (*bytcntfn) ();        /* 引数の詳細はromkan_init3を参照 */
++     letter (*keyinfn) FRWNN_PARAMS((void));
++     int (*bytcntfn) FRWNN_PARAMS((uns_chr *)); /* 引数の詳細はromkan_init3を参照 */
+ {
+   return (romkan_init2 (modhyo, delchr_, chmoutf, keyinfn, bytcntfn, 0, 0, 0));
+ }
+@@ -471,11 +471,11 @@ int
+ romkan_init2 (modhyo, delchr_, chmoutf, keyinfn, bytcntfn, keyackf, restartf, nonisecodf)
+      char *modhyo, chmoutf, keyackf, restartf, nonisecodf;
+      letter delchr_;
+-letter (*keyinfn) ();
+-     int (*bytcntfn) ();        /* 引数の詳細はromkan_init3を参照 */
++     letter (*keyinfn) FRWNN_PARAMS((void));
++     int (*bytcntfn) FRWNN_PARAMS((uns_chr *)); /* 引数の詳細はromkan_init3を参照 */
+ {
+   return (romkan_init3 (modhyo, delchr_, toNISE (delchr_), EOLTTR,
+-                        keyinfn, bytcntfn, (int (*)()) NULL, restartf, ifflg (chmoutf, RK_CHMOUT) | ifflg (keyackf, RK_KEYACK) | ifflg (nonisecodf, RK_NONISE) | RK_DSPNIL));
++                        keyinfn, bytcntfn, (int (*) FRWNN_PARAMS((uns_chr *))) NULL, restartf, ifflg (chmoutf, RK_CHMOUT) | ifflg (keyackf, RK_KEYACK) | ifflg (nonisecodf, RK_NONISE) | RK_DSPNIL));
+ }
+ 
+  /**    表を読み込んで変換の初期設定をする。（part 3）*/
+@@ -485,10 +485,10 @@ romkan_init3 (modhyo, delchr_, nisedl_, delchr2_, keyinfn, bytcntfn, kbytcntfn,
+      letter delchr_;            /* DELとして使うコード */
+      letter nisedl_;            /* 偽DELとして使うコード */
+      letter delchr2_;           /* DELとして使うコードが二つある場合そのもう一方 */
+-letter (*keyinfn) ();           /* キーイン関数 */
+-     int (*bytcntfn) ();        /* バイトカウント関数 */
+-     int (*kbytcntfn) ();       /* キーインの解釈用バイトカウント関数。NULL指定の時は
+-                                   bytcntfnと同じものが使われる */
++     letter (*keyinfn) FRWNN_PARAMS((void));     /* キーイン関数 */
++     int (*bytcntfn) FRWNN_PARAMS((uns_chr *));  /* バイトカウント関数 */
++     int (*kbytcntfn) FRWNN_PARAMS((uns_chr *)); /* キーインの解釈用バイトカウント関数。NULL指定の時は
++                                                    bytcntfnと同じものが使われる */
+      char restartf;
+  /*     rk_rst()内から呼ばれた時に立つフラグ。これが立つと、バッファをクリア
+     せずに済ます。この時はエラー検出時のメッセージも少し異なる */
+diff --git a/Wnn/romkan/rk_modread.c b/Wnn/romkan/rk_modread.c
+index 4a37aee..b841cbe 100644
+--- a/Wnn/romkan/rk_modread.c
++++ b/Wnn/romkan/rk_modread.c
+@@ -67,7 +67,7 @@
+ extern char *chrcat FRWNN_PARAMS((char*,char)),
+   *strend FRWNN_PARAMS((char*)),
+   *ename FRWNN_PARAMS((char*));
+-extern void romkan_clear ();
++extern void romkan_clear FRWNN_PARAMS((void));
+ char *modhyopath;
+ 
+ static void cond_evl FRWNN_PARAMS((char*)),
+@@ -76,8 +76,8 @@ static void cond_evl FRWNN_PARAMS((char*)),
+   rd_ctrl FRWNN_PARAMS((register FILE*,char**)),
+   hyouse FRWNN_PARAMS((int)),
+   look_choose FRWNN_PARAMS((int**,int));
+-void choosehyo ();
+-static int mystrcmp FRWNN_PARAMS((char*,char*)),
++  void choosehyo FRWNN_PARAMS((void));
++  static int mystrcmp FRWNN_PARAMS((char*,char*)),
+   read1tm FRWNN_PARAMS((char**,int)),
+   mod_evl FRWNN_PARAMS((char*)),
+   fnmsrc_tourk FRWNN_PARAMS((char*)),
+@@ -613,7 +613,7 @@ get_hmdir (dest, soc)
+         時3、~のあとに存在しないユーザ名が来たら4。*/
+ int
+ readfnm (readchar_func, unreadc_func, readstr_func, areap, lastcptr)
+-     register int (*readchar_func) (), (*unreadc_func) (), (*readstr_func) ();
++     register int (*readchar_func) FRWNN_PARAMS((void)), (*unreadc_func) FRWNN_PARAMS((int)), (*readstr_func) FRWNN_PARAMS((char **, int));
+      char **areap;
+      int *lastcptr;
+ {

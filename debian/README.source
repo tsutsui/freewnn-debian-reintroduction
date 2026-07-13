@@ -1,0 +1,56 @@
+FreeWnn source and patch provenance
+===================================
+
+This Debian reintroduction candidate uses the FreeWnn 1.1.1-a023 source
+recorded by upstream commit fa30218caa2fe0a90a81b71b85f27814906166f4.
+The upstream portability reference is pinned by commit
+597e838fc31b3a863a353a823fdd10132681e2e9.
+
+Patch organization
+------------------
+
+The active quilt series contains 35 logical patches.  The first 31 patches are
+upstream-derived portability changes.  Applying those 31 patches to the a023
+base reproduces the pinned upstream reference exactly, apart from generated
+configure.  The remaining four patches are Debian-specific supplements:
+
+* 0050 defines MAXPATHLEN on systems that do not provide it;
+* 1000 selects Debian filesystem locations;
+* 1001 corrects manual-page sections;
+* 1002 escapes the atod -s option in roff input.
+
+Historical Debian patches that are empty, obsolete, already included upstream,
+or superseded by this logical series are not retained as inactive files.
+
+Generated configure policy
+--------------------------
+
+Quilt patches modify configure.in where required and never carry generated
+configure.  Debian packaging must regenerate configure with autoreconf.
+
+Task 1 verification
+-------------------
+
+The external Task 1 v3.1 verifier checks:
+
+* the exact patch directory and series;
+* DEP-3 syntax, exact upstream commit attribution, and rewritten-SHA exclusion;
+* the exact 37-commit range from a023 to the pinned upstream tip;
+* fuzz-zero application of both the upstream subset and complete series;
+* source-tree equality with the pinned upstream tip, excluding generated
+  configure;
+* patch-header and resulting-source whitespace;
+* four separate builds using Debian 13's default gcc with -std=gnu23,
+  including full-client and explicit pkg-config terminal-library profiles.
+
+The -std=gnu23 option is a portability-test condition only.  It is not a Debian
+package build flag and must not be added to debian/rules or package CI, so the
+source package remains backportable to distributions with older compiler
+defaults.
+
+Scope
+-----
+
+Task 1 only establishes the source patch series.  It does not assert Debian
+acceptance, licensing approval, adopter or maintainer commitment, policy
+completion, or upload readiness.

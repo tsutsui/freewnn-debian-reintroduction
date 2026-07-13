@@ -1,0 +1,56 @@
+Description: Include the libwrap declarations in its configure test.
+ Source commits: d624813b2210db7e7b66688154a3911539809db5
+Origin: upstream
+Bug-Debian: https://bugs.debian.org/1065772
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/configure.in b/configure.in
+index fa74d9c..e55b0ee 100644
+--- a/configure.in
++++ b/configure.in
+@@ -875,21 +875,40 @@ if test "$WRAP_TRY" = yes -o "$WRAP_TRY" = auto; then
+     OLDLIBS="$LIBS"
+     WRAPLIB=${WRAPLIB:-"-lwrap"}
+     LIBS="$WRAPLIB $OLDLIBS"
+-    AC_MSG_CHECKING([libwrap is working])
+-    AC_TRY_LINK([ int allow_severity; int deny_severity; ],
+-		[ hosts_access(); ],
++
++    AC_CHECK_HEADER([tcpd.h],
++        [have_tcpd_h=yes],
++        [have_tcpd_h=no])
++
++    if test "$have_tcpd_h" = yes; then
++        AC_MSG_CHECKING([libwrap is working])
++        AC_TRY_LINK([
++#include <tcpd.h>
++int allow_severity;
++int deny_severity;
++],
++        [ return hosts_access((struct request_info *)0); ],
+ 		[ AC_MSG_RESULT(yes)
+ 		  AC_DEFINE(HAVE_LIBWRAP, 1,
+ 		           [Define if you have libwrap (TCP wrapper) support.])
+ 		  AC_SUBST(WRAPLIB)],
+ 		[ AC_MSG_RESULT(no)
+ 		  if test "$WRAP_TRY" = yes; then
+-		    AC_MSG_ERROR([Could not find libwrap. Please check config.log.])
++		    AC_MSG_ERROR([Could not find working libwrap. Please check config.log.])
+ 		  else
+ 		    # recover old flag / clear needless WRAPLIB and continue
+ 		    CFLAGS=$OLDCFLAGS
+ 		    WRAPLIB=
+ 		  fi] )
++    else
++        if test "$WRAP_TRY" = yes; then
++            AC_MSG_ERROR([Could not find tcpd.h for libwrap.])
++        else
++            # recover old flag / clear needless WRAPLIB and continue
++            CFLAGS=$OLDCFLAGS
++            WRAPLIB=
++        fi
++    fi
+     # only jserver needs libwrap, recover LIBS also
+     LIBS=$OLDLIBS
+ fi

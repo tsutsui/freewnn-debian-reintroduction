@@ -1,0 +1,143 @@
+Description: Use system headers for standard C library declarations.
+ Source commits: b90513011520dbe4b34816b0aad62275d0815fbb;
+  d582d0ea7dfd937d56f911ee5e1695d45dcc9288
+Origin: upstream
+Bug-Debian: https://bugs.debian.org/1065772
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/jlib.V3/jlv3.c b/Wnn/jlib.V3/jlv3.c
+index 19669c3..9280a7d 100644
+--- a/Wnn/jlib.V3/jlv3.c
++++ b/Wnn/jlib.V3/jlv3.c
+@@ -125,7 +125,6 @@ static struct wnn_ret_buf ret_buf = { 0, NULL };
+ static char *
+ getlogname ()
+ {
+-  extern struct passwd *getpwuid ();
+   struct passwd *p;
+ 
+   if ((p = getpwuid (getuid ())) == NULL)
+diff --git a/Wnn/jlib/jl.c b/Wnn/jlib/jl.c
+index 73e9528..24e067b 100644
+--- a/Wnn/jlib/jl.c
++++ b/Wnn/jlib/jl.c
+@@ -2973,7 +2973,6 @@ expand_expr_all (s, env)
+ static char *
+ getlogname ()
+ {
+-  struct passwd *getpwuid ();
+   return getpwuid (getuid ())->pw_name;
+ }
+ 
+@@ -2990,8 +2989,6 @@ expand_expr (s, env)
+   char tmp[EXPAND_PATH_LENGTH];
+   int noerr, expandsuc;
+   struct passwd *u;
+-  extern char *getenv ();
+-  extern struct passwd *getpwnam ();
+ 
+   if (*s != '~' && *s != '@')
+     return (0);
+diff --git a/Wnn/jlib/js.c b/Wnn/jlib/js.c
+index 375f0c3..6c2edad 100644
+--- a/Wnn/jlib/js.c
++++ b/Wnn/jlib/js.c
+@@ -726,7 +726,6 @@ dmp (p, c)
+ static char *
+ getlogname ()
+ {
+-  struct passwd *getpwuid ();
+   return getpwuid (getuid ())->pw_name;
+ }
+ 
+@@ -906,7 +905,6 @@ js_set_lang (env, lang)
+      register char *lang;
+ {
+   register char *p;
+-  extern char *getenv ();
+ 
+   /* if not specified language , use $LANG */
+   if (lang == 0 || *lang == 0)
+diff --git a/Wnn/jutil/wddel.c b/Wnn/jutil/wddel.c
+index 4b1984e..420b8f5 100644
+--- a/Wnn/jutil/wddel.c
++++ b/Wnn/jutil/wddel.c
+@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wddel.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
+ #  if HAVE_MALLOC_H
+ #    include <malloc.h>
+ #  endif
+-extern char *getenv ();
+ #endif /* STDC_HEADERS */
+ 
+ #if HAVE_UNISTD_H
+diff --git a/Wnn/jutil/wdreg.c b/Wnn/jutil/wdreg.c
+index 1494ed0..b50ef15 100644
+--- a/Wnn/jutil/wdreg.c
++++ b/Wnn/jutil/wdreg.c
+@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wdreg.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
+ #  if HAVE_MALLOC_H
+ #    include <malloc.h>
+ #  endif
+-extern char *getenv ();
+ #endif /* STDC_HEADERS */
+ #include <sys/types.h>
+ #include <sys/file.h>
+diff --git a/Wnn/jutil/wnnstat.c b/Wnn/jutil/wnnstat.c
+index ca63019..71cfd5d 100644
+--- a/Wnn/jutil/wnnstat.c
++++ b/Wnn/jutil/wnnstat.c
+@@ -79,7 +79,6 @@ struct wnn_ret_buf rb = { 0, NULL };
+ 
+ extern int optind;
+ extern char *optarg;
+-extern char *getenv ();
+ 
+ #ifdef JAPANESE
+ extern int eujis_to_jis8 (), eujis_to_sjis ();
+diff --git a/Wnn/uum/termcap.c b/Wnn/uum/termcap.c
+index 69ceec3..755217a 100644
+--- a/Wnn/uum/termcap.c
++++ b/Wnn/uum/termcap.c
+@@ -116,7 +116,7 @@ getTermData ()
+   char *pter;
+   char *sr_set ();
+   char *j;
+-  extern char *getenv (), *get_kbd_env ();
++  extern char *get_kbd_env ();
+ 
+ 
+ #ifdef DCUREOR
+diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
+index a1ab294..9c01352 100644
+--- a/Wnn/uum/wnnrc_op.c
++++ b/Wnn/uum/wnnrc_op.c
+@@ -139,7 +139,6 @@ expand_expr (s)
+   register char *p, *s1;
+   int noerr, expandsuc;
+   struct passwd *u;
+-  extern struct passwd *getpwnam ();
+ 
+   if (*s != '~' && *s != '@')
+     {
+diff --git a/Wnn/etc/pwd.c b/Wnn/etc/pwd.c
+index f565769..1f5614f 100644
+--- a/Wnn/etc/pwd.c
++++ b/Wnn/etc/pwd.c
+@@ -36,6 +36,8 @@
+ #  include <config.h>
+ #endif
+ 
++#include <time.h>
++
+ #ifndef JS
+ #include <stdio.h>
+ #if STDC_HEADERS
+@@ -46,7 +48,6 @@
+ #if HAVE_UNISTD_H
+ #  include <unistd.h>
+ #endif
+-#include <time.h>
+ 
+ #include "commonhd.h"
+ #include "jslib.h"

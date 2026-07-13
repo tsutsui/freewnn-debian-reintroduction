@@ -1,0 +1,19 @@
+Description: Use _DEFAULT_SOURCE for current glibc feature declarations.
+ Source commits: b8c95ad64da5de58857c72f4b3644d90c6e6e53c
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/configure.in b/configure.in
+index e55b0ee..033281e 100644
+--- a/configure.in
++++ b/configure.in
+@@ -395,7 +395,7 @@ dnl Now that we are using autoconf, CCOPTIONS should be nuked...
+ dnl But please report if your system needs specific settings (CCOPTIONS etc.)
+ case $host in
+ *-*-linux*)
+-    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_BSD_SOURCE"
++    CCOPTIONS="-Dlinux -D_GNU_SOURCE -D_POSIX_SOURCE -D_DEFAULT_SOURCE"
+     ;;
+ *-*-*-gnu)
+     # Non-Linux kernel with GNU libc.

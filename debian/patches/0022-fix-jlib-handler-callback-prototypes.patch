@@ -1,0 +1,20 @@
+Description: Declare jl_dic_add_e handler callback arguments.
+ Source commits: a85b88729c2fa7d0a2ec542d737c5e19061c8a47;
+  915ecd5efe7a9ab09fc073c8131687184a45dfa4
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/include/jllib.h b/Wnn/include/jllib.h
+index fb093dc..0481575 100644
+--- a/Wnn/include/jllib.h
++++ b/Wnn/include/jllib.h
+@@ -260,7 +260,7 @@ extern struct wnn_jdata *jl_word_info_e FRWNN_PARAMS((register struct wnn_env *e
+ extern w_char *jl_hinsi_name_e FRWNN_PARAMS((register struct wnn_env *env, register int no));
+ 
+ extern void jl_close FRWNN_PARAMS((register struct wnn_buf *buf));
+-extern int jl_dic_add_e FRWNN_PARAMS((register struct wnn_env *env, char *dic_name, char *hindo_name, int rev, int prio, int rw, int hrw, char *pwd_dic, char *pwd_hindo, int (*error_handler) (), int (*message_handler) () ));
++extern int jl_dic_add_e FRWNN_PARAMS((register struct wnn_env *env, char *dic_name, char *hindo_name, int rev, int prio, int rw, int hrw, char *pwd_dic, char *pwd_hindo, int (*error_handler) (const char *), int (*message_handler) (const char *)));
+ extern int jl_dic_comment_set_e FRWNN_PARAMS((register struct wnn_env *env, int dic_no, w_char *comment));
+ extern int jl_dic_delete_e FRWNN_PARAMS((register struct wnn_env *env, register int dic_no));
+ extern int jl_dic_list_e   FRWNN_PARAMS((struct wnn_env *env, WNN_DIC_INFO **dicinfo));

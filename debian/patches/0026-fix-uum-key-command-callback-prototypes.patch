@@ -1,0 +1,2010 @@
+Description: Normalize uum key command callback prototypes.
+ Source commits: 60984c64cdc7433d412392785117e7e1b11d3842
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/uum/basic_op.c b/Wnn/uum/basic_op.c
+index e7f44eb..94d91e0 100644
+--- a/Wnn/uum/basic_op.c
++++ b/Wnn/uum/basic_op.c
+@@ -109,7 +109,7 @@ kana_in_w_char_msg (msg, mode, buffer, buflen)
+   c_b->key_table = main_table[6];
+   c_b->rk_clear_tbl = romkan_clear_tbl[6];
+   c_b->key_in_fun = NULL;
+-  c_b->ctrl_code_fun = (int (*)()) NULL;
++  c_b->ctrl_code_fun = NULL;
+   kill_buffer_offset = 0;
+ 
+   init_screen ();
+@@ -157,7 +157,7 @@ kana_in (msg, mode, buffer, buflen)
+   c_b->rk_clear_tbl = romkan_clear_tbl[6];
+   c_b->key_in_fun = NULL;
+   c_b->redraw_fun = redraw_nisemono;
+-  c_b->ctrl_code_fun = (int (*)()) NULL;
++  c_b->ctrl_code_fun = NULL;
+   kill_buffer_offset = 0;
+ 
+   init_screen ();
+@@ -283,8 +283,7 @@ buffer_in ()
+             {
+               if (tmp_send)
+                 {
+-                  /* ret = return_it (c, romkan);  */
+-                  ret = return_it (c);
++                  ret = return_it (c, romkan);
+                   tmp_send = 0;
+                 }
+               else
+@@ -299,7 +298,7 @@ buffer_in ()
+                 {
+                   if (tmp_send)
+                     {
+-                      ret = return_it (c);
++                      ret = return_it (c, romkan);
+                       tmp_send = 0;
+                     }
+                   else if (c_b->key_in_fun)
+@@ -348,14 +347,16 @@ buffer_in ()
+ }
+ 
+ int
+-t_rubout (c, romkan)
+-     int c, romkan;
++t_rubout (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+ 
+   if (c_b->t_c_p != 0)
+     {
+       backward ();
+-      t_delete_char ();
++      t_delete_char (0, 0);
+     }
+   return (0);
+ }
+@@ -372,8 +373,11 @@ delete_char1 ()
+ }
+ 
+ int
+-t_delete_char ()
++t_delete_char (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   delete_char1 ();
+   call_t_redraw_move (c_b->t_c_p, c_b->t_c_p, c_b->maxlen, 2, 1);
+   return (0);
+@@ -383,15 +387,21 @@ extern int in_kuten ();
+ extern int in_jis ();
+ 
+ int
+-kuten ()
++kuten (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   input_a_char_from_function (in_kuten);
+   return (0);
+ }
+ 
+ int
+-jis ()
++jis (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   input_a_char_from_function (in_jis);
+   return (0);
+ }
+@@ -420,8 +430,11 @@ input_a_char_from_function (fun)
+ }
+ 
+ int
+-t_kill ()
++t_kill (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   kill_buffer_offset = min (c_b->maxlen - c_b->t_c_p, maxchg);
+   Strncpy (kill_buffer, c_b->buffer + c_b->t_c_p, kill_buffer_offset);
+   c_b->maxlen = c_b->t_c_p;
+@@ -431,8 +444,11 @@ t_kill ()
+ 
+ 
+ int
+-t_yank ()
++t_yank (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (kill_buffer_offset <= c_b->buflen - c_b->t_c_p)
+     {
+       Strncpy (c_b->buffer + c_b->t_c_p + kill_buffer_offset, c_b->buffer + c_b->t_c_p, c_b->maxlen - c_b->t_c_p);
+@@ -444,42 +460,60 @@ t_yank ()
+ }
+ 
+ int
+-t_ret ()
++t_ret (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (1);
+ }
+ 
+ int
+-t_quit ()
++t_quit (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (-1);
+ }
+ 
+ 
+ int
+-c_top ()
++c_top (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   (*c_top_func) ();
+   return (0);
+ }
+ 
+ int
+-c_end ()
++c_end (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   (*c_end_func) ();
+   return (0);
+ }
+ 
+ int
+-c_end_nobi ()
++c_end_nobi (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   (*c_end_nobi_func) ();
+   return (0);
+ }
+ 
+ int
+-t_jmp_backward ()
++t_jmp_backward (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int k;
+ 
+   for (k = 1; k < touroku_bnst_cnt; k++)
+@@ -492,7 +526,7 @@ t_jmp_backward ()
+             }
+           else
+             {
+-              c_top ();
++              c_top (0, 0);
+             }
+           return (0);
+         }
+@@ -502,8 +536,11 @@ t_jmp_backward ()
+ }
+ 
+ int
+-t_jmp_forward ()
++t_jmp_forward (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int k;
+ 
+   for (k = 1; k < touroku_bnst_cnt; k++)
+@@ -514,14 +551,17 @@ t_jmp_forward ()
+           return (0);
+         }
+     }
+-  forward_char ();
++  forward_char (0, 0);
+   return (0);
+ }
+ 
+ 
+ int
+-forward_char ()
++forward_char (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (c_b->t_c_p < c_b->maxlen)
+     {
+       call_t_redraw_move_2 (c_b->t_c_p + 1, c_b->t_c_p, c_b->t_m_start, c_b->t_c_p + 2, c_b->t_c_p + 1, 0, 1);
+@@ -530,8 +570,11 @@ forward_char ()
+ }
+ 
+ int
+-forward ()
++forward (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (c_b->t_c_p < c_b->maxlen)
+     {
+       t_move (c_b->t_c_p + 1);
+@@ -540,8 +583,11 @@ forward ()
+ }
+ 
+ int
+-backward_char ()
++backward_char (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (c_b->t_c_p >= 1 && c_b->t_c_p > c_b->t_m_start)
+     {
+       call_t_redraw_move_2 (c_b->t_c_p - 1, c_b->t_c_p - 1, c_b->t_m_start, c_b->t_c_p + 1, c_b->t_c_p, 0, 1);
+@@ -597,13 +643,16 @@ set_screen_vars_default ()
+ }
+ 
+ int
+-quote ()
++quote (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int c;
+   c = keyin ();
+   if (c_b->key_table[c] == henkan_off)
+     {
+-      (*c_b->key_table[c]) ();
++      (*c_b->key_table[c]) (c, 0);
+       return (0);
+     }
+   if (empty_modep () && c_b->key_in_fun)
+diff --git a/Wnn/uum/buffer.h b/Wnn/uum/buffer.h
+index 3e877ec..7315bc6 100644
+--- a/Wnn/uum/buffer.h
++++ b/Wnn/uum/buffer.h
+@@ -61,14 +61,14 @@ struct buf
+ 
+   int vst;                      /* bufferの中で画面に表示されている最初の位置 */
+   /*これは、勝手に上のルーチンでいじらない方が望ましい。 */
+-  int (*key_in_fun) ();         /*ここに関数が設定されていると、key_tableにバインドが
++  WNN_UumCommand key_in_fun;         /*ここに関数が設定されていると、key_tableにバインドが
+                                    ない文字の入力を
+                                    受けた時にバッファーにその文字を入れずに代わりにその関数が呼ばれる */
+-  int (*redraw_fun) ();         /* romkan kara redraw ga kaette kitatoki */
+-  int (*ctrl_code_fun) ();      /*ここに関数が設定されていると、key_tableにバインドが
++  WNN_UumRedrawFunc redraw_fun;         /* romkan kara redraw ga kaette kitatoki */
++  WNN_UumCommand ctrl_code_fun;      /*ここに関数が設定されていると、key_tableにバインドが
+                                    ないコントロール文字の入力を受けた時にベルを鳴らす代わりに
+                                    その関数が呼ばれる */
+-  int (**key_table) ();         /*キーバインドのテーブル */
++  WNN_UumCommand *key_table;         /*キーバインドのテーブル */
+   char *rk_clear_tbl;           /* romakn_clear が hituyouka */
+ };
+ 
+diff --git a/Wnn/uum/header.c b/Wnn/uum/header.c
+index c21d79a..b28f02f 100644
+--- a/Wnn/uum/header.c
++++ b/Wnn/uum/header.c
+@@ -63,7 +63,7 @@ int quote_flag = 0;
+ 
+ int max_history;
+ 
+-int (*main_table[TBL_CNT][TBL_SIZE]) ();
++WNN_UumCommand main_table[TBL_CNT][TBL_SIZE];
+ char romkan_clear_tbl[TBL_CNT][TBL_SIZE];
+ w_char jishopath[64];
+ w_char hindopath[64];
+diff --git a/Wnn/uum/inspect.c b/Wnn/uum/inspect.c
+index 5a75283..a925b9b 100644
+--- a/Wnn/uum/inspect.c
++++ b/Wnn/uum/inspect.c
+@@ -68,8 +68,11 @@ static int next_flag;
+ #define I_CUR 3
+ 
+ int
+-inspect_kouho ()
++inspect_kouho (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   push_cursor ();
+   next_flag = I_CUR;
+   while (next_flag)
+@@ -184,8 +187,11 @@ make_string_for_ke (bun_no, buf, buf_size)
+ static void sakujo_kouho1 (int);
+ 
+ int
+-sakujo_kouho ()
++sakujo_kouho (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   push_cursor ();
+   sakujo_kouho1 (cur_bnst_);
+   pop_cursor ();
+@@ -228,8 +234,11 @@ sakujo_kouho1 (bun_no)
+ }
+ 
+ int
+-inspectdel ()
++inspectdel (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   struct wnn_jl_bun *bun = bun_data_->bun[Bun_no];
+   int type;
+   w_char buf1[1024];
+@@ -280,8 +289,11 @@ inspectdel ()
+ }
+ 
+ int
+-inspectuse ()
++inspectuse (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   struct wnn_jl_bun *bun = bun_data_->bun[Bun_no];
+   w_char buf1[1024];
+   char buf[512];
+@@ -320,15 +332,21 @@ inspectuse ()
+ }
+ 
+ int
+-next_inspect ()
++next_inspect (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   next_flag = I_NEXT;
+   return (1);
+ }
+ 
+ int
+-previous_inspect ()
++previous_inspect (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   next_flag = I_PREV;
+   return (1);
+ }
+diff --git a/Wnn/uum/jikouho.c b/Wnn/uum/jikouho.c
+index b619666..9ad6a49 100644
+--- a/Wnn/uum/jikouho.c
++++ b/Wnn/uum/jikouho.c
+@@ -160,36 +160,51 @@ jikouho_dai (num)
+ }
+ 
+ int
+-jikouho_c ()
++jikouho_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   jikouho (1);
+   return (0);
+ }
+ 
+ int
+-zenkouho_c ()
++zenkouho_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   jikouho (-1);
+   return (0);
+ }
+ 
+ int
+-jikouho_dai_c ()
++jikouho_dai_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   jikouho_dai (1);
+   return (0);
+ }
+ 
+ int
+-zenkouho_dai_c ()
++zenkouho_dai_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   jikouho_dai (-1);
+   return (0);
+ }
+ 
+ int
+-select_jikouho ()
++select_jikouho (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (select_jikouho1 (WNN_SHO) == -1)
+     {
+       t_print_l ();
+@@ -202,8 +217,11 @@ select_jikouho ()
+ }
+ 
+ int
+-select_jikouho_dai ()
++select_jikouho_dai (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (select_jikouho1 (WNN_DAI) == -1)
+     {
+       t_print_l ();
+diff --git a/Wnn/uum/jis_in.c b/Wnn/uum/jis_in.c
+index 7c05f89..b4171e2 100644
+--- a/Wnn/uum/jis_in.c
++++ b/Wnn/uum/jis_in.c
+@@ -52,8 +52,6 @@ in_jis ()                       /*  returns code for a moji  */
+   int code;
+   int c_p = 0;                  /* 何文字はいったかを示す */
+   int c, k;
+-  extern int t_quit ();
+-  extern int henkan_off ();
+   int not_redrawtmp = not_redraw;
+   not_redraw = 1;               /*リドローしない */
+ 
+@@ -95,7 +93,7 @@ start:
+         }
+       else if (henkan_off == main_table[5][c])
+         {                       /*きたない! */
+-          henkan_off ();
++          henkan_off (c, 0);
+         }
+       else if (c_p < 4 && ((c <= '9' && c >= '0') || (c <= 'F' && c >= 'A') || (c <= 'f' && c >= 'a')))
+         {
+diff --git a/Wnn/uum/key_bind.c b/Wnn/uum/key_bind.c
+index 5eba500..03a3fde 100644
+--- a/Wnn/uum/key_bind.c
++++ b/Wnn/uum/key_bind.c
+@@ -61,111 +61,99 @@
+ #include "sheader.h"
+ #define MADA NULL
+ 
+-extern int insert_it_as_yomi ();
+-extern int select_jikouho ();
+-extern int select_jikouho_dai ();
+-extern int jikouho_c ();
+-extern int zenkouho_c ();
+-extern int jikouho_dai_c ();
+-extern int zenkouho_dai_c ();
+-extern int enlarge_bunsetsu ();
+-extern int smallen_bunsetsu ();
+-extern int top_bunsetsu ();
+-extern int end_bunsetsu ();
+-extern int ren_henkan ();
+-extern int tan_henkan ();
+-extern int tan_henkan_dai ();
+-extern int nobi_henkan ();
+-extern int nobi_henkan_dai ();
+-extern int send_string ();
+-extern int t_yank ();
+-extern int yank_c ();
+-extern int kakutei ();
+-extern int remember_me ();
+-extern int reset_line ();
+-extern int touroku_c ();
+-extern int forward_char ();
+-extern int backward_char ();
+-extern int forward ();
+-extern int backward ();
+-extern int c_top ();
+-extern int c_end ();
+-extern int c_end_nobi ();
+-extern int t_quit ();
+-extern int t_delete_char ();
+-extern int delete_c ();
+-extern int t_rubout ();
+-extern int rubout_c ();
+-extern int t_markset ();
+-extern int kuten ();
+-extern int t_kill ();
+-extern int kill_c ();
+-extern int kaijo ();
+-extern int t_jmp_forward ();
+-extern int t_jmp_backward ();
+-extern int t_ret ();
+-extern int previous_history ();
+-extern int next_history ();
+-extern int forward_bunsetsu ();
+-extern int backward_bunsetsu ();
+-extern int jutil_c ();
+-extern int jis ();
+-extern int tijime ();
+-extern int jmptijime ();
+-extern int henkan_forward ();
+-extern int henkan_backward ();
+-extern int backward_c ();
+-extern int quote ();
+-extern int send_ascii ();
+-extern int not_send_ascii ();
+-extern int toggle_send_ascii ();
+-extern int send_ascii_e ();
+-extern int not_send_ascii_e ();
+-extern int toggle_send_ascii_e ();
+-extern int pop_send_ascii ();
+-extern int pop_send_ascii_e ();
+-extern int quote_send_ascii_e ();
+-extern int reconnect_jserver ();
+-
+-extern int select_select ();
+-extern int quit_select ();
+-extern int lineend_select ();
+-extern int linestart_select ();
+-extern int redraw_select ();
+-extern int previous_select ();
+-extern int next_select ();
+-extern int backward_select ();
+-extern int forward_select ();
+-
+-extern int select_select_line ();
+-extern int quit_select_line ();
+-extern int lineend_select_line ();
+-extern int linestart_select_line ();
+-extern int redraw_select_line ();
+-extern int previous_select_line ();
+-extern int next_select_line ();
+-extern int backward_select_line ();
+-extern int forward_select_line ();
+-extern int inspect_kouho ();
+-extern int sakujo_kouho ();
+-
+-extern int henkan_off ();
+-
+-extern int kdicdel ();
+-extern int kdicuse ();
+-extern int kdiccom ();
+-extern int kworddel ();
+-extern int kworduse ();
+-extern int kwordcom ();
+-extern int kwordima ();
+-extern int kwordhindo ();
+-
+-extern int inspectdel ();
+-extern int inspectuse ();
+-extern int previous_inspect ();
+-extern int next_inspect ();
+-
+-extern int kankana_ren_henkan ();
++extern int insert_it_as_yomi FRWNN_PARAMS((int, int));
++extern int select_jikouho FRWNN_PARAMS((int, int));
++extern int select_jikouho_dai FRWNN_PARAMS((int, int));
++extern int jikouho_c FRWNN_PARAMS((int, int));
++extern int zenkouho_c FRWNN_PARAMS((int, int));
++extern int jikouho_dai_c FRWNN_PARAMS((int, int));
++extern int enlarge_bunsetsu FRWNN_PARAMS((int, int));
++extern int smallen_bunsetsu FRWNN_PARAMS((int, int));
++extern int top_bunsetsu FRWNN_PARAMS((int, int));
++extern int end_bunsetsu FRWNN_PARAMS((int, int));
++extern int ren_henkan FRWNN_PARAMS((int, int));
++extern int tan_henkan FRWNN_PARAMS((int, int));
++extern int tan_henkan_dai FRWNN_PARAMS((int, int));
++extern int nobi_henkan FRWNN_PARAMS((int, int));
++extern int nobi_henkan_dai FRWNN_PARAMS((int, int));
++extern int yank_c FRWNN_PARAMS((int, int));
++extern int remember_me FRWNN_PARAMS((int, int));
++extern int reset_line FRWNN_PARAMS((int, int));
++extern int touroku_c FRWNN_PARAMS((int, int));
++extern int forward FRWNN_PARAMS((int, int));
++extern int c_top FRWNN_PARAMS((int, int));
++extern int c_end FRWNN_PARAMS((int, int));
++extern int c_end_nobi FRWNN_PARAMS((int, int));
++extern int delete_c FRWNN_PARAMS((int, int));
++extern int rubout_c FRWNN_PARAMS((int, int));
++extern int t_markset FRWNN_PARAMS((int, int));
++extern int kuten FRWNN_PARAMS((int, int));
++extern int kill_c FRWNN_PARAMS((int, int));
++extern int kaijo FRWNN_PARAMS((int, int));
++extern int t_jmp_forward FRWNN_PARAMS((int, int));
++extern int t_jmp_backward FRWNN_PARAMS((int, int));
++extern int t_ret FRWNN_PARAMS((int, int));
++extern int previous_history FRWNN_PARAMS((int, int));
++extern int next_history FRWNN_PARAMS((int, int));
++extern int forward_bunsetsu FRWNN_PARAMS((int, int));
++extern int backward_bunsetsu FRWNN_PARAMS((int, int));
++extern int jutil_c FRWNN_PARAMS((int, int));
++extern int jis FRWNN_PARAMS((int, int));
++extern int tijime FRWNN_PARAMS((int, int));
++extern int jmptijime FRWNN_PARAMS((int, int));
++extern int henkan_forward FRWNN_PARAMS((int, int));
++extern int henkan_backward FRWNN_PARAMS((int, int));
++extern int backward_c FRWNN_PARAMS((int, int));
++extern int quote FRWNN_PARAMS((int, int));
++extern int send_ascii FRWNN_PARAMS((int, int));
++extern int not_send_ascii FRWNN_PARAMS((int, int));
++extern int toggle_send_ascii FRWNN_PARAMS((int, int));
++extern int send_ascii_e FRWNN_PARAMS((int, int));
++extern int not_send_ascii_e FRWNN_PARAMS((int, int));
++extern int toggle_send_ascii_e FRWNN_PARAMS((int, int));
++extern int pop_send_ascii FRWNN_PARAMS((int, int));
++extern int pop_send_ascii_e FRWNN_PARAMS((int, int));
++extern int quote_send_ascii_e FRWNN_PARAMS((int, int));
++extern int reconnect_jserver FRWNN_PARAMS((int, int));
++
++extern int select_select FRWNN_PARAMS((int, int));
++extern int quit_select FRWNN_PARAMS((int, int));
++extern int lineend_select FRWNN_PARAMS((int, int));
++extern int linestart_select FRWNN_PARAMS((int, int));
++extern int redraw_select FRWNN_PARAMS((int, int));
++extern int previous_select FRWNN_PARAMS((int, int));
++extern int next_select FRWNN_PARAMS((int, int));
++extern int backward_select FRWNN_PARAMS((int, int));
++extern int forward_select FRWNN_PARAMS((int, int));
++
++extern int select_select_line FRWNN_PARAMS((int, int));
++extern int quit_select_line FRWNN_PARAMS((int, int));
++extern int lineend_select_line FRWNN_PARAMS((int, int));
++extern int linestart_select_line FRWNN_PARAMS((int, int));
++extern int redraw_select_line FRWNN_PARAMS((int, int));
++extern int previous_select_line FRWNN_PARAMS((int, int));
++extern int next_select_line FRWNN_PARAMS((int, int));
++extern int backward_select_line FRWNN_PARAMS((int, int));
++extern int forward_select_line FRWNN_PARAMS((int, int));
++extern int inspect_kouho FRWNN_PARAMS((int, int));
++extern int sakujo_kouho FRWNN_PARAMS((int, int));
++
++
++extern int kdicdel FRWNN_PARAMS((int, int));
++extern int kdicuse FRWNN_PARAMS((int, int));
++extern int kdiccom FRWNN_PARAMS((int, int));
++extern int kworddel FRWNN_PARAMS((int, int));
++extern int kworduse FRWNN_PARAMS((int, int));
++extern int kwordcom FRWNN_PARAMS((int, int));
++extern int kwordima FRWNN_PARAMS((int, int));
++extern int kwordhindo FRWNN_PARAMS((int, int));
++
++extern int inspectdel FRWNN_PARAMS((int, int));
++extern int inspectuse FRWNN_PARAMS((int, int));
++extern int previous_inspect FRWNN_PARAMS((int, int));
++extern int next_inspect FRWNN_PARAMS((int, int));
++
++extern int kankana_ren_henkan FRWNN_PARAMS((int, int));
+ 
+ static struct kansuu kansuu_hyo[] = {
+   {"send_string", "send what is in the buffer to pty.", 0, send_string, send_string, send_string, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+@@ -291,8 +279,8 @@ init_key_table ()
+         {
+           main_table[j][k] = NULL;
+         }
+-      main_table[j][NEWLINE] = (int (*)()) 0;
+-      main_table[j][CR] = (int (*)()) 0;
++      main_table[j][NEWLINE] = NULL;
++      main_table[j][CR] = NULL;
+     }
+   for (j = 3; j < TBL_CNT; j++)
+     {
+diff --git a/Wnn/uum/kuten.c b/Wnn/uum/kuten.c
+index d7ffcbb..25eec78 100644
+--- a/Wnn/uum/kuten.c
++++ b/Wnn/uum/kuten.c
+@@ -54,8 +54,6 @@ in_kuten ()                     /*  returns code for a moji  */
+   int mode = -1;
+   /* '.'が入力されてなかったら-1。されていたら何桁めに
+      入っているかを保持する。 */
+-  extern int t_quit ();         /* added by Nide !! */
+-  extern int henkan_off ();
+   int not_redrawtmp = not_redraw;
+   not_redraw = 1;               /* リドローしない */
+ 
+@@ -96,7 +94,7 @@ start:
+             }
+           else if (henkan_off == main_table[5][c])
+             {                   /*きたない! */
+-              henkan_off ();
++              henkan_off (c, 0);
+             }
+         }
+       if ((mode >= 0 ? (c_p - mode) <= 2 : c_p < 4) && c <= '9' && c >= '0')
+diff --git a/Wnn/uum/prologue.c b/Wnn/uum/prologue.c
+index 3b6217c..30849f6 100644
+--- a/Wnn/uum/prologue.c
++++ b/Wnn/uum/prologue.c
+@@ -57,9 +57,9 @@
+ #include "jllib.h"
+ #include "commonhd.h"
+ #include "wnn_config.h"
+-#include "buffer.h"
+-#include "rk_spclval.h"
+ #include "sdefine.h"
++#include "rk_spclval.h"
++#include "buffer.h"
+ #include "sheader.h"
+ #include "wnn_os.h"
+ 
+diff --git a/Wnn/uum/redraw.c b/Wnn/uum/redraw.c
+index 3073639..d148b64 100644
+--- a/Wnn/uum/redraw.c
++++ b/Wnn/uum/redraw.c
+@@ -38,8 +38,11 @@
+ #include "buffer.h"
+ 
+ int
+-reset_line ()
++reset_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+ #if defined(uniosu)
+   putchar (Ctrl ('O'));         /* おまじない。括弧の中はゼロでなくオー */
+ #endif /* defined(uniosu) */
+diff --git a/Wnn/uum/sdefine.h b/Wnn/uum/sdefine.h
+index 305c4cc..c949f88 100644
+--- a/Wnn/uum/sdefine.h
++++ b/Wnn/uum/sdefine.h
+@@ -39,6 +39,14 @@
+ 
+ #include "commonhd.h"
+ 
++#ifndef FRWNN_PARAMS
++# if __STDC__
++#  define FRWNN_PARAMS(paramlist)	paramlist
++# else
++#  define FRWNN_PARAMS(paramlist)	()
++# endif
++#endif
++
+ /* ncurses' term.h defines them to either 0 or 1! */
+ #ifndef HAVE_TERMIOS_H
+ #  define DONT_HAVE_TERMIOS_H
+@@ -169,12 +177,18 @@ struct jisho_
+   int rdonly;
+ };
+ 
++/* 入力処理関数の共通呼出形式。引数は入力文字と romkan の結果。 */
++typedef int (*WNN_UumCommand) FRWNN_PARAMS((int, int));
++
++/* romkan_henkan() が REDRAW を返したときに呼び出す再表示関数。 */
++typedef int (*WNN_UumRedrawFunc) FRWNN_PARAMS((void));
++
+ struct kansuu
+ {                               /* kansuu_hyo no entry */
+   char *kansuumei;
+   char *comment;
+   int romkan_flag;              /* Clear Romkan or Not.  */
+-  int (*func[TBL_CNT]) ();
++  WNN_UumCommand func[TBL_CNT];
+ };
+ 
+ #ifndef w_char
+diff --git a/Wnn/uum/select_ele.c b/Wnn/uum/select_ele.c
+index 3d6def3..2404163 100644
+--- a/Wnn/uum/select_ele.c
++++ b/Wnn/uum/select_ele.c
+@@ -93,15 +93,13 @@ select_one_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
+      int init;
+      char *msg1;
+      int msg_len1;
+-     int (**key_tbl) ();
++     WNN_UumCommand *key_tbl;
+ {
+   int oldmm;                    /* hitotu mae no mm */
+   int d;
+   int c1;
+   int ret;
+ 
+-  extern int henkan_off ();
+-
+   int not_redrawtmp = not_redraw;
+   not_redraw = 1;               /* リドローしない */
+   push_cursor ();
+@@ -148,12 +146,12 @@ select_one_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
+ 
+           if (henkan_off == key_tbl[c1])
+             {                   /* added by T.S 10 Jan. '88 */
+-              henkan_off ();    /* What a mess!!  */
++              henkan_off (c1, 0);    /* What a mess!!  */
+               throw_c (LEND);   /* not beautiful!! */
+               flush ();
+               continue;
+             }
+-          else if ((ret = (*key_tbl[c1]) ()) == 1)
++          else if ((ret = (*key_tbl[c1]) (c1, 0)) == 1)
+             {
+               not_redraw = not_redrawtmp;
+               pop_cursor ();
+@@ -322,8 +320,11 @@ change_decimal (c1)
+ }
+ 
+ int
+-forward_select ()
++forward_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (mm < kosuu - 1)
+     {
+       mm++;
+@@ -336,8 +337,11 @@ forward_select ()
+ }
+ 
+ int
+-backward_select ()
++backward_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (mm > 0)
+     {
+       mm--;
+@@ -350,34 +354,49 @@ backward_select ()
+ }
+ 
+ int
+-lineend_select ()
++lineend_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   mm = dd[cc + 1] - 1;
+   return (0);
+ }
+ 
+ int
+-linestart_select ()
++linestart_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   mm = dd[cc];
+   return (0);
+ }
+ 
+ int
+-select_select ()
++select_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (1);                   /* return mm from upper function */
+ }
+ 
+ int
+-quit_select ()
++quit_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (-1);
+ }
+ 
+ int
+-previous_select ()
++previous_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (cc > 0)
+     {
+       mm = find_mm (cc - 1, mm - dd[cc]);
+@@ -390,8 +409,11 @@ previous_select ()
+ }
+ 
+ int
+-next_select ()
++next_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (cc < dd_size - 1)
+     {
+       mm = find_mm (cc + 1, mm - dd[cc]);
+@@ -404,8 +426,11 @@ next_select ()
+ }
+ 
+ int
+-redraw_select ()
++redraw_select (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   display_all (mm, cc);
+   return (0);
+ }
+@@ -434,7 +459,7 @@ select_line_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
+      char *msg1;
+      int msg_len1;
+      int state1;
+-     int (**key_tbl) ();
++     WNN_UumCommand *key_tbl;
+ {
+   int c1;
+   int ret;
+@@ -467,7 +492,7 @@ select_line_element (c, kosuu1, init, msg1, msg_len1, state1, key_tbl)
+ */
+       if ((c1 < 256) && (key_tbl[c1] != NULL))
+         {
+-          if ((ret = (*key_tbl[c1]) ()) == 1)
++          if ((ret = (*key_tbl[c1]) (c1, 0)) == 1)
+             {
+               not_redraw = not_redrawtmp;
+               pop_cursor ();
+@@ -575,8 +600,11 @@ st_colum (x)
+ 
+ 
+ int
+-next_select_line ()
++next_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (lc < kosuu - 1)
+     {
+       lc++;
+@@ -589,8 +617,11 @@ next_select_line ()
+ }
+ 
+ int
+-previous_select_line ()
++previous_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (lc > 0)
+     {
+       lc--;
+@@ -603,34 +634,49 @@ previous_select_line ()
+ }
+ 
+ int
+-select_select_line ()
++select_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (1);
+ }
+ 
+ int
+-linestart_select_line ()
++linestart_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   sc = 0;
+   return (0);
+ }
+ 
+ int
+-lineend_select_line ()
++lineend_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   sc = cnt_of_screen (lc) - 1;
+   return (0);
+ }
+ 
+ int
+-quit_select_line ()
++quit_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   return (-1);
+ }
+ 
+ int
+-forward_select_line ()
++forward_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (sc < cnt_of_screen (lc) - 1)
+     {
+       sc++;
+@@ -639,8 +685,11 @@ forward_select_line ()
+ }
+ 
+ int
+-backward_select_line ()
++backward_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (sc > 0)
+     {
+       sc--;
+@@ -649,8 +698,11 @@ backward_select_line ()
+ }
+ 
+ int
+-redraw_select_line ()
++redraw_select_line (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   display (lc, sc);
+   return (0);
+ }
+@@ -663,8 +715,11 @@ redraw_select_line ()
+ 
+ /* jishodel for kensaku */
+ int
+-kdicdel ()
++kdicdel (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   char buf[512];
+ 
+   /*
+@@ -685,8 +740,11 @@ kdicdel ()
+ 
+ 
+ int
+-kdicuse ()
++kdicuse (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   char buf[512];
+ 
+   if (dicinfo[lc - lc_offset].enablef)
+@@ -717,8 +775,11 @@ kdicuse ()
+ 
+ /* jishodel for kensaku */
+ int
+-kdiccom ()
++kdiccom (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   w_char com[512];
+ #ifdef nodef
+   char st[32];
+@@ -785,8 +846,11 @@ kdiccom ()
+ extern struct wnn_jdata *word_searched;
+ 
+ int
+-kworddel ()
++kworddel (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   char buf[512];
+   int type;
+ 
+@@ -830,8 +894,11 @@ kworddel ()
+ }
+ 
+ int
+-kworduse ()
++kworduse (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   char buf[512];
+ 
+   if (dicinfo[find_dic_by_no (word_searched[lc].dic_no)].hindo_rw == WNN_DIC_RDONLY)
+@@ -875,8 +942,11 @@ kworduse ()
+ }
+ 
+ int
+-kwordcom ()
++kwordcom (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   w_char com[512];
+   int type;
+   com[0] = 0;
+@@ -927,8 +997,11 @@ call_hindo_set (ima, hindo)
+ }
+ 
+ int
+-kwordima ()
++kwordima (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (word_searched[lc].ima)
+     {
+       if (call_hindo_set (WNN_IMA_OFF, WNN_HINDO_NOP))
+@@ -943,8 +1016,11 @@ kwordima ()
+ }
+ 
+ int
+-kwordhindo ()
++kwordhindo (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int cur_hindo;
+   w_char kana_buf[512];
+   char st[32];
+diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
+index 12e832c..3ad8804 100644
+--- a/Wnn/uum/sheader.h
++++ b/Wnn/uum/sheader.h
+@@ -110,7 +110,7 @@ extern int cur_bnst_;           /* current bunsetsu pointer */
+                                 /* Use jl_bun_suu(bun_data_) */
+ 
+ extern char romkan_clear_tbl[TBL_CNT][TBL_SIZE];
+-extern int (*main_table[TBL_CNT][TBL_SIZE]) (); /* holding commands */
++extern WNN_UumCommand main_table[TBL_CNT][TBL_SIZE]; /* holding commands */
+ 
+ /*  extern w_char *p_holder; *//* points the end of data in buffer. */
+ 
+@@ -266,8 +266,8 @@ extern int find_dic_by_no (int);
+ extern int find_end_of_tango (int);
+ extern int find_entry (char *);
+ extern void flushw_buf (void);
+-extern int forward_char (void);
+-extern int backward_char (void);
++extern int forward_char (int, int);
++extern int backward_char (int, int);
+ extern void get_end_of_history (register w_char *);
+ extern void getfname (char *, char *);
+ extern void h_r_off ();
+@@ -276,7 +276,7 @@ extern void h_r_on ();
+ extern void h_r_on_raw ();
+ extern int henkan_gop ();
+ extern void henkan_if_maru (w_char);
+-extern int henkan_off ();
++extern int henkan_off (int, int);
+ extern int hextodec (char);
+ extern int hinsi_in ();
+ extern int init_history ();
+@@ -287,7 +287,7 @@ extern int initial_message_out ();
+ extern void initialize_vars ();
+ extern int input_a_char_from_function (int (*) (void));
+ extern int insert_char (w_char);
+-extern int insert_char_and_change_to_insert_mode (int);
++extern int insert_char_and_change_to_insert_mode (int, int);
+ extern int insert_modep ();
+ extern int j_term_init ();
+ /* extern int flush_designate (w_char *);  */ /* move to include/etc.h  */
+@@ -332,9 +332,9 @@ extern void ring_bell ();
+ extern void save_cursor_raw ();
+ extern void scroll_up ();
+ extern int select_jikouho1 (int);
+-extern int select_line_element (char **, int, int, char *, int, int, int (**) ());
++extern int select_line_element (char **, int, int, char *, int, int, WNN_UumCommand *);
+ extern int select_one_dict1 (int);
+-extern int select_one_element (char **, int, int, char *, int, int, int (**) ());
++extern int select_one_element (char **, int, int, char *, int, int, WNN_UumCommand *);
+ extern int set_TERMCAP ();
+ extern void set_bold (int);
+ extern void set_cursor_status ();
+@@ -347,15 +347,16 @@ extern void set_keypad_off ();
+ extern void set_scroll_region (int, int);
+ extern int st_colum (int);
+ extern void t_cont_line_note_delete ();
+-extern int t_delete_char (void);
+-extern int t_kill ();
++extern int t_delete_char (int, int);
++extern int t_kill (int, int);
++extern int t_quit (int, int);
+ extern int t_move (int);
+ extern int t_print_l ();
+ extern void t_print_line (int, int, int);
+ extern int t_redraw_move (int, int, int, int);
+ extern int t_rubout (int, int);
+ extern void t_throw ();
+-extern int t_yank ();
++extern int t_yank (int, int);
+ extern int tan_conv (int);
+ extern int tan_henkan1 (int, struct wnn_env *);
+ extern void throw_col (int);
+@@ -373,7 +374,7 @@ extern void w_sttost ();
+ extern int wchartochar (w_char *, UCHAR *);
+ extern int yes_or_no (const char *);
+ extern int yes_or_no_or_newline (char *);
+-extern int zenkouho_dai_c ();
++extern int zenkouho_dai_c (int, int);
+ extern void find_yomi_for_kanji (w_char *, w_char *);
+ extern int check_vst ();
+ extern void t_redraw_one_line ();
+@@ -489,9 +490,9 @@ extern int do_U_opt ();
+ #endif /* KOREAN */
+ 
+ /* uif.c  */
+-extern int return_it (int);
+-extern int send_string (int);
+-extern int kakutei (void);
++extern int return_it (int, int);
++extern int send_string (int, int);
++extern int kakutei (int, int);
+ 
+ 
+ #endif	/* FRWNN_SHEADER_H  */
+diff --git a/Wnn/uum/touroku.c b/Wnn/uum/touroku.c
+index c0021a7..fc094a3 100644
+--- a/Wnn/uum/touroku.c
++++ b/Wnn/uum/touroku.c
+@@ -218,8 +218,11 @@ kana_start:
+ 
+ /** key_tableにバインドして用います*/
+ int
+-t_markset ()
++t_markset (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+ 
+   if (c_b->t_m_start == -2)
+     {
+@@ -336,7 +339,7 @@ hani_settei_normal (c_b)
+   c_b->rk_clear_tbl = romkan_clear_tbl[5];
+   c_b->key_in_fun = 0;
+   c_b->redraw_fun = redraw_nisemono;
+-  c_b->ctrl_code_fun = (int (*)()) 0;
++  c_b->ctrl_code_fun = NULL;
+   init_screen ();
+   return (0);
+ }
+@@ -361,7 +364,7 @@ hani_settei_yincod (c_b)
+   c_b->rk_clear_tbl = romkan_clear_tbl[5];
+   c_b->key_in_fun = 0;
+   c_b->redraw_fun = redraw_nisemono;
+-  c_b->ctrl_code_fun = (int (*)()) 0;
++  c_b->ctrl_code_fun = NULL;
+   init_screen ();
+   c_b->t_m_start = -1;
+   return (0);
+diff --git a/Wnn/uum/uif.c b/Wnn/uum/uif.c
+index 6b9550b..10a324e 100644
+--- a/Wnn/uum/uif.c
++++ b/Wnn/uum/uif.c
+@@ -115,7 +115,7 @@ kk ()
+   init_screen ();
+   if (henkan_off_flag)
+     {
+-      henkan_off ();
++      henkan_off (0, 0);
+     }
+ /* end of addition */
+   buffer_in ();
+@@ -138,9 +138,11 @@ kk ()
+ */
+ 
+ int
+-return_it (c)
++return_it (c, romkan)
+      int c;
++     int romkan;
+ {
++  (void) romkan;
+   c_b->maxlen = 1;
+   c_b->buffer[0] = c;
+   return (1);
+@@ -159,7 +161,7 @@ return_it_if_ascii (c, nisemono)
+     }
+   else
+     {
+-      insert_char_and_change_to_insert_mode (c);
++      insert_char_and_change_to_insert_mode (c, 0);
+       return (0);
+     }
+ }
+@@ -169,22 +171,27 @@ push_char_return (c, romkan)
+      int c, romkan;
+ {
+   push_unget_buf (romkan);
+-  kakutei ();			/* kakutei (c);*/
++  kakutei (0, 0);			/* kakutei (c);*/
+   return (1);
+ }
+ 
+ int
+-ignore_it_and_clear_romkan ()
++ignore_it_and_clear_romkan (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   romkan_clear ();
+   return (0);
+ }
+ 
+ 
+ int
+-insert_char_and_change_to_insert_mode (c)
++insert_char_and_change_to_insert_mode (c, dummy2)
+      int c;
++     int dummy2;
+ {
++  (void) dummy2;
+   if (c != -1)
+     {
+       insert_char (c);
+@@ -209,7 +216,7 @@ change_to_insert_mode ()
+   c_b->key_table = main_table[1];
+   c_b->rk_clear_tbl = romkan_clear_tbl[1];
+   c_b->key_in_fun = 0;
+-  c_b->ctrl_code_fun = (int (*)()) 0;
++  c_b->ctrl_code_fun = NULL;
+   c_b->hanten = 0x08 | 0x20;
+   henkan_mode = 1;
+   kk_cursor_normal ();
+@@ -221,7 +228,7 @@ change_to_nobasi_tijimi_mode ()
+   c_b->key_table = main_table[2];
+   c_b->rk_clear_tbl = romkan_clear_tbl[2];
+   c_b->key_in_fun = ignore_it_and_clear_romkan;
+-  c_b->ctrl_code_fun = (int (*)()) 0;
++  c_b->ctrl_code_fun = NULL;
+   c_b->hanten = 0x04;
+   henkan_mode = 2;
+   kk_cursor_invisible ();
+@@ -255,7 +262,7 @@ change_to_henkango_mode ()
+   c_b->key_table = main_table[0];
+   c_b->rk_clear_tbl = romkan_clear_tbl[0];
+   c_b->key_in_fun = push_char_return;
+-  c_b->ctrl_code_fun = (int (*)()) 0;
++  c_b->ctrl_code_fun = NULL;
+   c_b->hanten = 0x04 | 0x40;
+   henkan_mode = 0;
+   kk_cursor_invisible ();
+@@ -306,8 +313,11 @@ make_kanji_buffer (bnst)
+ 
+ /** 連文節変換 */
+ int
+-ren_henkan ()
++ren_henkan (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int ret;
+ 
+   jl_env_set (bun_data_, env_normal);
+@@ -317,8 +327,11 @@ ren_henkan ()
+ 
+ /** 連文節漢字かな変換 */
+ int
+-kankana_ren_henkan ()
++kankana_ren_henkan (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int ret;
+ 
+   if (*reverse_envrcname != '\0')
+@@ -396,8 +409,11 @@ ren_henkan0 ()
+ }
+ 
+ int
+-tan_henkan ()
++tan_henkan (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp;
+ 
+   jl_env_set (bun_data_, env_normal);
+@@ -406,8 +422,11 @@ tan_henkan ()
+ }
+ 
+ int
+-tan_henkan_dai ()
++tan_henkan_dai (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp;
+ 
+   jl_env_set (bun_data_, env_normal);
+@@ -458,8 +477,11 @@ tan_conv (daip)
+ 
+ /** 単文節変換*/
+ int
+-nobi_henkan ()
++nobi_henkan (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp;
+ 
+   tmp = nobi_conv (WNN_SHO, NULL);
+@@ -467,8 +489,11 @@ nobi_henkan ()
+ }
+ 
+ int
+-nobi_henkan_dai ()
++nobi_henkan_dai (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp;
+ 
+   tmp = nobi_conv (WNN_DAI, NULL);
+@@ -552,14 +577,17 @@ henkan_if_maru (c)
+      w_char c;
+ {
+   if (ISKUTENCODE (c) && c_b->key_table == main_table[1])
+-    ren_henkan ();
++    ren_henkan (0, 0);
+ }
+ 
+ 
+ /* 確定 */
+ int
+-kakutei ()
++kakutei (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int moji_suu = 0;
+   w_char *w = (w_char *) 0;
+   w_char yomi[512];
+@@ -618,26 +646,32 @@ kakutei ()
+ 
+ /*yank*/
+ int
+-yank_c ()
++yank_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+ 
+   if (empty_modep ())
+     {
+       change_to_insert_mode ();
+     }
+-  t_yank ();
++  t_yank (0, 0);
+   return (0);
+ }
+ 
+ /** 読みの再入力*/
+ int
+-remember_me ()
++remember_me (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (jl_bun_suu (bun_data_) == 0)
+     {
+       if (c_b->key_in_fun)
+         {
+-          (*c_b->key_in_fun) (-1);
++          (*c_b->key_in_fun) (-1, 0);
+           c_b->key_in_fun = NULL;
+         }
+       Strcpy (c_b->buffer, remember_buf);
+@@ -655,9 +689,12 @@ initialize_vars ()
+ }
+ 
+ int
+-kill_c ()
++kill_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  t_kill ();
++  (void) dummy1;
++  (void) dummy2;
++  t_kill (0, 0);
+   if (c_b->maxlen == 0)
+     {
+       change_to_empty_mode ();
+@@ -670,7 +707,8 @@ int
+ delete_c (c, romkan)
+      int c, romkan;
+ {
+-  t_delete_char (); /*  t_delete_char (c, romkan);  */
++  (void) c;
++  t_delete_char (0, 0);
+   if ((c_b->maxlen == 0) && is_HON (romkan))
+     {
+       change_to_empty_mode ();
+@@ -680,8 +718,7 @@ delete_c (c, romkan)
+ 
+ int
+ rubout_c (c, romkan)
+-     w_char c;
+-     int romkan;
++     int c, romkan;
+ {
+   t_rubout (c, romkan);
+   if ((c_b->maxlen == 0) && is_HON (romkan))
+@@ -692,8 +729,11 @@ rubout_c (c, romkan)
+ }
+ 
+ int
+-end_bunsetsu ()
++end_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp = cur_bnst_;
+   cur_bnst_ = jl_bun_suu (bun_data_) - 1;
+   c_b->t_m_start = bunsetsuend[cur_bnst_];
+@@ -704,8 +744,11 @@ end_bunsetsu ()
+ }
+ 
+ int
+-top_bunsetsu ()
++top_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int tmp = cur_bnst_;
+   cur_bnst_ = 0;
+   c_b->t_m_start = bunsetsuend[0];
+@@ -716,8 +759,11 @@ top_bunsetsu ()
+ }
+ 
+ int
+-forward_bunsetsu ()
++forward_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (cur_bnst_ < jl_bun_suu (bun_data_) - 1)
+     {
+       cur_bnst_ += 1;
+@@ -730,8 +776,11 @@ forward_bunsetsu ()
+ }
+ 
+ int
+-backward_bunsetsu ()
++backward_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (cur_bnst_ > 0)
+     {
+       cur_bnst_ -= 1;
+@@ -744,8 +793,11 @@ backward_bunsetsu ()
+ }
+ 
+ int
+-kaijo ()
++kaijo (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   w_char yomi[512];
+ 
+   c_b->t_b_end = c_b->t_b_st;
+@@ -767,8 +819,11 @@ kaijo ()
+ }
+ 
+ int
+-jutil_c ()
++jutil_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+ 
+   if (!isconect_jserver ())
+     {
+@@ -786,8 +841,11 @@ jutil_c ()
+ }
+ 
+ int
+-touroku_c ()
++touroku_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (!isconect_jserver ())
+     {
+       return (0);
+@@ -800,8 +858,11 @@ touroku_c ()
+ }
+ 
+ int
+-enlarge_bunsetsu ()
++enlarge_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   w_char yomi[512];
+   int area_len, len1;
+ 
+@@ -821,8 +882,11 @@ enlarge_bunsetsu ()
+ }
+ 
+ int
+-smallen_bunsetsu ()
++smallen_bunsetsu (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   w_char yomi[512];
+   int area_len;
+ 
+@@ -843,10 +907,12 @@ smallen_bunsetsu ()
+ 
+ 
+ int
+-send_string (c)
++send_string (c, dummy2)
+      int c;
++     int dummy2;
+ {
+-  kakutei ();
++  (void) dummy2;
++  kakutei (0, 0);
+   c_b->buffer[c_b->maxlen] = c;
+   c_b->maxlen += 1;
+   c_b->t_c_p = c_b->maxlen;
+@@ -854,8 +920,11 @@ send_string (c)
+ }
+ 
+ int
+-tijime ()
++tijime (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (c_b->t_c_p > c_b->t_m_start + 1)
+     {
+       backward ();
+@@ -864,16 +933,22 @@ tijime ()
+ }
+ 
+ int
+-jmptijime ()
++jmptijime (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   call_t_redraw_move_1 (c_b->t_m_start, c_b->t_m_start, c_b->maxlen, 1, 1, 1, (insert_modep ()? 1 : 0));
+   return (0);
+ }
+ 
+ 
+ int
+-henkan_forward ()
++henkan_forward (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (!isconect_jserver ())
+     {
+       return (0);
+@@ -883,14 +958,17 @@ henkan_forward ()
+     {
+       return (0);
+     }
+-  zenkouho_dai_c ();
+-  forward_bunsetsu ();
++  zenkouho_dai_c (0, 0);
++  forward_bunsetsu (0, 0);
+   return (0);
+ }
+ 
+ int
+-henkan_backward ()
++henkan_backward (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (!isconect_jserver ())
+     {
+       return (0);
+@@ -898,7 +976,7 @@ henkan_backward ()
+ 
+   if (cur_bnst_ <= 0)
+     {                           /* 左端なら変換のみ */
+-      nobi_henkan_dai ();
++      nobi_henkan_dai (0, 0);
+     }
+   else
+     {
+@@ -906,15 +984,18 @@ henkan_backward ()
+         {
+           return (0);
+         }
+-      zenkouho_dai_c ();
+-      backward_bunsetsu ();
++      zenkouho_dai_c (0, 0);
++      backward_bunsetsu (0, 0);
+     }
+   return (0);
+ }
+ 
+ int
+-backward_c ()
++backward_c (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (c_b->t_c_p == c_b->t_m_start)
+     {
+       if (c_b->t_c_p != 0)
+@@ -925,21 +1006,24 @@ backward_c ()
+             }
+           ren_henkan0 ();
+           change_to_henkango_mode ();
+-          backward_bunsetsu ();
++          backward_bunsetsu (0, 0);
+         }
+     }
+   else
+     {
+-      backward_char ();
++      backward_char (0, 0);
+     }
+   return (0);
+ }
+ 
+ 
+ int
+-insert_it_as_yomi ()
++insert_it_as_yomi (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  kakutei ();
++  (void) dummy1;
++  (void) dummy2;
++  kakutei (0, 0);
+   change_to_insert_mode ();
+   c_b->t_m_start = 0;
+   cur_bnst_ = 0;
+@@ -951,8 +1035,11 @@ insert_it_as_yomi ()
+ 
+ /****history *******/
+ int
+-previous_history ()
++previous_history (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int k;
+   if (jl_bun_suu (bun_data_) == 0)
+     {
+@@ -970,8 +1057,11 @@ previous_history ()
+ }
+ 
+ int
+-next_history ()
++next_history (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   int k;
+   if (jl_bun_suu (bun_data_) == 0)
+     {
+@@ -1016,24 +1106,33 @@ henkan_gop ()
+ static int send_ascii_stack = 0;
+ 
+ int
+-send_ascii ()
++send_ascii (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   send_ascii_stack = send_ascii_char;
+   send_ascii_char = 1;
+   return (0);
+ }
+ 
+ int
+-not_send_ascii ()
++not_send_ascii (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   send_ascii_stack = send_ascii_char;
+   send_ascii_char = 0;
+   return (0);
+ }
+ 
+ int
+-toggle_send_ascii ()
++toggle_send_ascii (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   send_ascii_stack = send_ascii_char;
+   if (send_ascii_char == 0)
+     {
+@@ -1047,8 +1146,11 @@ toggle_send_ascii ()
+ }
+ 
+ int
+-pop_send_ascii ()
++pop_send_ascii (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   send_ascii_char = send_ascii_stack;
+   return (0);
+ }
+@@ -1077,40 +1179,55 @@ check_empty_mode_keyin_fun ()
+ }
+ 
+ int
+-send_ascii_e ()
++send_ascii_e (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  send_ascii ();
++  (void) dummy1;
++  (void) dummy2;
++  send_ascii (0, 0);
+   check_empty_mode_keyin_fun ();
+   return (0);
+ }
+ 
+ int
+-not_send_ascii_e ()
++not_send_ascii_e (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  not_send_ascii ();
++  (void) dummy1;
++  (void) dummy2;
++  not_send_ascii (0, 0);
+   check_empty_mode_keyin_fun ();
+   return (0);
+ }
+ 
+ int
+-toggle_send_ascii_e ()
++toggle_send_ascii_e (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  toggle_send_ascii ();
++  (void) dummy1;
++  (void) dummy2;
++  toggle_send_ascii (0, 0);
+   check_empty_mode_keyin_fun ();
+   return (0);
+ }
+ 
+ int
+-pop_send_ascii_e ()
++pop_send_ascii_e (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
+-  pop_send_ascii ();
++  (void) dummy1;
++  (void) dummy2;
++  pop_send_ascii (0, 0);
+   check_empty_mode_keyin_fun ();
+   return (0);
+ }
+ 
+ int
+-quote_send_ascii_e ()
++quote_send_ascii_e (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   quote_send_ascii ();
+   check_empty_mode_keyin_fun ();
+   return (0);
+@@ -1118,8 +1235,11 @@ quote_send_ascii_e ()
+ 
+ /** jserverとのコネクションを再確立する。*/
+ int
+-reconnect_jserver ()
++reconnect_jserver (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   if (!jl_isconnect_e (env_normal) || (env_reverse != 0 && !jl_isconnect_e (env_reverse)))
+     {
+       push_cursor ();
+@@ -1212,8 +1332,11 @@ disconnect_jserver ()
+ /** 変換オフ時のループ */
+ 
+ int
+-henkan_off ()
++henkan_off (dummy1, dummy2)
++     int dummy1, dummy2;
+ {
++  (void) dummy1;
++  (void) dummy2;
+   unsigned char c, c_buf[3];
+   int i, len;
+   extern int ptyfd;
+diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
+index 9c01352..bdac27c 100644
+--- a/Wnn/uum/wnnrc_op.c
++++ b/Wnn/uum/wnnrc_op.c
+@@ -53,9 +53,9 @@
+ #include "jllib.h"
+ #include "commonhd.h"
+ #include "wnn_config.h"
+-#include "buffer.h"
+-#include "rk_spclval.h"
+ #include "sdefine.h"
++#include "rk_spclval.h"
++#include "buffer.h"
+ #include "sheader.h"
+ #include "wnn_os.h"
+ 

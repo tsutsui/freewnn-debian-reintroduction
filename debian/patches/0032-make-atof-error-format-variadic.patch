@@ -1,0 +1,39 @@
+Description: Pass atof error formatting arguments with a variadic helper.
+ Source commits: d6f15ea6cb13c5f588d0f88f1ccdfdcf01fe437c
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/jutil/atof.c b/Wnn/jutil/atof.c
+index 87d0bce..013260e 100644
+--- a/Wnn/jutil/atof.c
++++ b/Wnn/jutil/atof.c
+@@ -121,6 +121,7 @@ static char *rcs_id = "$Id: atof.c,v 1.8 2013/09/02 11:01:39 itisango Exp $";
+ #    include <strings.h>
+ #  endif
+ #endif /* STDC_HEADERS */
++#include <stdarg.h>
+ #if HAVE_UNISTD_H
+ #  include <unistd.h>
+ #endif
+@@ -290,12 +291,16 @@ static void pre_clear_jiritugo_v FRWNN_PARAMS((int));
+ static void init FRWNN_PARAMS((int, char **));
+ 
+ static void
+-error_format (s, d1, d2, d3, d4, d5)
+-     char *s;
+-     int d1, d2, d3, d4, d5;
++error_format (const char *fmt, ...)
+ {
++  va_list ap;
++
+   fprintf (stderr, "Bad format near line %d \"%s\".\n", line_no, buf);
+-  fprintf (stderr, s, d1, d2, d3, d4, d5);
++
++  va_start (ap, fmt);
++  vfprintf (stderr, fmt, ap);
++  va_end (ap);
++
+   exit (1);
+ }
+ 

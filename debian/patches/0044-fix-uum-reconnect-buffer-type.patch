@@ -1,0 +1,19 @@
+Description: Use the correct type for the uum reconnect input buffer.
+ Source commits: d2da3d32c9e0ff56d9705b6d3e9bca66ee9a7a7d
+Origin: upstream
+Forwarded: yes
+Last-Update: 2026-07-14
+
+diff --git a/Wnn/uum/uif.c b/Wnn/uum/uif.c
+index 10a324e..775e4e3 100644
+--- a/Wnn/uum/uif.c
++++ b/Wnn/uum/uif.c
+@@ -1256,7 +1256,7 @@ reconnect_jserver_body ()
+   /*
+      char *message = " 接続ホスト名 > ";
+    */
+-  w_char *kana_buf[1024];  /* w_char kana_buf[1024]; ?  */
++  w_char kana_buf[1024];
+   char hostname[128];
+ 
+   Sstrcpy (kana_buf, servername);

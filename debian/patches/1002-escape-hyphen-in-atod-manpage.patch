@@ -1,0 +1,19 @@
+Description: Escape the atod -s option hyphen in roff input.
+ This retains only the roff correction from the historical Debian man patch.
+ Historical packaging reference: 82eaf4f6daf49601c2f23cda13c0f868ac458fe3.
+ Source commits: no upstream source commit.
+Origin: vendor
+Forwarded: no
+Last-Update: 2026-07-14
+
+--- a/Wnn/man/6.jutil/atod.man
++++ b/Wnn/man/6.jutil/atod.man
+@@ -67,7 +67,7 @@ CSWIDTH=b1[:c1][,b2[:c2][,b3[:c3]]]
+ 
+ UJIS の場合の CSWIDTH は 2,1,2 である。
+ 
+--s は、割当てるメモリの量を指定するオプションであるが、通常は指定する必要
++\-s は、割当てるメモリの量を指定するオプションであるが、通常は指定する必要
+ はない。atod がメモリ領域不足のメッセージを表示して終了した場合に、-s を
+ 指定して再実行させる。
+ 
