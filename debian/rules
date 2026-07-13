@@ -3,20 +3,29 @@
 #export DH_VERBOSE=1
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+export DEB_CFLAGS_MAINT_APPEND = -Wno-error=format-security \
+ -Wno-error=implicit-function-declaration \
+ -Wno-error=incompatible-pointer-types
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 config_option= --prefix=/usr --mandir=/usr/share/man --enable-client=yes \
-               --enable-debug --disable-traditional-layout
-install_dir= DESTDIR=$(CURDIR)/debian/tmp
+               --enable-debug --disable-traditional-layout \
+               --disable-client-utmp --disable-client-setgid
+install_dir= DESTDIR=$(CURDIR)/debian/tmp WNNOWNER=$(shell id -un) \
+ WNNTOUCH=$(CURDIR)/debian/scripts/wnntouch-staging
 
 %:
-	dh $@
+	dh $@ --with autoreconf
+
+override_dh_autoreconf:
+	dh_autoreconf
 
 override_dh_auto_configure:
 	dh_auto_configure --verbose -- $(config_option)
 
 override_dh_auto_install:
-	dh_auto_install --verbose
+	dh_auto_install --verbose -- WNNOWNER=$(shell id -un) \
+	 WNNTOUCH=$(CURDIR)/debian/scripts/wnntouch-staging
 	$(MAKE) $(install_dir) install.man
 
 override_dh_installman:

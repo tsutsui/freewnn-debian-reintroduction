@@ -1,0 +1,3 @@
+# The public headers and Japanese API manuals retain their source encoding/macros.
+libwnn-dev: groff-message
+libwnn-dev: national-encoding

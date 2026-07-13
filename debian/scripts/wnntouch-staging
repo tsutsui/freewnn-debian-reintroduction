@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+[ "$#" -eq 1 ]
+target=$1
+root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+
+chmod u+w "$target"
+"$root/Wnn/jutil/wnntouch" "$target"
+chmod u-w "$target"

@@ -1,0 +1,18 @@
+Subject: RFP: freewnn -- network-extensible Japanese/Chinese/Korean input system
+
+Package: wnpp
+Severity: wishlist
+
+This file is a draft only. It must not be submitted without adopter review.
+
+FreeWnn is a network-extensible input system supporting Japanese, Simplified
+and Traditional Chinese, and Korean. A technical Debian unstable candidate
+based on upstream 1.1.1-a023 exists, with current-compiler portability fixes,
+the previous Debian binary package split and t64 transition names, sid CI,
+and deterministic library and dictionary checks.
+
+An adopter is still needed. Maintainer selection, copyright and policy review,
+and the init/systemd policy for the server packages are explicit upload
+blockers. The candidate is not an upload and its repository owner is not
+volunteering to maintain or upload the Debian package. The owner may assist
+with upstream C portability and Mule compatibility.

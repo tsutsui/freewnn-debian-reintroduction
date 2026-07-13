@@ -1,0 +1,8 @@
+# Service integration is an explicit adopter decision and upload blocker.
+freewnn-cserver: missing-systemd-service-for-init.d-script
+freewnn-cserver: init.d-script-does-not-source-init-functions
+# Preserve historical manuals, encodings, and mutable dictionary handling.
+freewnn-cserver: bad-whatis-entry
+freewnn-cserver: groff-message
+freewnn-cserver: national-encoding
+freewnn-cserver: recursive-privilege-change
