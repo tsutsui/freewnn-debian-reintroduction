@@ -7,7 +7,7 @@ Description: Use Debian filesystem locations for FreeWnn data.
 Origin: vendor
 Bug-Debian: https://bugs.debian.org/699622
 Forwarded: not-needed
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 --- a/makerule.mk.in
 +++ b/makerule.mk.in

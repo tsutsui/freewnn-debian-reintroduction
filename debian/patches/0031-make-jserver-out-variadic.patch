@@ -2,7 +2,7 @@ Description: Implement the jserver debug out function as truly variadic.
  Source commits: 9618769b8e758f537db180a9389c7ce10c536163
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 --- a/Wnn/jserver/error.c
 +++ b/Wnn/jserver/error.c

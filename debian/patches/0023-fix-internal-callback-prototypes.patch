@@ -1,8 +1,11 @@
 Description: Provide prototypes for internal helper and callback functions.
- Source commits: 742ad8cfc4700dbe5b972b48c31cf99ca771bafa; ce301deef6b0a1be7178ea46b6e8690e7d61bad9; 9618769b8e758f537db180a9389c7ce10c536163
+ Source commits: 742ad8cfc4700dbe5b972b48c31cf99ca771bafa;
+  ce301deef6b0a1be7178ea46b6e8690e7d61bad9;
+  915ecd5efe7a9ab09fc073c8131687184a45dfa4;
+  9618769b8e758f537db180a9389c7ce10c536163
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/PubdicPlus/pod.c b/PubdicPlus/pod.c
 index 9b4c43f..315b96d 100644

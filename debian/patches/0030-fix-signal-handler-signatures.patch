@@ -1,10 +1,10 @@
 Description: Give signal handlers the required integer argument.
  Source commits: 96a117bd46478eb890f1e9f8e6f0a1a979f1fcb7;
- 9618769b8e758f537db180a9389c7ce10c536163;
- 34d9736900e465fe0c6b00aaaf4d005a3eb76885
+  9618769b8e758f537db180a9389c7ce10c536163;
+  34d9736900e465fe0c6b00aaaf4d005a3eb76885
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 --- a/Wnn/jlib/js.c
 +++ b/Wnn/jlib/js.c

@@ -1,13 +1,13 @@
 Description: Remove redundant old-style declarations from function bodies.
  Source commits: 13d0d075a91eebf18e16615a732abcaae2b349b0;
- 17578cf34877cad67c465335afbf499b88cecce1;
- 4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78;
- 9618769b8e758f537db180a9389c7ce10c536163;
- 2666caef98cd982a09cf76a7c0504c005e38499e;
- 2ad54de02c15b48ded23805fb6f399cf9f2a37a2
+  17578cf34877cad67c465335afbf499b88cecce1;
+  4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78;
+  9618769b8e758f537db180a9389c7ce10c536163;
+  2666caef98cd982a09cf76a7c0504c005e38499e;
+  2ad54de02c15b48ded23805fb6f399cf9f2a37a2
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 --- a/Wnn/jutil/atorev.c
 +++ b/Wnn/jutil/atorev.c

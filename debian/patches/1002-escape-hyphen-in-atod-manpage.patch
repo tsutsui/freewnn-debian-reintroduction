@@ -4,7 +4,7 @@ Description: Escape the atod -s option hyphen in roff input.
  Source commits: no upstream source commit.
 Origin: vendor
 Forwarded: no
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 --- a/Wnn/man/6.jutil/atod.man
 +++ b/Wnn/man/6.jutil/atod.man

@@ -1,8 +1,9 @@
 Description: Use byte-buffer pointer types compatible with their callers.
- Source commits: 915ecd5efe7a9ab09fc073c8131687184a45dfa4; 3cc4bf1f5fd9178741dd904612f2110a9470e86b
+ Source commits: 915ecd5efe7a9ab09fc073c8131687184a45dfa4;
+  3cc4bf1f5fd9178741dd904612f2110a9470e86b
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/jserver/de_header.h b/Wnn/jserver/de_header.h
 index 975a06d..6db176b 100644

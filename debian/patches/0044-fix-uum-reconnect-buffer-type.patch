@@ -2,7 +2,7 @@ Description: Use the correct type for the uum reconnect input buffer.
  Source commits: d2da3d32c9e0ff56d9705b6d3e9bca66ee9a7a7d
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/uum/uif.c b/Wnn/uum/uif.c
 index 10a324e..775e4e3 100644

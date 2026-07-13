@@ -2,7 +2,7 @@ Description: Add prototypes for uum language callback tables.
  Source commits: e509485a8e846206fbb162d08efdad153700953d
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/uum/sheader.h b/Wnn/uum/sheader.h
 index 540d12b..b0a8a64 100644

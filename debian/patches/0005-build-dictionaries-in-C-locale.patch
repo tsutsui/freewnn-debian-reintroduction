@@ -3,7 +3,7 @@ Description: Run dictionary text filtering in the C locale.
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/797242
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/pubdicplus/Makefile.in b/Wnn/pubdicplus/Makefile.in
 index 001a22c..7d4e068 100644

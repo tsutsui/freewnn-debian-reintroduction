@@ -3,7 +3,7 @@ Description: Check for standard C library headers in configure.
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/1065772
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/configure.in b/configure.in
 index dab23f5..0f68e42 100644

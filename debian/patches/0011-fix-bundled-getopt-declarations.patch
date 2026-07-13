@@ -1,8 +1,9 @@
 Description: Use valid declarations and system headers in bundled getopt.
- Source commits: b59c2fc9bf5d301c8dce484f637ec506ac36fb7c; 17578cf34877cad67c465335afbf499b88cecce1
+ Source commits: b59c2fc9bf5d301c8dce484f637ec506ac36fb7c;
+  17578cf34877cad67c465335afbf499b88cecce1
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/include/getopt.h b/Wnn/include/getopt.h
 index cb5feba..30e4edb 100644

@@ -2,7 +2,7 @@ Description: Give romkan internal callbacks complete prototypes.
  Source commits: ec458640d9069c4c5bba1a8c63c48fd64e67e62d
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/romkan/rk_fundecl.h b/Wnn/romkan/rk_fundecl.h
 index 3925d0d..19b43f9 100644

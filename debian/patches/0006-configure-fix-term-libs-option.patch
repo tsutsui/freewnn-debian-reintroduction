@@ -2,7 +2,7 @@ Description: Honor the value supplied to --with-term-libs.
  Source commits: 0315820b4cd870617aa1b96252effb983f363fcb
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/configure.in b/configure.in
 index 033281e..4bf8c2d 100644

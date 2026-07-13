@@ -2,7 +2,7 @@ Description: Use int for the romkan buffer index used to subscript character dat
  Source commits: dc4ae760fa346a6e2cadf81fbb0bb70896dd5ab4
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/romkan/rk_main.c b/Wnn/romkan/rk_main.c
 index 8691af1..e1d65ad 100644

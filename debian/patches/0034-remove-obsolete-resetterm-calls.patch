@@ -2,7 +2,7 @@ Description: Remove obsolete non-standard resetterm calls.
  Source commits: 26722b82bb7cbc1141a0621ba1d870e8f0c26e27
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/conv/cvt_read.c b/Wnn/conv/cvt_read.c
 index 6ad3255..f65e38b 100644

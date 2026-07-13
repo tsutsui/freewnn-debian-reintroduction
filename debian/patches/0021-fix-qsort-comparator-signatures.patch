@@ -2,7 +2,7 @@ Description: Use the standard qsort comparator signature at direct call sites.
  Source commits: 915ecd5efe7a9ab09fc073c8131687184a45dfa4
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/PubdicPlus/pod.c b/PubdicPlus/pod.c
 index 009daa7..9b4c43f 100644

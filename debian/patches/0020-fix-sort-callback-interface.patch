@@ -1,8 +1,9 @@
 Description: Give the internal sorting interface const-correct callback types.
- Source commits: a85b88729c2fa7d0a2ec542d737c5e19061c8a47; 915ecd5efe7a9ab09fc073c8131687184a45dfa4
+ Source commits: a85b88729c2fa7d0a2ec542d737c5e19061c8a47;
+  915ecd5efe7a9ab09fc073c8131687184a45dfa4
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/include/jutil.h b/Wnn/include/jutil.h
 index f137c37..4e12ff2 100644

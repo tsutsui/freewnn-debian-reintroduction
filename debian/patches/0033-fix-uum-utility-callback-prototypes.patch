@@ -2,7 +2,7 @@ Description: Add prototypes for uum utility callbacks.
  Source commits: ad810991e442e440d1f00fcabf30bc0c7be47de5
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/uum/jutil.c b/Wnn/uum/jutil.c
 index cb90efb..1117ad5 100644

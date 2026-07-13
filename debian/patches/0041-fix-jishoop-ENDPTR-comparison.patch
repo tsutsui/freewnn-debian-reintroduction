@@ -2,7 +2,7 @@ Description: Compare the jishoop pointer with ENDPTR using the intended pointer 
  Source commits: 30049dbe4d9d4b897c531d12d98e2e4ece44adbc
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/jserver/jishoop.c b/Wnn/jserver/jishoop.c
 index 2fd9304..9252705 100644

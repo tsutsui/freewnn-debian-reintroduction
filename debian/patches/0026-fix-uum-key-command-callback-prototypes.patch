@@ -2,7 +2,7 @@ Description: Normalize uum key command callback prototypes.
  Source commits: 60984c64cdc7433d412392785117e7e1b11d3842
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/uum/basic_op.c b/Wnn/uum/basic_op.c
 index e7f44eb..94d91e0 100644

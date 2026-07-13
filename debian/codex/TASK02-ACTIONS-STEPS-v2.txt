@@ -1,8 +1,0 @@
-Install build and test dependencies from debian/control
-Reject generated configure patches and quilt fuzz
-Build source package
-Build binary packages
-Run lintian
-Run blhc
-Install Wnn packages and run public-header smoke test
-Check dictionary generation in C and UTF-8 locales

@@ -2,7 +2,7 @@ Description: Add prototypes for uum terminal conversion helpers.
  Source commits: 0d441d336400bd11d602dd355a508eb0f674ec0f
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/conv/cvt_read.c b/Wnn/conv/cvt_read.c
 index 9b118cc..6ad3255 100644

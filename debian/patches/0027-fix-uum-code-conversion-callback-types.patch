@@ -2,7 +2,7 @@ Description: Use consistent types for uum code conversion callbacks.
  Source commits: 3c7a6ad4f424fd490eca1087cea9b2ae2243e1c9
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/include/etc.h b/Wnn/include/etc.h
 index 7aa3c03..eb7b5e3 100644

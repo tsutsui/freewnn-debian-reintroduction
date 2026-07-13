@@ -1,9 +1,10 @@
 Description: Use system headers for standard C library declarations.
- Source commits: b90513011520dbe4b34816b0aad62275d0815fbb; d582d0ea7dfd937d56f911ee5e1695d45dcc9288
+ Source commits: b90513011520dbe4b34816b0aad62275d0815fbb;
+  d582d0ea7dfd937d56f911ee5e1695d45dcc9288
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/1065772
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/jlib.V3/jlv3.c b/Wnn/jlib.V3/jlv3.c
 index 19669c3..9280a7d 100644

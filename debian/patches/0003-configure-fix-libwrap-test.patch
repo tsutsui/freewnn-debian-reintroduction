@@ -3,7 +3,7 @@ Description: Include the libwrap declarations in its configure test.
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/1065772
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/configure.in b/configure.in
 index fa74d9c..e55b0ee 100644

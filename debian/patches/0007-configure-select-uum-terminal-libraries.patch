@@ -2,7 +2,7 @@ Description: Select curses and terminfo libraries required by uum.
  Source commits: 597e838fc31b3a863a353a823fdd10132681e2e9
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/configure.in b/configure.in
 index 4bf8c2d..71d0c04 100644

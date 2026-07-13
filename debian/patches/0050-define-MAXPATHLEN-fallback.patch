@@ -6,7 +6,7 @@ Description: Define MAXPATHLEN where the platform does not provide it.
 Author: Hideki Yamane <henrich@debian.org>
 Origin: vendor
 Forwarded: no
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 --- a/Wnn/include/msg.h
 +++ b/Wnn/include/msg.h

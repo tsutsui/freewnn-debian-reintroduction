@@ -2,7 +2,7 @@ Description: Use the correct BSD return types for uum ttyfdslot.
  Source commits: f8e06ee3e8565c6d5508fd2bed614441fa39b7e8
 Origin: upstream
 Forwarded: yes
-Last-Update: 2026-07-13
+Last-Update: 2026-07-14
 
 diff --git a/Wnn/uum/ttyfdslot.c b/Wnn/uum/ttyfdslot.c
 index e5f0b4f..344860d 100644

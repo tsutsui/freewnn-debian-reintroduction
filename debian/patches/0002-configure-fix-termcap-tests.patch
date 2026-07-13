@@ -3,7 +3,7 @@ Description: Make the termcap and terminfo configure tests valid under C23.
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/1065772
 Forwarded: yes
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 diff --git a/configure.in b/configure.in
 index 0f68e42..fa74d9c 100644

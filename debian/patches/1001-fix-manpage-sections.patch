@@ -5,7 +5,7 @@ Description: Correct FreeWnn manpage sections and cross-references.
  Source commits: no upstream source commit.
 Origin: vendor
 Forwarded: no
-Last-Update: 2026-07-12
+Last-Update: 2026-07-14
 
 --- a/Wnn/man/2.env/dic/pubdic.man
 +++ b/Wnn/man/2.env/dic/pubdic.man
