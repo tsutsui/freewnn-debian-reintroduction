@@ -89,13 +89,7 @@ method functionality is unaffected.
 
 `debian/tests/libwnn-smoke` compiles, links, and executes a small program
 using the installed public `wnn/jllib.h` header and shared library.
-`debian/tests/dictionary-locales` rebuilds all four language dictionary
-directories under the C locale and an available UTF-8 locale, then compares
-sorted manifests containing each generated file's relative pathname and
-SHA-256 content hash. Any pathname or content difference fails the test. Both
-scripts are deterministic CI helpers rather
-than autopkgtests: the dictionary check needs the configured build tree and
-build-only generators, while the library test is run explicitly after the
+This is a CI helper rather than an autopkgtest and is run explicitly after the
 locally built packages have been installed.
 
 Unresolved work
@@ -111,11 +105,3 @@ server package creates system users, mutable dictionaries, init integration,
 and persistent state; a test isolated from privileged ports and system state
 needs a maintainer-approved service design first. Mule 1.1 compatibility has
 not been tested.
-
-Task 2 packaging supplement
----------------------------
-
-`1003-debian-package-build-reproducibility.patch` is a Debian vendor patch added after the reviewed Task 1
-series. It contains only package-build reproducibility, build-flag propagation,
-and Debian filesystem-layout substitutions recovered from the earlier packaging
-candidate. The original 35 Task 1 patch files remain unchanged.

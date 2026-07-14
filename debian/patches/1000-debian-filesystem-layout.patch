@@ -20,8 +20,11 @@ Last-Update: 2026-07-14
         UUMOWNER = @UUMOWNER@
         UUMGROUP = @UUMGROUP@
  
-@@ -136,7 +136,8 @@ LDOPTIONS = $(LDFLAGS) @CDEBUGFLAGS@ $(C
+@@ -136,7 +136,11 @@ LDOPTIONS = $(LDFLAGS) @CDEBUGFLAGS@ $(C
      exec_prefix = @exec_prefix@
++      datarootdir = @datarootdir@
++          datadir = @datadir@
++    localstatedir = @localstatedir@
           bindir = @bindir@
          sbindir = @sbindir@
 -      WNNWNNDIR = $(exec_prefix)/lib/wnn

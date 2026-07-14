@@ -14,8 +14,7 @@ freewnn (1.1.1~a023-1) UNRELEASED; urgency=medium
     Rules-Requires-Root remains accurate.
   * Disable the obsolete uum utmp/setgid installation mode; terminal input
     functionality remains enabled without privileged login accounting.
-  * Add deterministic installed-library and locale dictionary checks, plus
-    Debian sid continuous integration.
+  * Add Debian sid CI and an installed-library compile/link/run smoke check.
   * Document the work still requiring an adopter and Debian review.
 
  -- Debian QA Group <packages@qa.debian.org>  Sun, 12 Jul 2026 00:00:00 +0000
