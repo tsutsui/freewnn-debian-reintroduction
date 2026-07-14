@@ -13,10 +13,9 @@ transition names, and excludes generated `configure`. Debian builds regenerate
 the Autoconf files with dh-autoreconf.
 
 CI builds source and binary packages in Debian sid, rejects fuzz and patches
-to generated `configure`, runs lintian and blhc, installs the locally built Wnn
-runtime/development packages, executes a public-header shared-library smoke
-test, and compares dictionary file sets and sizes after generation under C and
-UTF-8 locales (the binary dictionary identifiers themselves are regenerated).
+to generated `configure`, runs lintian, treats only blhc status bit 8 (missing hardening flags) as advisory and fails on any other blhc status bit,
+installs the locally built Wnn runtime/development packages, and executes a
+public-header shared-library smoke test.
 
 The exact reusable tests are:
 
@@ -25,7 +24,6 @@ The exact reusable tests are:
     lintian ../freewnn_*.changes
     blhc build.log
     debian/tests/libwnn-smoke
-    debian/tests/dictionary-locales
 
 No Mule 1.1 test has been performed. A jserver runtime test is also absent:
 the current package provisions users, init integration, mutable dictionaries,
