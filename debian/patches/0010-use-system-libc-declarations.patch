@@ -1,127 +1,14 @@
 Description: Use system headers for standard C library declarations.
  Source commits: b90513011520dbe4b34816b0aad62275d0815fbb;
-  d582d0ea7dfd937d56f911ee5e1695d45dcc9288
+  d582d0ea7dfd937d56f911ee5e1695d45dcc9288;
+  2666caef98cd982a09cf76a7c0504c005e38499e
 Origin: upstream
 Bug-Debian: https://bugs.debian.org/1065772
 Forwarded: yes
-Last-Update: 2026-07-14
+Last-Update: 2026-07-15
 
-diff --git a/Wnn/jlib.V3/jlv3.c b/Wnn/jlib.V3/jlv3.c
-index 19669c3..9280a7d 100644
---- a/Wnn/jlib.V3/jlv3.c
-+++ b/Wnn/jlib.V3/jlv3.c
-@@ -125,7 +125,6 @@ static struct wnn_ret_buf ret_buf = { 0, NULL };
- static char *
- getlogname ()
- {
--  extern struct passwd *getpwuid ();
-   struct passwd *p;
- 
-   if ((p = getpwuid (getuid ())) == NULL)
-diff --git a/Wnn/jlib/jl.c b/Wnn/jlib/jl.c
-index 73e9528..24e067b 100644
---- a/Wnn/jlib/jl.c
-+++ b/Wnn/jlib/jl.c
-@@ -2973,7 +2973,6 @@ expand_expr_all (s, env)
- static char *
- getlogname ()
- {
--  struct passwd *getpwuid ();
-   return getpwuid (getuid ())->pw_name;
- }
- 
-@@ -2990,8 +2989,6 @@ expand_expr (s, env)
-   char tmp[EXPAND_PATH_LENGTH];
-   int noerr, expandsuc;
-   struct passwd *u;
--  extern char *getenv ();
--  extern struct passwd *getpwnam ();
- 
-   if (*s != '~' && *s != '@')
-     return (0);
-diff --git a/Wnn/jlib/js.c b/Wnn/jlib/js.c
-index 375f0c3..6c2edad 100644
---- a/Wnn/jlib/js.c
-+++ b/Wnn/jlib/js.c
-@@ -726,7 +726,6 @@ dmp (p, c)
- static char *
- getlogname ()
- {
--  struct passwd *getpwuid ();
-   return getpwuid (getuid ())->pw_name;
- }
- 
-@@ -906,7 +905,6 @@ js_set_lang (env, lang)
-      register char *lang;
- {
-   register char *p;
--  extern char *getenv ();
- 
-   /* if not specified language , use $LANG */
-   if (lang == 0 || *lang == 0)
-diff --git a/Wnn/jutil/wddel.c b/Wnn/jutil/wddel.c
-index 4b1984e..420b8f5 100644
---- a/Wnn/jutil/wddel.c
-+++ b/Wnn/jutil/wddel.c
-@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wddel.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
- #  if HAVE_MALLOC_H
- #    include <malloc.h>
- #  endif
--extern char *getenv ();
- #endif /* STDC_HEADERS */
- 
- #if HAVE_UNISTD_H
-diff --git a/Wnn/jutil/wdreg.c b/Wnn/jutil/wdreg.c
-index 1494ed0..b50ef15 100644
---- a/Wnn/jutil/wdreg.c
-+++ b/Wnn/jutil/wdreg.c
-@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wdreg.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
- #  if HAVE_MALLOC_H
- #    include <malloc.h>
- #  endif
--extern char *getenv ();
- #endif /* STDC_HEADERS */
- #include <sys/types.h>
- #include <sys/file.h>
-diff --git a/Wnn/jutil/wnnstat.c b/Wnn/jutil/wnnstat.c
-index ca63019..71cfd5d 100644
---- a/Wnn/jutil/wnnstat.c
-+++ b/Wnn/jutil/wnnstat.c
-@@ -79,7 +79,6 @@ struct wnn_ret_buf rb = { 0, NULL };
- 
- extern int optind;
- extern char *optarg;
--extern char *getenv ();
- 
- #ifdef JAPANESE
- extern int eujis_to_jis8 (), eujis_to_sjis ();
-diff --git a/Wnn/uum/termcap.c b/Wnn/uum/termcap.c
-index 69ceec3..755217a 100644
---- a/Wnn/uum/termcap.c
-+++ b/Wnn/uum/termcap.c
-@@ -116,7 +116,7 @@ getTermData ()
-   char *pter;
-   char *sr_set ();
-   char *j;
--  extern char *getenv (), *get_kbd_env ();
-+  extern char *get_kbd_env ();
- 
- 
- #ifdef DCUREOR
-diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
-index a1ab294..9c01352 100644
---- a/Wnn/uum/wnnrc_op.c
-+++ b/Wnn/uum/wnnrc_op.c
-@@ -139,7 +139,6 @@ expand_expr (s)
-   register char *p, *s1;
-   int noerr, expandsuc;
-   struct passwd *u;
--  extern struct passwd *getpwnam ();
- 
-   if (*s != '~' && *s != '@')
-     {
 diff --git a/Wnn/etc/pwd.c b/Wnn/etc/pwd.c
-index f565769..1f5614f 100644
+index f5657696f0c8d409ea1038f4e85f4aa6b1f1b45b..1f5614f632d93ebdf750a616bdcf997e15ecbd2b 100644
 --- a/Wnn/etc/pwd.c
 +++ b/Wnn/etc/pwd.c
 @@ -36,6 +36,8 @@
@@ -141,3 +28,139 @@ index f565769..1f5614f 100644
  
  #include "commonhd.h"
  #include "jslib.h"
+diff --git a/Wnn/jlib.V3/jlv3.c b/Wnn/jlib.V3/jlv3.c
+index 19669c37cfbe2183624900ec44e1548d78ff861a..9280a7d6c663440a837b4dba03d5b1a30a817aed 100644
+--- a/Wnn/jlib.V3/jlv3.c
++++ b/Wnn/jlib.V3/jlv3.c
+@@ -125,7 +125,6 @@ static struct wnn_ret_buf ret_buf = { 0, NULL };
+ static char *
+ getlogname ()
+ {
+-  extern struct passwd *getpwuid ();
+   struct passwd *p;
+ 
+   if ((p = getpwuid (getuid ())) == NULL)
+diff --git a/Wnn/jlib/jl.c b/Wnn/jlib/jl.c
+index c761671927278ad88009eaef5e43ca1b3647ffe2..21c2d9ffe75758aaa1e8c01c89607fc116a17800 100644
+--- a/Wnn/jlib/jl.c
++++ b/Wnn/jlib/jl.c
+@@ -2971,7 +2971,6 @@ expand_expr_all (s, env)
+ static char *
+ getlogname ()
+ {
+-  struct passwd *getpwuid ();
+   return getpwuid (getuid ())->pw_name;
+ }
+ 
+@@ -2988,8 +2987,6 @@ expand_expr (s, env)
+   char tmp[EXPAND_PATH_LENGTH];
+   int noerr, expandsuc;
+   struct passwd *u;
+-  extern char *getenv ();
+-  extern struct passwd *getpwnam ();
+ 
+   if (*s != '~' && *s != '@')
+     return (0);
+diff --git a/Wnn/jlib/js.c b/Wnn/jlib/js.c
+index 375f0c338635f4273401e2327057c378399bef2e..6c2edadae35e2f1889e0f4a2460432a3e42edf56 100644
+--- a/Wnn/jlib/js.c
++++ b/Wnn/jlib/js.c
+@@ -726,7 +726,6 @@ dmp (p, c)
+ static char *
+ getlogname ()
+ {
+-  struct passwd *getpwuid ();
+   return getpwuid (getuid ())->pw_name;
+ }
+ 
+@@ -906,7 +905,6 @@ js_set_lang (env, lang)
+      register char *lang;
+ {
+   register char *p;
+-  extern char *getenv ();
+ 
+   /* if not specified language , use $LANG */
+   if (lang == 0 || *lang == 0)
+diff --git a/Wnn/jutil/wddel.c b/Wnn/jutil/wddel.c
+index 4b1984ef336933918e13f0e00108c6cf625d0661..420b8f539104f21c7e4559e129a156f7d6cf42b0 100644
+--- a/Wnn/jutil/wddel.c
++++ b/Wnn/jutil/wddel.c
+@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wddel.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
+ #  if HAVE_MALLOC_H
+ #    include <malloc.h>
+ #  endif
+-extern char *getenv ();
+ #endif /* STDC_HEADERS */
+ 
+ #if HAVE_UNISTD_H
+diff --git a/Wnn/jutil/wdreg.c b/Wnn/jutil/wdreg.c
+index 1494ed022826540f3dd5fa7c90e744caceacb563..b50ef15ce4ad73e715d85aeed25fe5c49ae82e1a 100644
+--- a/Wnn/jutil/wdreg.c
++++ b/Wnn/jutil/wdreg.c
+@@ -48,7 +48,6 @@ static char *rcs_id = "$Id: wdreg.c,v 1.10 2013/09/02 11:01:39 itisango Exp $";
+ #  if HAVE_MALLOC_H
+ #    include <malloc.h>
+ #  endif
+-extern char *getenv ();
+ #endif /* STDC_HEADERS */
+ #include <sys/types.h>
+ #include <sys/file.h>
+diff --git a/Wnn/jutil/wnnstat.c b/Wnn/jutil/wnnstat.c
+index ca63019df163ea1bf5b213c199a2524c75b4ceaa..71cfd5d01787dec2ce56da0a9dba3c2558de460c 100644
+--- a/Wnn/jutil/wnnstat.c
++++ b/Wnn/jutil/wnnstat.c
+@@ -79,7 +79,6 @@ struct wnn_ret_buf rb = { 0, NULL };
+ 
+ extern int optind;
+ extern char *optarg;
+-extern char *getenv ();
+ 
+ #ifdef JAPANESE
+ extern int eujis_to_jis8 (), eujis_to_sjis ();
+diff --git a/Wnn/uum/key_bind.c b/Wnn/uum/key_bind.c
+index 5eba5009757997d5529d9d6d1cc6598aa9bc760d..a37bbfb67ec4de0a313c2514200e6e95ba4ef44f 100644
+--- a/Wnn/uum/key_bind.c
++++ b/Wnn/uum/key_bind.c
+@@ -253,7 +253,7 @@ int key_binding (char [64]);
+ int
+ init_key_table ()
+ {
+-  FILE *fp, *fopen ();
++  FILE *fp;
+   char file_name[PATHNAMELEN];
+   int j, k;
+ 
+@@ -312,7 +312,7 @@ key_binding (file_name)
+      char file_name[64];
+ {
+   register int k, kk;
+-  FILE *fp, *fopen ();
++  FILE *fp;
+   char func_name[64];
+   int com_cnt;
+   int com_num;
+diff --git a/Wnn/uum/termcap.c b/Wnn/uum/termcap.c
+index 69ceec36f78df629a3706d2e66340220d761d19a..755217ac69f7ba1ec5becfe93cc926e90c58c563 100644
+--- a/Wnn/uum/termcap.c
++++ b/Wnn/uum/termcap.c
+@@ -116,7 +116,7 @@ getTermData ()
+   char *pter;
+   char *sr_set ();
+   char *j;
+-  extern char *getenv (), *get_kbd_env ();
++  extern char *get_kbd_env ();
+ 
+ 
+ #ifdef DCUREOR
+diff --git a/Wnn/uum/wnnrc_op.c b/Wnn/uum/wnnrc_op.c
+index a1ab2945b9dba9b25d2e75f42b7082821d9b1409..9c0135209e12f8bd2d93612800374374df878783 100644
+--- a/Wnn/uum/wnnrc_op.c
++++ b/Wnn/uum/wnnrc_op.c
+@@ -139,7 +139,6 @@ expand_expr (s)
+   register char *p, *s1;
+   int noerr, expandsuc;
+   struct passwd *u;
+-  extern struct passwd *getpwnam ();
+ 
+   if (*s != '~' && *s != '@')
+     {
