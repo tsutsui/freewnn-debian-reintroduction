@@ -15,6 +15,8 @@ freewnn (1.1.1~a023-1) UNRELEASED; urgency=medium
   * Disable the obsolete uum utmp/setgid installation mode; terminal input
     functionality remains enabled without privileged login accounting.
   * Add Debian sid CI and an installed-library compile/link/run smoke check.
+  * Refine declaration patch boundaries and consolidate duplicate per-file
+    patch sections without changing the resulting patched source tree.
   * Document the work still requiring an adopter and Debian review.
 
  -- Debian QA Group <packages@qa.debian.org>  Sun, 12 Jul 2026 00:00:00 +0000

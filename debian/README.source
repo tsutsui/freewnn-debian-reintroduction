@@ -42,6 +42,10 @@ Mixed source commit mapping
   0031.
 * 3cc4bf1f5fd9178741dd904612f2110a9470e86b: byte-buffer signedness ->
   0025; the functional wnn_sStrncpy conversion-direction fix -> 0040.
+* 2666caef98cd982a09cf76a7c0504c005e38499e: stdio fopen declarations ->
+  0010; redundant FreeWnn declarations -> 0012.
+* 2ad54de02c15b48ded23805fb6f399cf9f2a37a2: redundant FreeWnn
+  declarations -> 0012.
 
 The GCC reference also removes redundant jutil declarations in
 4cf1f77f2e20b8540aaf8e9478ba6e440dff2a78. They have the exact purpose of
